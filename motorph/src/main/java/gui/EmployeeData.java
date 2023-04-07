@@ -4,25 +4,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
 
-public class EmployeeData<E> extends JFrame
+public class EmployeeData extends JFrame
 {
     private JButton nextButton;
     private JPanel panelMain;
     private JTextField txtField_EmployeeDetails;
     private JTextField txtField_AttendanceDetails;
+
     private JButton
     getNextButton ()
     {
         return nextButton;
     }
-    private ArrayList<E> DATA_EMPLOYEE_DETAILS;
-    private ArrayList<E> DATA_ATTENDANCE_DETAILS;
 
     public void
     setNextButton (JButton nextButton)
@@ -66,83 +66,73 @@ public class EmployeeData<E> extends JFrame
         this.txtField_AttendanceDetails = txtField_AttendanceDetails;
     }
 
-    public ArrayList<E>
-    getDATA_EMPLOYEE_DETAILS ()
-    {
-        return DATA_EMPLOYEE_DETAILS;
-    }
 
-    public void
-    setDATA_EMPLOYEE_DETAILS (ArrayList<E> DATA_EMPLOYEE_DETAILS)
-    {
-        this.DATA_EMPLOYEE_DETAILS = DATA_EMPLOYEE_DETAILS;
-    }
-
-    public ArrayList<E>
-    getDATA_ATTENDANCE_DETAILS ()
-    {
-        return DATA_ATTENDANCE_DETAILS;
-    }
-
-    public void
-    setDATA_ATTENDANCE_DETAILS (ArrayList<E> DATA_ATTENDANCE_DETAILS)
-    {
-        this.DATA_ATTENDANCE_DETAILS = DATA_ATTENDANCE_DETAILS;
-    }
-
-
-    EmployeeData()
+    public EmployeeData()
     {
         txtField_EmployeeDetails.setText (
-                "src/main/csv/MotorPH Employee Data - Employee Details.csv");
+                "src/main/csv/MotorPH Employee Data - Employee Details (4).csv");
         txtField_AttendanceDetails.setText (
                 "src/main/csv/MotorPH Employee Data - Attendance Record.csv");
         Image icon = Toolkit.getDefaultToolkit ().createImage (
                 "https://avatars.githubusercontent.com/u/70135786?v=4");
 
-        ActionListener actionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e)
+        ActionListener actionListener = new ActionListener () {
+            @Override public void actionPerformed (ActionEvent e)
             {
-                if (("Next").equals(e.getActionCommand()))
-                {
-                    String EmployeeDetailsLength = countRowAndCol(getTxtField_EmployeeDetails().getText());
-                    String AttendanceDetailsLength = countRowAndCol(getTxtField_AttendanceDetails().getText());
+                switch (e.getActionCommand()){
+                    case ("Next"):
+                        try
+                        {
+                            String EmployeeDetailsLength = countRowAndCol (
+                                    getTxtField_EmployeeDetails ().getText ());
+                            String AttendanceDetailsLength = countRowAndCol (
+                                    getTxtField_AttendanceDetails ().getText ());
 
-                    System.out.println("@employeedetailslength   = " + EmployeeDetailsLength);
-                    System.out.println("@attendancedetailslength = " + AttendanceDetailsLength);
+                            System.out.println ("@employeedetailslength   = "
+                                    + EmployeeDetailsLength);
+                            //                        System.out.println("@attendancedetailslength
+                            //                        = " + AttendanceDetailsLength);
 
+                            String[] arrEmployeeDetails = EmployeeDetailsLength.split (",");
+                            int rowsEmployeeDetails
+                                    = Integer.parseInt (arrEmployeeDetails[0]);
 
-                    String [] arrEmployeeDetails = EmployeeDetailsLength.split(",");
-                    int rowsEmployeeDetails = Integer.parseInt(arrEmployeeDetails[0]);
+                            String[] arrAttendanceRecord
+                                    = AttendanceDetailsLength.split (",");
+                            int colAttendanceDetails
+                                    = Integer.parseInt (arrAttendanceRecord[0]);
 
-                    String [] arrAttendanceRecord = AttendanceDetailsLength.split(",");
-                    int colAttendanceDetails = Integer.parseInt(arrAttendanceRecord[0]);
+                            String rowEmployeeDetailsLength_isNineTen
+                                    = Integer.valueOf (rowsEmployeeDetails).equals (19)
 
-                    String rowEmployeeDetailsLength_isNineTen
-                            = Integer.valueOf(rowsEmployeeDetails).equals(19)
+                                    ? "Correct"
+                                    : "Employee Details Row Length Incorrect";
+                            String rowAttendanceDetailsLength_isSix
+                                    = Integer.valueOf (colAttendanceDetails).equals (6)
 
-                            ? "Employee Details Row Length Correct!"
-                            : "Employee Details Row Length Incorrect";
-                    String rowAttendanceDetailsLength_isSix
-                            = Integer.valueOf(colAttendanceDetails).equals(6)
+                                    ? "Correct"
+                                    : "Attendance Details Row Length Incorrect";
 
-                            ? "Attendance Details Row Length Correct! "
-                            : "Attendance Details Row Length Incorrect";
+                            System.out.println();
+                            System.out.println(rowAttendanceDetailsLength_isSix);
 
-                    System.out.println(rowEmployeeDetailsLength_isNineTen);
-                    System.out.println(rowAttendanceDetailsLength_isSix);
+                            if ((rowEmployeeDetailsLength_isNineTen).equals(
+                                    rowAttendanceDetailsLength_isSix)){
+                                LocateEmployee le = new LocateEmployee();
+                                le.setVisible(true);
+                                dispose();
+                            }
+                            break;
+                        }
+                        catch (Exception eNext)
+                        {
+                            System.out.println (eNext.getMessage ());
+                        }
                 }
             }
         };
 
-        getNextButton().addActionListener(actionListener);
-
-
-
-
-
-
+        getNextButton ().addActionListener (actionListener);
 
         setIconImage (icon);
         setTitle ("Locate CSV✅");
@@ -151,11 +141,9 @@ public class EmployeeData<E> extends JFrame
         pack ();
         setLocationRelativeTo (null);
         setVisible (true);
-
-
-
     }
-    public static String
+
+    public String
     countRowAndCol (String path)
     {
 
@@ -168,18 +156,15 @@ public class EmployeeData<E> extends JFrame
             String line;
             while ((line = br.readLine ()) != null)
             {
-                rowCount++;
                 String[] columns = line.split (",");
-                if (rowCount == 1)
+
+                if (rowCount == 0)
                 {
-                    // Count the number of columns in the header row
-                    columnCount = columns.length;
+                    rowCount = columns.length;
                 }
-                else if (columns.length > columnCount)
+                else
                 {
-                    // Update the column count if a row has more columns than the
-                    // header row
-                    columnCount = columns.length;
+                    columnCount++;
                 }
             }
         }
@@ -191,37 +176,39 @@ public class EmployeeData<E> extends JFrame
         System.out.println ("Total columns: " + columnCount);
         return rowCount + "," + columnCount;
     }
-}
 
-/*
- *
- *  Testing
-*/
-//class TEST_Employee_java {
-//        public static void main(String[] args) throws IOException {
-//            String myName = "Jomari S. Abejo";
-//            Arrays.stream(myName.split(" ")).forEach(System.out::println);
-//            System.out.println(Arrays.stream(myName.split(" ")).count());
-//
-//
-//            String myname = "Jomari,Sarmiento,Abejo";
-//            String [] myArrName = myname.split(",");
-//            System.out.println(Arrays.toString(myArrName));
-//
-//
-//            String resultt2 = Employee.countRowAndCol("src/main/csv/MotorPH
-//            Employee Data - Attendance Record.csv"); System.out.println(resultt2); String []
-//            row_col = resultt2.split(","); System.out.println("The row of the csv is = " +
-//            row_col[0]); System.out.println("The col of the csv is = " + row_col[1]);
-//
-//
-//            String name = "Employee #,Last Name,First Name,Birthday,Address,Phone Number,SSS #,Philhealth #,TIN #,Pag-ibig #,Status,Position,Immediate Supervisor,Basic Salary,Rice Subsidy,Phone Allowance,Clothing Allowance,Gross Semi-monthly Rate,Hourly Rate";
-//            String [] edarr = name.split(",");
-//            Arrays.stream(edarr).forEach(System.out::println);
-//            System.out.println("THE LENGTH IS = " + edarr.length);
-//
-//            EmployeeData ed = new EmployeeData();
-//
-//        }
-//    }
-//*/
+    /*public static ArrayList<String[]> readData(String path) throws IOException {
+        int count = 0;
+        String file = path;
+        ArrayList<String[]> content = new ArrayList<>();
+        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                content.add(line.split(","));
+            }
+        } catch (FileNotFoundException e) {
+            //Some error logging
+        }
+        return content;
+    }*/
+    public static ArrayList<String[]> readData2(String path) throws IOException {
+        int count = 0;
+        String file = path;
+        ArrayList<String[]> content = new ArrayList<>();
+        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                if (count == 0){
+                    count++;
+                    continue;
+                }
+                String [] col = (line.split(","));
+                content.add(col);
+            }
+        } catch (FileNotFoundException e) {
+            //Some error logging
+        }
+        return content;
+    }
+
+}
