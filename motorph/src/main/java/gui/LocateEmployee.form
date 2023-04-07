@@ -62,7 +62,7 @@
         </constraints>
         <properties>
           <font name="Arial Black" size="16" style="2"/>
-          <text value="Sept"/>
+          <text value="Sep"/>
         </properties>
       </component>
       <component id="e149a" class="javax.swing.JButton" binding="btn_Oct">

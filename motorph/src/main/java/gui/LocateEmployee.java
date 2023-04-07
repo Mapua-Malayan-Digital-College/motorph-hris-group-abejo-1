@@ -234,80 +234,70 @@ public class LocateEmployee extends JFrame
         pack ();
         F:
         setLocationRelativeTo (null);
-        setVisible (true);
+        setVisible (false);
 
         ActionListener actionListener = new ActionListener () {
             @Override public void actionPerformed (ActionEvent e)
             {
-                System.out.println(e.getActionCommand());
-                if (("Jan").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("January Clicked!");
-                }
-                if (("Feb").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("February Clicked!");
-                }
-                if (("Mar").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("March Clicked!");
-                }
-                if (("Apr").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("April Clicked!");
-                }
-                if (("May").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("May Clicked!");
-                }
-                if (("Jun").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("June Clicked!");
-                }
-                if (("Jul").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("July Clicked!");
-                }
-                if (("Aug").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("August Clicked!");
-                }
-                if (("Sep").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("September Clicked!");
-                }
-                if (("Oct").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("October Clicked!");
-                }
-                if (("Nov").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("November Clicked!");
-                }
-                if (("Dec").equals (e.getActionCommand ()))
-                {
-                    System.out.println ("December Clicked!");
-                }
-                if(("Clear").equals (e.getActionCommand())){
-                    System.out.println("Clear Fields");
-                    getTxtField_EmployeeNumber().setText("");
-                    String [] greetings = {
-                            "Hello",
-                            "Hi",
-                            "Hey",
-                            "Nice to see you",
-                            "It's great to see you",
-                            "Good to see you",
-                            "Long time no see",
-                            "It's been a while",
-                            "Yo!",
-                            "Howdy!"
-                    };
-                    int min = 0, max = 9;
-                    Random random = new Random();
-                    int random_number = random.nextInt(max - min + 1);
-                    getLbl_Number().setText(greetings[random_number]);
-                    getTxtField_EmployeeNumber().requestFocus();
+                switch (e.getActionCommand()){
+
+                    case ("Jan"):
+                        System.out.println ("January Clicked!");
+                        break;
+                    case ("Feb"):
+                        System.out.println ("February Clicked!");
+                        break;
+                    case ("Mar"):
+                        System.out.println ("March Clicked!");
+                        break;
+                    case ("Apr"):
+                        System.out.println ("April Clicked!");
+                        break;
+                    case ("May"):
+                        System.out.println ("May Clicked!");
+                        break;
+                    case ("Jun"):
+                        System.out.println ("June Clicked!");
+                        break;
+                    case ("Jul"):
+                        System.out.println ("July Clicked!");
+                        break;
+                    case ("Aug"):
+                        System.out.println ("August Clicked!");
+                        break;
+                    case ("Sep"):
+                        System.out.println ("September Clicked!");
+                        break;
+                    case ("Oct"):
+                        System.out.println ("October Clicked!");
+                        break;
+                    case ("Nov"):
+                        System.out.println ("November Clicked!");
+                        break;
+                    case ("Dec"):
+                        System.out.println ("December Clicked!");
+                        break;
+                    case ("Clear"):
+                        System.out.println("Clear Fields");
+                        getTxtField_EmployeeNumber().setText("");
+                        String [] greetings = {
+                                "Hello",
+                                "Hi",
+                                "Hey",
+                                "Nice to see you",
+                                "It's great to see you",
+                                "Good to see you",
+                                "Long time no see",
+                                "It's been a while",
+                                "Yo!",
+                                "Howdy!"
+                        };
+                        int min = 0, max = 9;
+                        Random random = new Random();
+                        int random_number = random.nextInt(max - min + 1);
+                        getLbl_Number().setText(greetings[random_number]);
+                        getTxtField_EmployeeNumber().requestFocus();
+                        break;
                 }
             }
         };
@@ -329,7 +319,6 @@ public class LocateEmployee extends JFrame
         FocusListener focusListener = new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-
             }
 
             @Override
