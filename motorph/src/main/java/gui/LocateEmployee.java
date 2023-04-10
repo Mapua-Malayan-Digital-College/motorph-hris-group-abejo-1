@@ -33,6 +33,7 @@ public class LocateEmployee extends EmployeeData
     private JButton btn_Dec;
     private JButton btn_Clear;
     private JLabel lbl_Number;
+    private JLabel lbl_selectMonthToProceed;
 
     public JTextField
     getTxtField_EmployeeNumber ()
@@ -237,6 +238,12 @@ public class LocateEmployee extends EmployeeData
         setDefaultCloseOperation (DISPOSE_ON_CLOSE);
         pack ();
         setLocationRelativeTo (null);
+        String calendarimageName = "src/main/assets/vector-calendar-icon.png";
+        ImageIcon calendarimageIcon = new ImageIcon(new ImageIcon(calendarimageName).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
+        lbl_selectMonthToProceed.setIcon(calendarimageIcon);
+        String profileimageName = "src/main/assets/profile.png";
+        ImageIcon profileimageIcon = new ImageIcon(new ImageIcon(profileimageName).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT));
+        Lbl_EnterEmployee.setIcon(profileimageIcon);
     }
 
     /*  Check if the input string is numeric

@@ -1,6 +1,4 @@
-package gui;
-
-public class Bank {
+public class Bank extends Employee{
     String SSS;
     String PHILHEALTH;
     String PAGIBIG;

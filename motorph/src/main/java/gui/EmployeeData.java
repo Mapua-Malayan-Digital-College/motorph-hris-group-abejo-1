@@ -3,10 +3,7 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.*;
@@ -84,7 +81,7 @@ public class EmployeeData extends JFrame
             String line;
             while ((line = br.readLine ()) != null)
             {
-                String[] columns = line.split (",");
+                String[] columns = line.split ("\t");
 
                 if (rowCount == 0)
                 {
@@ -105,38 +102,19 @@ public class EmployeeData extends JFrame
         return rowCount + "," + columnCount;
     }
 
-    /*public static ArrayList<String[]> readData(String path) throws IOException {
-        int count = 0;
-        String file = path;
-        ArrayList<String[]> content = new ArrayList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                content.add(line.split(","));
+    public static ArrayList<String[]> readTSV(File test2) {
+        ArrayList<String[]> Data = new ArrayList<>(); //initializing a new ArrayList out of String[]'s
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(test2))) {
+            String line = null;
+            while ((line = TSVReader.readLine()) != null) {
+                String[] lineItems = line.split("\t"); //splitting the line and adding its items in String[]
+                Data.add(lineItems); //adding the splitted line array to the ArrayList
             }
-        } catch (FileNotFoundException e) {
-            //Some error logging
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Something went wrong");
         }
-        return content;
-    }*/
-    public  ArrayList<String[]> readData2(String path) throws IOException {
-        int count = 0;
-        String file = path;
-        ArrayList<String[]> content = new ArrayList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                if (count == 0){
-                    count++;
-                    continue;
-                }
-                String [] col = (line.split(","));
-                content.add(col);
-            }
-        } catch (FileNotFoundException e) {
-            //Some error logging
-        }
-        return content;
+        return Data;
     }
 
 }
