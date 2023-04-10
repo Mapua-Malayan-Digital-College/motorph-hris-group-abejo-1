@@ -1,18 +1,14 @@
 import gui.EmployeeData;
+import gui.EmployeeProfile;
 import gui.LocateEmployee;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -23,15 +19,15 @@ public class Main
     {
         EmployeeData employeeData = new EmployeeData ();
         LocateEmployee locateEmployee = new LocateEmployee ();
-
+        EmployeeProfile employeeProfile = new EmployeeProfile();
         /**
          * EMPLOYEE DATA START
          */
 
         employeeData.getTxtField_EmployeeDetails ().setText (
-                "src/main/csv/MotorPH Employee Data - Employee Details (4).csv");
+                "src/main/tsv/MotorPH Employee Data - Employee Details.tsv");
         employeeData.getTxtField_AttendanceDetails ().setText (
-                "src/main/csv/MotorPH Employee Data - Attendance Record.csv");
+                "src/main/tsv/MotorPH Employee Data - Attendance Record.tsv");
         Image icon = Toolkit.getDefaultToolkit ().createImage (
                 "https://avatars.githubusercontent.com/u/70135786?v=4");
 
@@ -81,13 +77,11 @@ public class Main
                                     .equals (rowAttendanceDetailsLength_isSix))
                             {
                                 System.out.println (locateEmployee.getClass ());
-                                System.out.println ("Set to visible");
+                                System.out.println ("Locate Employee set visibility to true");
                                 locateEmployee.setVisible (true);
-                                locateEmployee.CSVEmployeeData = employeeData.readData2 (
-                                        employeeData.getTxtField_EmployeeDetails ().getText ());
+                                locateEmployee.CSVEmployeeData = EmployeeData.readTSV (new File(employeeData.getTxtField_EmployeeDetails().getText()));
                                 employeeData.dispose ();
                             }
-                            employeeData.dispose ();
                         }
                         catch (Exception eNext)
                         {
@@ -118,44 +112,143 @@ public class Main
         ActionListener actionListenerLocateEmployee = new ActionListener () {
             @Override public void actionPerformed (ActionEvent e)
             {
+                boolean isAbleToLogin =
+                    employeeProfile.getLbl_resultName().getText() != ""
+                    || employeeProfile.getLbl_resultBirthdate().getText() != ""
+                    || employeeProfile.getLbl_resultAddress().getText() != "";
                 switch (e.getActionCommand ())
                 {
-
                     case ("Jan"):
                         System.out.println ("January Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Feb"):
                         System.out.println ("February Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Mar"):
                         System.out.println ("March Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Apr"):
                         System.out.println ("April Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("May"):
                         System.out.println ("May Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Jun"):
                         System.out.println ("June Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Jul"):
                         System.out.println ("July Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Aug"):
                         System.out.println ("August Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Sep"):
                         System.out.println ("September Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Oct"):
                         System.out.println ("October Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Nov"):
                         System.out.println ("November Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(null, "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Dec"):
                         System.out.println ("December Clicked!");
+                        if (isAbleToLogin){
+                            employeeProfile.setVisible(true);
+                            locateEmployee.dispose();
+                        }
+                        else JOptionPane.showMessageDialog(null, "Employee number "+
+                                locateEmployee.getTxtField_EmployeeNumber().getText()
+                                +" not found!");
+                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Clear"):
                         System.out.println ("Clear Fields");
@@ -175,6 +268,7 @@ public class Main
                         int random_number = random.nextInt (max - min + 1);
                         locateEmployee.getLbl_Number ().setText (greetings[random_number]);
                         locateEmployee.getTxtField_EmployeeNumber ().requestFocus ();
+                        locateEmployee.getLbl_Number().setForeground(Color.BLACK);
                         break;
                 }
             }
@@ -217,6 +311,7 @@ public class Main
                 focusListener);
 
         DocumentListener documentListener = new DocumentListener () {
+            int rowOfEmployeeNumber = 0;
             @Override public void insertUpdate (DocumentEvent e)
             {
                 System.out.println (
@@ -229,18 +324,79 @@ public class Main
                         : "Invalid input number";
                 locateEmployee.getLbl_Number ().setText (checkNumber);
 
-                int rowOfEmployeeNumber = 0;
                 for (String[] outer : locateEmployee.CSVEmployeeData)
                 {
                     if (outer[rowOfEmployeeNumber].equals (
                             locateEmployee.getTxtField_EmployeeNumber ().getText ()))
                     {
-                        locateEmployee.getLbl_Number ().setForeground (Color.GREEN);
+
+
+                        // outer[0] = employee number
+                        // outer[1] = last name
+                        // outer[2] = first name
+                        // outer[3] = birthday
+                        // outer[4] = address
+                        // outer[5] = phone number
+
+                        Employee employee = new Employee(
+                                outer[0],
+                                outer[1],
+                                outer[2],
+                                outer[3],
+                                outer[4],
+                                outer[5]
+                        );
+                        // outer[6] = SSS
+                        // outer[7] = PHILHEALTH
+                        // outer[8] = TIN
+                        // outer[9] = PAGIBIG
+                        Bank bank = new Bank(
+                                outer[6],
+                                outer[7],
+                                outer[8],
+                                outer[9]);
+                        // outer[10] = Status
+                        // outer[11] = Position
+                        // outer[12] = Immediate Supervisor
+                        Occupation occupation = new Occupation(
+                                outer[10],
+                                outer[11],
+                                outer[12]);
+                        // outer[13] = Basic Salary
+                        // outer[14] = Rice Subsidy
+                        // outer[15] = Phone Allowance
+                        // outer[16] = Clothing Allowance
+                        // outer[17] = Gross Semi-monthly Rate
+                        // outer[18] = Hourly Rate
+                        Salary salary = new Salary(
+                                (outer[13]),
+                                (outer[14]),
+                                (outer[15]),
+                                (outer[16]),
+                                (outer[17]),
+                                (outer[18])
+                        );
+//                        System.out.println("Basic Salary " + outer[13]);
+//                        System.out.println("Rice Subsidy " + outer[14]);
+//                        System.out.println("Phone Allowance " + outer[15]);
+//                        System.out.println("Clothing Allowance " + outer[16]);
+//                        System.out.println("Gross Semi-Monthly Rate " + outer[17]);
+//                        System.out.println("Hourly Rate" + outer[18]);
+
+                        employeeProfile.getLbl_resultName().setText(employee.first_name + " " + employee.last_name);
+                        employeeProfile.getLbl_resultAddress().setText(employee.address);
+                        employeeProfile.getLbl_resultBirthdate().setText(employee.birthday);
+                        locateEmployee.getLbl_Number ().setForeground (new Color(0,100,0));
+                        locateEmployee.getLbl_EnterEmployeeNumber().setForeground((new Color(0,100,0)));
                         break;
                     }
                     else
                     {
                         locateEmployee.getLbl_Number ().setForeground (Color.RED);
+                        locateEmployee.getLbl_EnterEmployeeNumber().setForeground(Color.BLACK);
+                        employeeProfile.getLbl_resultName().setText("");
+                        employeeProfile.getLbl_resultAddress().setText("");
+                        employeeProfile.getLbl_resultBirthdate().setText("");
                     }
                 }
             }
@@ -256,12 +412,172 @@ public class Main
                         ? (locateEmployee.getTxtField_EmployeeNumber ().getText ())
                         : "Invalid input number";
                 locateEmployee.getLbl_Number ().setText (checkNumber);
+
+                for (String[] outer : locateEmployee.CSVEmployeeData)
+                {
+                    if (outer[rowOfEmployeeNumber].equals (
+                            locateEmployee.getTxtField_EmployeeNumber ().getText ()))
+                    {
+
+
+                        // outer[0] = employee number
+                        // outer[1] = last name
+                        // outer[2] = first name
+                        // outer[3] = birthday
+                        // outer[4] = address
+                        // outer[5] = phone number
+
+                        Employee employee = new Employee(
+                                outer[0],
+                                outer[1],
+                                outer[2],
+                                outer[3],
+                                outer[4],
+                                outer[5]
+                        );
+                        // outer[6] = SSS
+                        // outer[7] = PHILHEALTH
+                        // outer[8] = TIN
+                        // outer[9] = PAGIBIG
+                        Bank bank = new Bank(
+                                outer[6],
+                                outer[7],
+                                outer[8],
+                                outer[9]);
+                        // outer[10] = Status
+                        // outer[11] = Position
+                        // outer[12] = Immediate Supervisor
+                        Occupation occupation = new Occupation(
+                                outer[10],
+                                outer[11],
+                                outer[12]);
+                        // outer[13] = Basic Salary
+                        // outer[14] = Rice Subsidy
+                        // outer[15] = Phone Allowance
+                        // outer[16] = Clothing Allowance
+                        // outer[17] = Gross Semi-monthly Rate
+                        // outer[18] = Hourly Rate
+                        Salary salary = new Salary(
+                                (outer[13]),
+                                (outer[14]),
+                                (outer[15]),
+                                (outer[16]),
+                                (outer[17]),
+                                (outer[18])
+                        );
+//                        System.out.println("Basic Salary " + outer[13]);
+//                        System.out.println("Rice Subsidy " + outer[14]);
+//                        System.out.println("Phone Allowance " + outer[15]);
+//                        System.out.println("Clothing Allowance " + outer[16]);
+//                        System.out.println("Gross Semi-Monthly Rate " + outer[17]);
+//                        System.out.println("Hourly Rate" + outer[18]);
+
+                        employeeProfile.getLbl_resultName().setText(employee.first_name + " " + employee.last_name);
+                        employeeProfile.getLbl_resultAddress().setText(employee.address);
+                        employeeProfile.getLbl_resultBirthdate().setText(employee.birthday);
+                        locateEmployee.getLbl_Number ().setForeground (new Color(0,100,0));
+                        locateEmployee.getLbl_EnterEmployeeNumber().setForeground((new Color(0,100,0)));
+                        break;
+                    }
+                    else
+                    {
+                        locateEmployee.getLbl_Number ().setForeground (Color.RED);
+                        locateEmployee.getLbl_EnterEmployeeNumber().setForeground(Color.BLACK);
+                        employeeProfile.getLbl_resultName().setText("");
+                        employeeProfile.getLbl_resultAddress().setText("");
+                        employeeProfile.getLbl_resultBirthdate().setText("");
+                    }
+                }
             }
 
             @Override public void changedUpdate (DocumentEvent e)
             {
-                locateEmployee.getLbl_Number ().setText (
-                        locateEmployee.getTxtField_EmployeeNumber ().getText ());
+                System.out.println (
+                        "The input is "
+                                + locateEmployee.getTxtField_EmployeeNumber ().getText ());
+                String checkNumber
+                        = locateEmployee.isNumeric (
+                        locateEmployee.getTxtField_EmployeeNumber ().getText ())
+                        ? (locateEmployee.getTxtField_EmployeeNumber ().getText ())
+                        : "Invalid input number";
+                locateEmployee.getLbl_Number ().setText (checkNumber);
+
+                for (String[] outer : locateEmployee.CSVEmployeeData)
+                {
+                    if (outer[rowOfEmployeeNumber].equals (
+                            locateEmployee.getTxtField_EmployeeNumber ().getText ()))
+                    {
+
+
+                        // outer[0] = employee number
+                        // outer[1] = last name
+                        // outer[2] = first name
+                        // outer[3] = birthday
+                        // outer[4] = address
+                        // outer[5] = phone number
+
+                        Employee employee = new Employee(
+                                outer[0],
+                                outer[1],
+                                outer[2],
+                                outer[3],
+                                outer[4],
+                                outer[5]
+                        );
+                        // outer[6] = SSS
+                        // outer[7] = PHILHEALTH
+                        // outer[8] = TIN
+                        // outer[9] = PAGIBIG
+                        Bank bank = new Bank(
+                                outer[6],
+                                outer[7],
+                                outer[8],
+                                outer[9]);
+                        // outer[10] = Status
+                        // outer[11] = Position
+                        // outer[12] = Immediate Supervisor
+                        Occupation occupation = new Occupation(
+                                outer[10],
+                                outer[11],
+                                outer[12]);
+                        // outer[13] = Basic Salary
+                        // outer[14] = Rice Subsidy
+                        // outer[15] = Phone Allowance
+                        // outer[16] = Clothing Allowance
+                        // outer[17] = Gross Semi-monthly Rate
+                        // outer[18] = Hourly Rate
+                        Salary salary = new Salary(
+                                (outer[13]),
+                                (outer[14]),
+                                (outer[15]),
+                                (outer[16]),
+                                (outer[17]),
+                                (outer[18])
+                        );
+//                        System.out.println("Basic Salary " + outer[13]);
+//                        System.out.println("Rice Subsidy " + outer[14]);
+//                        System.out.println("Phone Allowance " + outer[15]);
+//                        System.out.println("Clothing Allowance " + outer[16]);
+//                        System.out.println("Gross Semi-Monthly Rate " + outer[17]);
+//                        System.out.println("Hourly Rate" + outer[18]);
+
+                        employeeProfile.getLbl_resultName().setText(employee.first_name + " " + employee.last_name);
+                        employeeProfile.getLbl_resultAddress().setText(employee.address);
+                        employeeProfile.getLbl_resultBirthdate().setText(employee.birthday);
+                        locateEmployee.getLbl_Number ().setForeground (new Color(0,100,0));
+                        locateEmployee.getLbl_EnterEmployeeNumber().setForeground((new Color(0,100,0)));
+                        break;
+                    }
+                    else
+                    {
+                        locateEmployee.getLbl_Number ().setForeground (Color.RED);
+                        locateEmployee.getLbl_EnterEmployeeNumber().setForeground(Color.BLACK);
+                        employeeProfile.getLbl_resultName().setText("");
+                        employeeProfile.getLbl_resultAddress().setText("");
+                        employeeProfile.getLbl_resultBirthdate().setText("");
+
+                    }
+                }
             }
         };
         locateEmployee.getTxtField_EmployeeNumber ()
@@ -271,5 +587,51 @@ public class Main
         /**
          * LOCATE EMPLOYEE END
          */
+
+
+        /**
+         * EMPLOYEE PROFILE START
+         */
+
+
+        ActionListener actionListenerEmployeeProfile = new ActionListener () {
+            @Override public void actionPerformed (ActionEvent e){
+                switch (e.getActionCommand()){
+                    case "Return":
+                        locateEmployee.setVisible(true);
+                        locateEmployee.getTxtField_EmployeeNumber().setText("");
+                        locateEmployee.getLbl_Number().setText("Below");
+                        locateEmployee.getLbl_Number().setForeground(Color.BLACK);
+                        locateEmployee.getTxtField_EmployeeNumber().requestFocus();
+                        employeeProfile.getLbl_resultName().setText("");
+                        employeeProfile.getLbl_resultAddress().setText("");
+                        employeeProfile.getLbl_resultBirthdate().setText("");
+                        employeeProfile.dispose();
+
+                        break;
+                    case "btn_WorkedHours":
+                        System.out.println("Worked Hours Clicked!");
+                        break;
+                    case "btn_GrossSalary":
+                        System.out.println("Gross Salary Clicked!");
+                        break;
+                    case "btn_NetSalary":
+                        System.out.println("Net Salary Clicked!");
+                        break;
+                }
+            }
+        };
+
+        employeeProfile.getBtn_Return().addActionListener(actionListenerEmployeeProfile);
+        employeeProfile.getBtn_WorkedHours().addActionListener(actionListenerEmployeeProfile);
+        employeeProfile.getBtn_GrossSalary().addActionListener(actionListenerLocateEmployee);
+        employeeProfile.getBtn_NetSalary().addActionListener(actionListenerEmployeeProfile);
+
+
+
+        /**
+         * EMPLOYEE PROFILE END
+         */
+
     }
 }
