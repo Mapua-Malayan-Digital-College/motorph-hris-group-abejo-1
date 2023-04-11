@@ -6,32 +6,31 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AttendanceRecord extends EmployeeData {
+public class AttendanceRecord extends EmployeeData
+{
     String [][] employeeAttendanceRecord;
-    public String [][] storeAttendanceRecordData(String pathOfAttendanceRecord, int employeeID, int year){
+    public String [][] storeAttendanceRecordData(String pathOfAttendanceRecord)
+    {
         // ex: [6, 2125]
         String [] grid_length = (countRowAndCol(pathOfAttendanceRecord).split(","));
         // ex: 6
         int row_length = Integer.parseInt(grid_length[0]);
         // ex: 2125
         int col_length = Integer.parseInt(grid_length[1]);
-        System.out.println("col_length = " + grid_length[0]);
-        System.out.println("row_length = " + grid_length[1]);
         employeeAttendanceRecord = new String[col_length][row_length];
 
         return readTSV(new File(pathOfAttendanceRecord), col_length,row_length);
     }
 
-    public String[][] readTSV(File path, int col, int row) {
-        System.out.println("THE COL SHOULD = " + col);
-        System.out.println("THE ROW SHOULD = " + row);
+    public String[][] readTSV(File path, int col, int row)
+    {
         String [][] Data = new String[col][row];
-        try (BufferedReader TSVReader = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(path)))
+        {
             String line = null;
-            System.out.println("COL " + col);
-            System.out.println("ROW " + row);
             int outer = 0;
-            while ((line = TSVReader.readLine()) != null && outer != col) {
+            while ((line = TSVReader.readLine()) != null && outer != col)
+            {
                 String[] lineItems = line.split("\t");
                 {
                     Data[outer][0] = lineItems[0]; // Employee #
@@ -49,5 +48,4 @@ public class AttendanceRecord extends EmployeeData {
         }
         return Data;
     }
-
 }
