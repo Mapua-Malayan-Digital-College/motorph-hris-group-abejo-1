@@ -56,12 +56,12 @@ public class Main
                             int colAttendanceDetails
                                     = Integer.parseInt (arrAttendanceRecord[0]);
 
-                            String rowEmployeeDetailsLength_isNineTen
+                            String isNineTen
                                     = Integer.valueOf (rowsEmployeeDetails).equals (19)
 
                                     ? "Correct"
                                     : "Employee Details Row Length Incorrect";
-                            String rowAttendanceDetailsLength_isSix
+                            String isSix
                                     = Integer.valueOf (colAttendanceDetails).equals (6)
 
                                     ? "Correct"
@@ -69,12 +69,12 @@ public class Main
 
                             System.out.println ();
                             System.out.println ("this is employee details");
-                            System.out.println (rowEmployeeDetailsLength_isNineTen);
+                            System.out.println (isNineTen);
                             System.out.println ("this is attendance details");
-                            System.out.println (rowAttendanceDetailsLength_isSix);
+                            System.out.println (isSix);
 
-                            if ((rowEmployeeDetailsLength_isNineTen)
-                                    .equals (rowAttendanceDetailsLength_isSix))
+                            if ((isNineTen)
+                                    .equals (isSix))
                             {
                                 System.out.println (locateEmployee.getClass ());
                                 System.out.println ("Locate Employee set visibility to true");
@@ -119,135 +119,27 @@ public class Main
                 switch (e.getActionCommand ())
                 {
                     case ("Jan"):
-                        System.out.println ("January Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Feb"):
-                        System.out.println ("February Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Mar"):
-                        System.out.println ("March Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Apr"):
-                        System.out.println ("April Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("May"):
-                        System.out.println ("May Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Jun"):
-                        System.out.println ("June Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Jul"):
-                        System.out.println ("July Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Aug"):
-                        System.out.println ("August Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Sep"):
-                        System.out.println ("September Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Oct"):
-                        System.out.println ("October Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Nov"):
-                        System.out.println ("November Clicked!");
-                        if (isAbleToLogin){
-                            employeeProfile.setVisible(true);
-                            locateEmployee.dispose();
-                        }
-                        else JOptionPane.showMessageDialog(null, "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
-                            locateEmployee.getTxtField_EmployeeNumber().requestFocus();
-                        break;
                     case ("Dec"):
-                        System.out.println ("December Clicked!");
-                        if (isAbleToLogin){
+                        System.out.println(e.getActionCommand() + "Clicked!");
+                        if (isAbleToLogin)
+                        {
                             employeeProfile.setVisible(true);
                             locateEmployee.dispose();
                         }
-                        else JOptionPane.showMessageDialog(null, "Employee number "+
-                                locateEmployee.getTxtField_EmployeeNumber().getText()
-                                +" not found!");
+                        else
+                            JOptionPane.showMessageDialog(locateEmployee.getPanelMain(), "Employee number "+
+                            locateEmployee.getTxtField_EmployeeNumber().getText()
+                            +" not found!");
                             locateEmployee.getTxtField_EmployeeNumber().requestFocus();
                         break;
                     case ("Clear"):
@@ -596,8 +488,8 @@ public class Main
 
         ActionListener actionListenerEmployeeProfile = new ActionListener () {
             @Override public void actionPerformed (ActionEvent e){
-                switch (e.getActionCommand()){
-                    case "Return":
+                switch (e.getActionCommand()) {
+                    case "Return" -> {
                         locateEmployee.setVisible(true);
                         locateEmployee.getTxtField_EmployeeNumber().setText("");
                         locateEmployee.getLbl_Number().setText("Below");
@@ -607,24 +499,17 @@ public class Main
                         employeeProfile.getLbl_resultAddress().setText("");
                         employeeProfile.getLbl_resultBirthdate().setText("");
                         employeeProfile.dispose();
-
-                        break;
-                    case "btn_WorkedHours":
-                        System.out.println("Worked Hours Clicked!");
-                        break;
-                    case "btn_GrossSalary":
-                        System.out.println("Gross Salary Clicked!");
-                        break;
-                    case "btn_NetSalary":
-                        System.out.println("Net Salary Clicked!");
-                        break;
+                    }
+                    case "btn_WorkedHours" -> System.out.println("Worked Hours Clicked!");
+                    case "btn_GrossSalary" -> System.out.println("Gross Salary Clicked!");
+                    case "btn_NetSalary" -> System.out.println("Net Salary Clicked!");
                 }
             }
         };
 
         employeeProfile.getBtn_Return().addActionListener(actionListenerEmployeeProfile);
         employeeProfile.getBtn_WorkedHours().addActionListener(actionListenerEmployeeProfile);
-        employeeProfile.getBtn_GrossSalary().addActionListener(actionListenerLocateEmployee);
+        employeeProfile.getBtn_GrossSalary().addActionListener(actionListenerEmployeeProfile);
         employeeProfile.getBtn_NetSalary().addActionListener(actionListenerEmployeeProfile);
 
 
