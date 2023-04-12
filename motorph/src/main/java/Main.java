@@ -56,16 +56,16 @@ public class Main
                             int colAttendanceDetails
                                     = Integer.parseInt (arrAttendanceRecord[0]);
 
-                            String isNineTen
+                            boolean isNineTen
                                     = Integer.valueOf (rowsEmployeeDetails).equals (19)
 
-                                    ? "Correct"
-                                    : "Employee Details Row Length Incorrect";
-                            String isSix
+                                    ? true
+                                    : false;
+                            boolean isSix
                                     = Integer.valueOf (colAttendanceDetails).equals (6)
 
-                                    ? "Correct"
-                                    : "Attendance Details Row Length Incorrect";
+                                    ? true
+                                    : false;
 
                             System.out.println ();
                             System.out.println ("this is employee details");
@@ -73,8 +73,7 @@ public class Main
                             System.out.println ("this is attendance details");
                             System.out.println (isSix);
 
-                            if ((isNineTen)
-                                    .equals (isSix))
+                            if ((isNineTen) == (isSix))
                             {
                                 System.out.println (locateEmployee.getClass ());
                                 System.out.println ("Locate Employee set visibility to true");
