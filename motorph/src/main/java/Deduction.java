@@ -10,12 +10,12 @@ public class Deduction implements Contribution_SSS, Contribution_PAGIBIG, Contri
     {
         int count = 0;
 
-        if (Integer.valueOf(salary) < 3250)
+        if (salary < 3250)
         {
             this.CONTRIB_SSS = contrib_range[0];
         }
 
-        else if (Integer.valueOf(salary) > 24_750)
+        else if (salary > 24_750)
         {
             this.CONTRIB_SSS = contrib_range[44];
 
@@ -25,7 +25,7 @@ public class Deduction implements Contribution_SSS, Contribution_PAGIBIG, Contri
         {
             for (int minimum: min_sss)
             {
-                if (Integer.valueOf(salary) < minimum)
+                if (salary < minimum)
                 {
                     this.CONTRIB_SSS = contrib_range[count];
                     break;
@@ -41,18 +41,18 @@ public class Deduction implements Contribution_SSS, Contribution_PAGIBIG, Contri
     {
         if (salary < 10_000)
         {
-            this.CONTRIB_PHILHEALTH = LOWER();
-            EMPLOYEE_SHARE = CONTRIB_PHILHEALTH / 2;
+            this.CONTRIB_PHILHEALTH = LOWER()/2;//Employee Share (50%)
+            this.EMPLOYEE_SHARE = CONTRIB_PHILHEALTH;
         }
         else if (salary > 10_000 && salary < 60_000)
         {
-            this.CONTRIB_PHILHEALTH = MEDIAN(salary)/2;
-            EMPLOYEE_SHARE = CONTRIB_PHILHEALTH / 2;
+            this.CONTRIB_PHILHEALTH = MEDIAN(salary)/2;//Employee Share (50%)
+            this.EMPLOYEE_SHARE = CONTRIB_PHILHEALTH;
         }
         else
         {
-            this.CONTRIB_PHILHEALTH = HIGHER();
-            EMPLOYEE_SHARE = CONTRIB_PHILHEALTH / 2;
+            this.CONTRIB_PHILHEALTH = HIGHER()/2;//Employee Share (50%)
+            this.EMPLOYEE_SHARE = CONTRIB_PHILHEALTH;
         }
     }
     public void Deduction_PAGIBIG(int salary)
