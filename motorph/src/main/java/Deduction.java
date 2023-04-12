@@ -5,6 +5,7 @@ public class Deduction implements Contribution_SSS, Contribution_PAGIBIG, Contri
     float WITH_HOLDING_TAX;
     float TAXABLE_INCOME;
     float TOTAL_DEDUCTION;
+    float MONTHLY_SALARY;
     public void Deduction_SSS(int salary)
     {
         int count = 0;
@@ -45,7 +46,7 @@ public class Deduction implements Contribution_SSS, Contribution_PAGIBIG, Contri
         }
         else if (salary > 10_000 && salary < 60_000)
         {
-            this.CONTRIB_PHILHEALTH = MEDIAN(salary);
+            this.CONTRIB_PHILHEALTH = MEDIAN(salary)/2;
             EMPLOYEE_SHARE = CONTRIB_PHILHEALTH / 2;
         }
         else
@@ -83,27 +84,33 @@ public class Deduction implements Contribution_SSS, Contribution_PAGIBIG, Contri
 
         if (salary <= 20_832)
         {
+            System.out.println("salary <= 20_832");
             this.WITH_HOLDING_TAX = 0;
         }
         else if (salary > 20_832 && salary < 33_333)
         {
-            this.WITH_HOLDING_TAX =  (salary - this.TOTAL_DEDUCTION) * 0.2f;
+            this.WITH_HOLDING_TAX =  (this.TAXABLE_INCOME - 20_833) * 0.2f;
         }
         else if (salary >= 33_333 && salary < 66_667)
         {
-            this.WITH_HOLDING_TAX =  2_500 + (salary - this.TOTAL_DEDUCTION) * 0.25f;
+            this.WITH_HOLDING_TAX =  (this.TAXABLE_INCOME - 33_333) * 0.25f;
         }
         else if (salary >= 66_668 && salary < 166_667)
         {
-            this.WITH_HOLDING_TAX =  10_833 + (salary - this.TOTAL_DEDUCTION) * 0.3f;
+            this.WITH_HOLDING_TAX =  (this.TAXABLE_INCOME - 66_667) * 0.3f;
         }
         else if (salary >= 166_667 && salary < 666_667)
         {
-            this.WITH_HOLDING_TAX =  40_833.33f + (salary - this.TOTAL_DEDUCTION) * 0.32f;
+            this.WITH_HOLDING_TAX =  (this.TAXABLE_INCOME - 166_667) * 0.32f;
         }
         else
         {
-            this.WITH_HOLDING_TAX =  200_833.33f + (salary - this.TOTAL_DEDUCTION) * 0.35f;
+            this.WITH_HOLDING_TAX =  (this.TAXABLE_INCOME - 200_833.33f) * 0.35f;
         }
     }
+
+    public void monthlySalary(int salary){
+        this.MONTHLY_SALARY = salary;
+    }
+
 }
