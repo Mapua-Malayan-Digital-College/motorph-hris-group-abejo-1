@@ -1,6 +1,6 @@
 public interface Contribution_PHILHEALTH {
      default float LOWER(){
-        return 1_000;
+        return 300;
     }
     default float MEDIAN(int Salary){
         return Salary * 0.03f;
