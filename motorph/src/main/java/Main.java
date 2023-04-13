@@ -57,10 +57,7 @@ public class Main
                                     = Integer.parseInt (arrAttendanceRecord[0]);
 
                             boolean isNineTen
-                                    = Integer.valueOf (rowsEmployeeDetails).equals (19)
-
-                                    ? true
-                                    : false;
+                                    = Integer.valueOf(rowsEmployeeDetails).equals(19);
                             boolean isSix
                                     = Integer.valueOf (colAttendanceDetails).equals (6)
 
@@ -220,59 +217,26 @@ public class Main
                     if (outer[rowOfEmployeeNumber].equals (
                             locateEmployee.getTxtField_EmployeeNumber ().getText ()))
                     {
-
-
-                        // outer[0] = employee number
-                        // outer[1] = last name
-                        // outer[2] = first name
-                        // outer[3] = birthday
-                        // outer[4] = address
-                        // outer[5] = phone number
-
                         Employee employee = new Employee(
-                                outer[0],
-                                outer[1],
-                                outer[2],
-                                outer[3],
-                                outer[4],
-                                outer[5]
-                        );
-                        // outer[6] = SSS
-                        // outer[7] = PHILHEALTH
-                        // outer[8] = TIN
-                        // outer[9] = PAGIBIG
-                        Bank bank = new Bank(
-                                outer[6],
-                                outer[7],
-                                outer[8],
-                                outer[9]);
-                        // outer[10] = Status
-                        // outer[11] = Position
-                        // outer[12] = Immediate Supervisor
-                        Occupation occupation = new Occupation(
-                                outer[10],
-                                outer[11],
-                                outer[12]);
-                        // outer[13] = Basic Salary
-                        // outer[14] = Rice Subsidy
-                        // outer[15] = Phone Allowance
-                        // outer[16] = Clothing Allowance
-                        // outer[17] = Gross Semi-monthly Rate
-                        // outer[18] = Hourly Rate
-                        Salary salary = new Salary(
-                                (outer[13]),
-                                (outer[14]),
-                                (outer[15]),
-                                (outer[16]),
-                                (outer[17]),
-                                (outer[18])
-                        );
-//                        System.out.println("Basic Salary " + outer[13]);
-//                        System.out.println("Rice Subsidy " + outer[14]);
-//                        System.out.println("Phone Allowance " + outer[15]);
-//                        System.out.println("Clothing Allowance " + outer[16]);
-//                        System.out.println("Gross Semi-Monthly Rate " + outer[17]);
-//                        System.out.println("Hourly Rate" + outer[18]);
+                            outer[0], //employee number
+                            outer[1], //last name
+                            outer[2], //first name
+                            outer[3], //birthday
+                            outer[4], //address
+                            outer[5], //phone number
+                            outer[6], //SSS
+                            outer[7], //PHILHEALTH
+                            outer[8], //TIN
+                            outer[9], //PAGIBIG
+                            outer[10], // Status,
+                            outer[11], // Position,
+                            outer[12], // Immediate Supervisor,
+                            outer[13], // Basic Salary,
+                            outer[14], // Rice Subsidy,
+                            outer[15], // Phone Allowance,
+                            outer[16], // Clothing Allowance,
+                            outer[17], // Gross Semi-monthly Rate,
+                            outer[18]); // Hourly Rate);
 
                         employeeProfile.getLbl_resultName().setText(employee.first_name + " " + employee.last_name);
                         employeeProfile.getLbl_resultAddress().setText(employee.address);
@@ -311,57 +275,26 @@ public class Main
                     {
 
 
-                        // outer[0] = employee number
-                        // outer[1] = last name
-                        // outer[2] = first name
-                        // outer[3] = birthday
-                        // outer[4] = address
-                        // outer[5] = phone number
-
                         Employee employee = new Employee(
-                                outer[0],
-                                outer[1],
-                                outer[2],
-                                outer[3],
-                                outer[4],
-                                outer[5]
-                        );
-                        // outer[6] = SSS
-                        // outer[7] = PHILHEALTH
-                        // outer[8] = TIN
-                        // outer[9] = PAGIBIG
-                        Bank bank = new Bank(
-                                outer[6],
-                                outer[7],
-                                outer[8],
-                                outer[9]);
-                        // outer[10] = Status
-                        // outer[11] = Position
-                        // outer[12] = Immediate Supervisor
-                        Occupation occupation = new Occupation(
-                                outer[10],
-                                outer[11],
-                                outer[12]);
-                        // outer[13] = Basic Salary
-                        // outer[14] = Rice Subsidy
-                        // outer[15] = Phone Allowance
-                        // outer[16] = Clothing Allowance
-                        // outer[17] = Gross Semi-monthly Rate
-                        // outer[18] = Hourly Rate
-                        Salary salary = new Salary(
-                                (outer[13]),
-                                (outer[14]),
-                                (outer[15]),
-                                (outer[16]),
-                                (outer[17]),
-                                (outer[18])
-                        );
-//                        System.out.println("Basic Salary " + outer[13]);
-//                        System.out.println("Rice Subsidy " + outer[14]);
-//                        System.out.println("Phone Allowance " + outer[15]);
-//                        System.out.println("Clothing Allowance " + outer[16]);
-//                        System.out.println("Gross Semi-Monthly Rate " + outer[17]);
-//                        System.out.println("Hourly Rate" + outer[18]);
+                                outer[0], //employee number
+                                outer[1], //last name
+                                outer[2], //first name
+                                outer[3], //birthday
+                                outer[4], //address
+                                outer[5], //phone number
+                                outer[6], //SSS
+                                outer[7], //PHILHEALTH
+                                outer[8], //TIN
+                                outer[9], //PAGIBIG
+                                outer[10], // Status,
+                                outer[11], // Position,
+                                outer[12], // Immediate Supervisor,
+                                outer[13], // Basic Salary,
+                                outer[14], // Rice Subsidy,
+                                outer[15], // Phone Allowance,
+                                outer[16], // Clothing Allowance,
+                                outer[17], // Gross Semi-monthly Rate,
+                                outer[18]); // Hourly Rate);
 
                         employeeProfile.getLbl_resultName().setText(employee.first_name + " " + employee.last_name);
                         employeeProfile.getLbl_resultAddress().setText(employee.address);
@@ -399,58 +332,26 @@ public class Main
                             locateEmployee.getTxtField_EmployeeNumber ().getText ()))
                     {
 
-
-                        // outer[0] = employee number
-                        // outer[1] = last name
-                        // outer[2] = first name
-                        // outer[3] = birthday
-                        // outer[4] = address
-                        // outer[5] = phone number
-
                         Employee employee = new Employee(
-                                outer[0],
-                                outer[1],
-                                outer[2],
-                                outer[3],
-                                outer[4],
-                                outer[5]
-                        );
-                        // outer[6] = SSS
-                        // outer[7] = PHILHEALTH
-                        // outer[8] = TIN
-                        // outer[9] = PAGIBIG
-                        Bank bank = new Bank(
-                                outer[6],
-                                outer[7],
-                                outer[8],
-                                outer[9]);
-                        // outer[10] = Status
-                        // outer[11] = Position
-                        // outer[12] = Immediate Supervisor
-                        Occupation occupation = new Occupation(
-                                outer[10],
-                                outer[11],
-                                outer[12]);
-                        // outer[13] = Basic Salary
-                        // outer[14] = Rice Subsidy
-                        // outer[15] = Phone Allowance
-                        // outer[16] = Clothing Allowance
-                        // outer[17] = Gross Semi-monthly Rate
-                        // outer[18] = Hourly Rate
-                        Salary salary = new Salary(
-                                (outer[13]),
-                                (outer[14]),
-                                (outer[15]),
-                                (outer[16]),
-                                (outer[17]),
-                                (outer[18])
-                        );
-//                        System.out.println("Basic Salary " + outer[13]);
-//                        System.out.println("Rice Subsidy " + outer[14]);
-//                        System.out.println("Phone Allowance " + outer[15]);
-//                        System.out.println("Clothing Allowance " + outer[16]);
-//                        System.out.println("Gross Semi-Monthly Rate " + outer[17]);
-//                        System.out.println("Hourly Rate" + outer[18]);
+                                outer[0], //employee number
+                                outer[1], //last name
+                                outer[2], //first name
+                                outer[3], //birthday
+                                outer[4], //address
+                                outer[5], //phone number
+                                outer[6], //SSS
+                                outer[7], //PHILHEALTH
+                                outer[8], //TIN
+                                outer[9], //PAGIBIG
+                                outer[10], // Status,
+                                outer[11], // Position,
+                                outer[12], // Immediate Supervisor,
+                                outer[13], // Basic Salary,
+                                outer[14], // Rice Subsidy,
+                                outer[15], // Phone Allowance,
+                                outer[16], // Clothing Allowance,
+                                outer[17], // Gross Semi-monthly Rate,
+                                outer[18]); // Hourly Rate);
 
                         employeeProfile.getLbl_resultName().setText(employee.first_name + " " + employee.last_name);
                         employeeProfile.getLbl_resultAddress().setText(employee.address);
