@@ -95,16 +95,15 @@ public class EmployeeData extends JFrame
         }
         catch (IOException e)
         {
+            JOptionPane.showMessageDialog(null,"The system cannot find the file specified");
             e.printStackTrace ();
         }
-        System.out.println ("Total rows: " + rowCount);
-        System.out.println ("Total columns: " + columnCount);
         return rowCount + "," + columnCount;
     }
 
-    public static ArrayList<String[]> readTSV(File test2) {
+    public static ArrayList<String[]> readTSV(File path) {
         ArrayList<String[]> Data = new ArrayList<>(); //initializing a new ArrayList out of String[]'s
-        try (BufferedReader TSVReader = new BufferedReader(new FileReader(test2))) {
+        try (BufferedReader TSVReader = new BufferedReader(new FileReader(path))) {
             String line = null;
             while ((line = TSVReader.readLine()) != null) {
                 String[] lineItems = line.split("\t"); //splitting the line and adding its items in String[]
