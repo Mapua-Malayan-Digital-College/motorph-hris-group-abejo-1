@@ -388,6 +388,7 @@ public class Main
 
         ActionListener actionListenerEmployeeProfile = new ActionListener () {
             @Override public void actionPerformed (ActionEvent e){
+                System.out.println(e.getActionCommand());
                 switch (e.getActionCommand()) {
                     case "Return" -> {
                         locateEmployee.setVisible(true);
@@ -400,9 +401,9 @@ public class Main
                         employeeProfile.getLbl_resultBirthdate().setText("");
                         employeeProfile.dispose();
                     }
-                    case "btn_WorkedHours" -> System.out.println("Worked Hours Clicked!");
-                    case "btn_GrossSalary" -> System.out.println("Gross Salary Clicked!");
-                    case "btn_NetSalary" -> System.out.println("Net Salary Clicked!");
+                    case "Worked Hours" -> System.out.println("Worked Hours Clicked!");
+                    case "Gross Salary" -> System.out.println("Gross Salary Clicked!");
+                    case "Net Salary" -> System.out.println("Net Salary Clicked!");
                 }
             }
         };
