@@ -1,0 +1,8 @@
+login.fxml
+fxid
+lbl_employeeNumber
+txtField_employeeNumber
+lbl_password
+pwField_password
+btn_login
+image_motorph

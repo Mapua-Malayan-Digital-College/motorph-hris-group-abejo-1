@@ -1,0 +1,23 @@
+i have this text that should be inserted as an property inside PropertyValueFactory
+ ```
+employee_number
+l_name
+f_name
+birthday
+address
+phone_num
+sss_num
+philhealth_num
+tin_num
+pagibig_num
+status
+position
+immediate_supervisor
+basic_salary
+rice_subsidy
+phone_alw
+clothing_alw
+gross_semi_rate
+hourly_rate
+```
+

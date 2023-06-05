@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fx123.EmployeesController">
+    <children>
+        <MenuBar minWidth="800.0" VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="New" />
+                        <MenuItem mnemonicParsing="false" text="Open…" />
+                        <Menu mnemonicParsing="false" text="Open Recent" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Save As…" />
+                        <MenuItem mnemonicParsing="false" text="Revert" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Preferences…" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Quit" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Cut" />
+                        <MenuItem mnemonicParsing="false" text="Copy" />
+                        <MenuItem mnemonicParsing="false" text="Paste" />
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" text="Select All" />
+                        <MenuItem mnemonicParsing="false" text="Unselect All" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+                    </items>
+                </Menu>
+            </menus>
+         <effect>
+            <Blend />
+         </effect>
+        </MenuBar>
+        <HBox id="HBox" alignment="CENTER_LEFT" maxHeight="50.0" spacing="5.0" VBox.vgrow="NEVER">
+            <children>
+                <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Navigation" HBox.hgrow="ALWAYS">
+                    <font>
+                        <Font size="11.0" fx:id="x3" />
+                    </font>
+                    <textFill>
+                        <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+                    </textFill>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </Label>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox>
+                     <children>
+                              <Button fx:id="btn_employee" mnemonicParsing="false" onAction="#refreshEmployeeScene" text="Employee">
+                                  <font>
+                                      <Font size="15.0" />
+                                  </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                              </Button>
+                              <Button fx:id="btn_attendance" mnemonicParsing="false" onAction="#onClickAttendance" text="Attendance">
+                                  <font>
+                                      <Font size="15.0" />
+                                  </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                              </Button>
+                              <Button fx:id="btn_leaves" mnemonicParsing="false" text="Leaves">
+                                  <font>
+                                      <Font size="15.0" />
+                                  </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                              </Button>
+                        <Region />
+                        <Button mnemonicParsing="false" onAction="#onLogoutClicked" text="Logout">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <Region prefHeight="100.0" />
+            <Label />
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/employee.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbl_employeeSize" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="0" textAlignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+                    <Label maxWidth="-1.0" text="Search">
+                        <font>
+                            <Font size="11.0" fx:id="x31" />
+                        </font>
+                        <textFill>
+                            <Color red="0.625" green="0.625" blue="0.625" fx:id="x41" />
+                        </textFill>
+                    </Label>
+                    <TextField fx:id="tf_search" onAction="#filterTableData" prefHeight="25.0" prefWidth="206.0" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" left="3.0" right="3.0" top="10.0" />
+            </padding>
+         <effect>
+            <Blend />
+         </effect>
+        </HBox>
+        <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <items>
+                <AnchorPane maxWidth="300.0" minWidth="225.0">
+                    <children>
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Operations Menu" textAlignment="CENTER" wrapText="false" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                            <font>
+                                <Font size="18.0" fx:id="x1" />
+                            </font>
+                            <textFill>
+                                <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
+                            </textFill>
+                        </Label>
+                        <Button fx:id="btn_addNewEmployee" alignment="TOP_LEFT" layoutX="5.0" layoutY="57.0" mnemonicParsing="false" onAction="#createEmployee" text="Add New Employee" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                            <font>
+                                <Font name="Arial" size="15.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="btn_deleteSelectedEmployee" alignment="TOP_LEFT" disable="true" layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#onDeleteEmployeeClicked" text="Delete Employee" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                            <font>
+                                <Font name="Arial" size="15.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+                    <TableView fx:id="employeeTable">
+                        <columns>
+                            <TableColumn fx:id="id" prefWidth="75.0" text="Employee #" />
+                            <TableColumn fx:id="l_name" prefWidth="75.0" text="Last Name" />
+                            <TableColumn fx:id="f_name" prefWidth="75.0" text="First Name" />
+                            <TableColumn fx:id="birthday" prefWidth="150.0" text="Birthday" />
+                            <TableColumn fx:id="address" prefWidth="300.0" text="Address" />
+                            <TableColumn fx:id="phone_num" prefWidth="75.0" text="Phone #" />
+                            <TableColumn fx:id="sss_num" prefWidth="75.0" text="SSS #" />
+                            <TableColumn fx:id="philhealth_num" prefWidth="75.0" text="Philhealth #" />
+                            <TableColumn fx:id="tin_num" prefWidth="75.0" text="TIN #" />
+                            <TableColumn fx:id="pagibig_num" prefWidth="75.0" text="Pagibig #" />
+                            <TableColumn fx:id="status" prefWidth="75.0" text="Status" />
+                            <TableColumn fx:id="position" prefWidth="150.0" text="Position" />
+                            <TableColumn fx:id="immediate_supervisor" prefWidth="150.0" text="Immdiate Supervisor" />
+                            <TableColumn fx:id="basic_salary" prefWidth="75.0" text="Basic Salary" />
+                            <TableColumn fx:id="rice_subsidy" prefWidth="75.0" text="Rice Subsidy" />
+                            <TableColumn fx:id="phone_alw" prefWidth="75.0" text="Phone Allowance" />
+                            <TableColumn fx:id="clothing_alw" prefWidth="75.0" text="Clothing Allowance" />
+                            <TableColumn fx:id="gross_semi_monthly_rate" prefWidth="75.0" text="Gross Semi-Monthly Rate" />
+                            <TableColumn fx:id="hourly_rate" prefWidth="75.0" text="Hourly Rate" />
+                        </columns>
+                    </TableView>
+                <AnchorPane maxWidth="200.0" minWidth="200.0">
+                    <children>
+                        <Button fx:id="btn_saveOrUpdate" disable="true" layoutX="10.0" layoutY="33.0" mnemonicParsing="false" onAction="#onSaveEmployeeClicked" text="Save" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button fx:id="btn_cancel" disable="true" layoutX="20.0" layoutY="43.0" mnemonicParsing="false" onAction="#resetDetailsTextField" text="Cancel" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                  <ScrollPane layoutX="33.0" layoutY="75.0" prefHeight="516.6666666666666" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="65.0">
+                     <content>
+                        <AnchorPane minWidth="175.0">
+                           <children>
+                              <Label fx:id="lbl_employee_number" layoutX="10.0" layoutY="55.0" minWidth="25.0" prefWidth="130.0" text="Employee #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_employee_number" disable="true" layoutX="50.0" layoutY="72.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="72.0" />
+                              <Label fx:id="lbl_fName" layoutX="52.0" layoutY="102.0" minWidth="25.0" prefWidth="130.0" text="First Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_fName" layoutX="50.0" layoutY="121.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_lName" layoutX="50.0" layoutY="149.0" minWidth="25.0" prefWidth="130.0" text="Last Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_lName" layoutX="50.0" layoutY="168.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_birthday" layoutX="9.0" layoutY="195.0" minWidth="25.0" prefWidth="130.0" text="Birthday" />
+                              <Label fx:id="lbl_address" layoutX="52.0" layoutY="242.0" minWidth="25.0" prefWidth="130.0" text="Address" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_address" layoutX="52.0" layoutY="261.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_phone" layoutX="52.0" layoutY="291.0" minWidth="25.0" prefWidth="130.0" text="Phone #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_phone" layoutX="52.0" layoutY="310.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_sss" layoutX="52.0" layoutY="338.0" minWidth="25.0" prefWidth="130.0" text="SSS #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_sss" layoutX="52.0" layoutY="357.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_philhealth" layoutX="52.0" layoutY="383.0" minWidth="25.0" prefWidth="130.0" text="Philhealth #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_philhealth" layoutX="52.0" layoutY="402.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_tin" layoutX="52.0" layoutY="432.0" minWidth="25.0" prefWidth="130.0" text="TIN #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_tin" layoutX="52.0" layoutY="451.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_pagibig" layoutX="52.0" layoutY="481.0" minWidth="25.0" prefWidth="130.0" text="Pagibig #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_pagibig" layoutX="52.0" layoutY="500.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_status" layoutX="52.0" layoutY="528.0" minWidth="25.0" prefWidth="130.0" text="Status" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_status" layoutX="52.0" layoutY="547.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_position" layoutX="52.0" layoutY="573.0" minWidth="25.0" prefWidth="130.0" text="Position" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_position" layoutX="52.0" layoutY="592.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_immediateSupervisor" layoutX="52.0" layoutY="621.0" minWidth="25.0" prefWidth="130.0" text="Immediate Supervisor" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_immediateSupervisor" layoutX="52.0" layoutY="640.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_basicSalary" layoutX="52.0" layoutY="670.0" minWidth="25.0" prefWidth="130.0" text="Basic Salary" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_basicSalary" layoutX="52.0" layoutY="689.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_riceSubsidy" layoutX="52.0" layoutY="717.0" minWidth="25.0" prefWidth="130.0" text="Rice Subsidy" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_riceSubsidy" layoutX="52.0" layoutY="736.0" minWidth="25.0" prefWidth="130.0" text="0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_phoneAllowance" layoutX="52.0" layoutY="762.0" minWidth="25.0" prefWidth="130.0" text="Phone Allowance" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_phoneAllowance" layoutX="52.0" layoutY="781.0" minWidth="25.0" prefWidth="130.0" text="0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_clothingAllowance" layoutX="52.0" layoutY="816.0" minWidth="25.0" prefWidth="130.0" text="Clothing Allowance" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_clothingAllowance" layoutX="52.0" layoutY="835.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_grossSemiMonthlyRate" layoutX="52.0" layoutY="863.0" minWidth="25.0" prefWidth="130.0" text="Gross Semi-Monthly Rate" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_grossSemiMonthlyRate" layoutX="52.0" layoutY="882.0" minWidth="25.0" prefWidth="130.0" text="0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label fx:id="lbl_hourlyRate" layoutX="52.0" layoutY="908.0" minWidth="25.0" prefWidth="130.0" text="Hourly Rate" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                              <TextField fx:id="tf_hourlyRate" layoutX="52.0" layoutY="927.0" minWidth="25.0" prefWidth="130.0" text="0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <Label alignment="CENTER" layoutX="19.0" layoutY="12.0" minWidth="25.0" prefWidth="130.0" style="&#10;" text="Details" textAlignment="CENTER" wrapText="false" AnchorPane.bottomAnchor="905.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                                 <font>
+                                    <Font size="18.0" fx:id="x11" />
+                                 </font>
+                                 <textFill>
+                                    <Color red="0.624" green="0.624" blue="0.624" fx:id="x21" />
+                                 </textFill>
+                              </Label>
+                              <DatePicker fx:id="dp_birthday" layoutX="1.0" layoutY="212.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="35.0" />
+                           </children>
+                           <padding>
+                              <Insets bottom="20.0" />
+                           </padding>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+                    </children>
+                </AnchorPane>
+            </items>
+         <effect>
+            <Blend />
+         </effect>
+        </SplitPane>
+    </children>
+</VBox>
