@@ -23,11 +23,14 @@ public class Deduction {
     }
 
     public float pagIbigContribution() {
-        return this.basic_salary >= 1_500
-                ? 100
-                : (this.basic_salary >= 1_000)
-                ? this.basic_salary * 0.03f
+
+        float contribution = this.basic_salary >= 1_500
+            ? this.basic_salary * 0.02f
+            : (this.basic_salary >= 1_000)
+                ? this.basic_salary * 0.01f
                 : 0.00f;
+
+        return (contribution>=100) ? 100 : contribution;
     }
 
     public float sssContribution() {
