@@ -278,51 +278,51 @@ public class EmployeesController implements Runnable {
     }
 
 
-    private String employeeDetailsTextFieldToString() {
+    private String employeeDetailsTextFieldToTabString() {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
 
         String
-            employee_number = tf_employee_number.getText().isEmpty() ? "N/A" : tf_employee_number.getText(),
-            lName = tf_lName.getText().isEmpty() ? "N/A" : tf_lName.getText(),
-            fName = tf_fName.getText().isEmpty() ? "N/A" : tf_fName.getText(),
-            birthday = dp_birthday.getValue().format(formatter),
-            address = tf_address.getText().isEmpty() ? "N/A" : tf_address.getText(),
-            phone = tf_phone.getText().isEmpty() ? "N/A" : tf_phone.getText(),
-            sss = tf_sss.getText().isEmpty() ? "N/A" : tf_sss.getText(),
-            philhealth = tf_philhealth.getText().isEmpty() ? "N/A" : tf_philhealth.getText(),
-            tin = tf_tin.getText().isEmpty() ? "N/A" : tf_tin.getText(),
-            pagibig = tf_pagibig.getText().isEmpty() ? "N/A" : tf_pagibig.getText(),
-            status = tf_status.getText().isEmpty() ? "N/A" : tf_status.getText(),
-            position = tf_position.getText().isEmpty() ? "N/A" : tf_position.getText(),
-            immediateSupervisor = tf_immediateSupervisor.getText().equals("") ? "N/A" : tf_immediateSupervisor.getText(),
-            basicSalary = tf_basicSalary.getText().isEmpty() ? "0" : tf_basicSalary.getText(),
-            riceSubsidy = tf_riceSubsidy.getText().isEmpty() ? "0" : tf_riceSubsidy.getText(),
-            phoneAllowance = tf_phoneAllowance.getText().isEmpty() ? "0" : tf_phoneAllowance.getText(),
-            clothingAllowance = tf_clothingAllowance.getText().isEmpty() ? "0" : tf_clothingAllowance.getText(),
-            grossSemiMonthlyRate = tf_grossSemiMonthlyRate.getText().isEmpty() ? "0" : tf_grossSemiMonthlyRate.getText(),
-            hourlyRate = tf_hourlyRate.getText().isEmpty() ? "0" : tf_hourlyRate.getText();
+                employee_number = tf_employee_number.getText().isEmpty() ? "N/A" : tf_employee_number.getText(),
+                lName = tf_lName.getText().isEmpty() ? "N/A" : tf_lName.getText(),
+                fName = tf_fName.getText().isEmpty() ? "N/A" : tf_fName.getText(),
+                birthday = dp_birthday.getValue().format(formatter),
+                address = tf_address.getText().isEmpty() ? "N/A" : tf_address.getText(),
+                phone = tf_phone.getText().isEmpty() ? "N/A" : tf_phone.getText(),
+                sss = tf_sss.getText().isEmpty() ? "N/A" : tf_sss.getText(),
+                philhealth = tf_philhealth.getText().isEmpty() ? "N/A" : tf_philhealth.getText(),
+                tin = tf_tin.getText().isEmpty() ? "N/A" : tf_tin.getText(),
+                pagibig = tf_pagibig.getText().isEmpty() ? "N/A" : tf_pagibig.getText(),
+                status = tf_status.getText().isEmpty() ? "N/A" : tf_status.getText(),
+                position = tf_position.getText().isEmpty() ? "N/A" : tf_position.getText(),
+                immediateSupervisor = tf_immediateSupervisor.getText().equals("") ? "N/A" : tf_immediateSupervisor.getText(),
+                basicSalary = tf_basicSalary.getText().isEmpty() ? "0" : tf_basicSalary.getText(),
+                riceSubsidy = tf_riceSubsidy.getText().isEmpty() ? "0" : tf_riceSubsidy.getText(),
+                phoneAllowance = tf_phoneAllowance.getText().isEmpty() ? "0" : tf_phoneAllowance.getText(),
+                clothingAllowance = tf_clothingAllowance.getText().isEmpty() ? "0" : tf_clothingAllowance.getText(),
+                grossSemiMonthlyRate = tf_grossSemiMonthlyRate.getText().isEmpty() ? "0" : tf_grossSemiMonthlyRate.getText(),
+                hourlyRate = tf_hourlyRate.getText().isEmpty() ? "0" : tf_hourlyRate.getText();
 
         return
-            employee_number + "\t"+
-            lName + "\t"+
-            fName + "\t"+
-            birthday + "\t"+
-            address + "\t"+
-            phone + "\t"+
-            sss + "\t"+
-            philhealth + "\t"+
-            tin + "\t"+
-            pagibig + "\t"+
-            status + "\t"+
-            position + "\t"+
-            immediateSupervisor + "\t"+
-            basicSalary + "\t"+
-            riceSubsidy + "\t"+
-            phoneAllowance + "\t"+
-            clothingAllowance + "\t"+
-            grossSemiMonthlyRate + "\t"+
-            hourlyRate;
+                employee_number + "\t"+
+                        lName + "\t"+
+                        fName + "\t"+
+                        birthday + "\t"+
+                        address + "\t"+
+                        phone + "\t"+
+                        sss + "\t"+
+                        philhealth + "\t"+
+                        tin + "\t"+
+                        pagibig + "\t"+
+                        status + "\t"+
+                        position + "\t"+
+                        immediateSupervisor + "\t"+
+                        basicSalary + "\t"+
+                        riceSubsidy + "\t"+
+                        phoneAllowance + "\t"+
+                        clothingAllowance + "\t"+
+                        grossSemiMonthlyRate + "\t"+
+                        hourlyRate;
     }
 
     public void resetDetailsTextField(ActionEvent actionEvent) {
@@ -456,7 +456,7 @@ public class EmployeesController implements Runnable {
                 // 'true' flag is used to append data to the existing file.
                 System.out.println("employeeDetailsTextFieldToString");
                 // Write the new employee details to the file
-                writer.write(employeeDetailsTextFieldToString()); // Assuming you have a method to convert an employee object to a string
+                writer.write(employeeDetailsTextFieldToTabString()); // Assuming you have a method to convert an employee object to a string
 
                 // Add a new line after writing the employee details
                 writer.newLine();
@@ -467,11 +467,11 @@ public class EmployeesController implements Runnable {
 
             else {
                 System.out.println("Start updating employee here...");
-                String [] newValues = employeeDetailsTextFieldToString().split("\t");
+                String [] newValues = employeeDetailsTextFieldToTabString().split("\t");
                 System.out.println("Array starting here...");
-                System.out.println(employeeDetailsTextFieldToString());
+                System.out.println(employeeDetailsTextFieldToTabString());
                 System.out.println("Array ending here...");
-                TsvUtils.updateTsvFile(MainApp.EMPLOYEE_TSV,TsvUtils.searchEmployeeNumber(tf_employee_number.getText()),newValues);
+                TsvUtils.updateEmployeeNumberByLineNumber(MainApp.EMPLOYEE_TSV,TsvUtils.findLineNumberByEmployeeNumber(MainApp.EMPLOYEE_TSV,tf_employee_number.getText()),newValues);
                 resetDetailsTextField(actionEvent);
             }
             isAddNewEmployee = false;
@@ -518,7 +518,7 @@ public class EmployeesController implements Runnable {
 
     public void onDeleteEmployeeClicked(ActionEvent actionEvent) {
         System.out.println("Start deleting employee here...");
-        TsvUtils.deleteTsvFileLine(MainApp.EMPLOYEE_TSV,TsvUtils.searchEmployeeNumber(tableViewSelectedEmployeeNumber));
+        TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.EMPLOYEE_TSV,TsvUtils.findLineNumberByEmployeeNumber(MainApp.EMPLOYEE_TSV,tableViewSelectedEmployeeNumber));
         refreshEmployeeScene(actionEvent);
 
         // Refresh Employee Records
@@ -560,18 +560,5 @@ public class EmployeesController implements Runnable {
         SceneController.attendanceScene(actionEvent);
     }
 
-    public void handleCreateAttendanceClick(ActionEvent actionEvent) {
-    }
 
-    public void handleCancelAttendanceClick(ActionEvent actionEvent) {
-    }
-
-    public void handleSaveAttendanceClick(ActionEvent actionEvent) {
-    }
-
-    public void handleDeleteAttendanceClick(ActionEvent actionEvent) {
-    }
-
-    public void handleUpdateAttendanceClick(ActionEvent actionEvent) {
-    }
 }

@@ -18,7 +18,6 @@ public class MainApp  extends Application {
             stage.setScene(scene);
             stage.setTitle("Login");
             stage.show();
-
         } catch(Exception e) {
             e.printStackTrace();
         }

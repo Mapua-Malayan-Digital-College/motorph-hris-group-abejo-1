@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -84,6 +85,7 @@ public class Attendance {
                 '}';
     }
 
+
     public static void addAllAttendanceRecord() {
         try {
             String path = MainApp.ATTENDANCE_TSV;
@@ -98,6 +100,10 @@ public class Attendance {
                     continue;
                 }
                 String[] arr = line.split("\t");
+                if (arr.length == 5 ) {
+                    Arrays.stream(arr).forEach(System.out::println);
+                    System.out.println("arr length = "+arr.length);
+                }
 
 
                 Attendance attendance = new Attendance (
@@ -115,7 +121,7 @@ public class Attendance {
         }
     }
 
-    public void clearAttendanceRecord () {
+    public static void clearAttendanceRecord () {
         records.clear();
     }
 
