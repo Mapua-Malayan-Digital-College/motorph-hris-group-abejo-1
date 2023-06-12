@@ -85,8 +85,6 @@ public class Deduction {
         for (int i = 0; i < compensationRange.length; i += 3) {
             float min_salary = compensationRange[i]; //minimum col
             float max_salary = compensationRange[i + 1]; //maximum col
-//            System.out.println(" minimum = "+min_value);
-//            System.out.println("maximum = "+max_value);
             if (min_salary < this.compensation && max_salary > this.compensation) {
                 return compensationRange[i + 2];
             }
@@ -100,43 +98,14 @@ public class Deduction {
     }
 
     public float getWithholdingTax() {
-        float
-                taxable_income = compensation - TotalDeduction(),
-                tax_rate = 0.00f,
-                tax_rate_plus = 0.00f ,
-                excess_rate = 0.00f;
 
-        if (compensation >= 20_833) {
+        float taxable_income = compensation - TotalDeduction();
 
-            if (compensation >= 20_833 && compensation < 33_333) {
-                excess_rate = 20_833;
-                tax_rate = 0.2f;
-            }
-
-            else if (compensation >= 33_333 && compensation < 66_667) {
-                excess_rate = 33_333;
-                tax_rate = 0.25f;
-                tax_rate_plus = 2_500;
-            }
-
-            else if (compensation >= 66_667 && compensation < 166_667) {
-                excess_rate = 66_667;
-                tax_rate = 0.3f;
-                tax_rate_plus = 10_833;
-            }
-
-            else if (compensation >= 166_667 && compensation <= 666_667) {
-                excess_rate = 166_667;
-                tax_rate = 0.32f;
-                tax_rate_plus = 40_833.33f;
-            }
-
-            else {
-                excess_rate = 666_667;
-                tax_rate = 0.35f;
-                tax_rate_plus = 200_833.33f;
-            }
-        }
-        return (((taxable_income - excess_rate) * tax_rate) + tax_rate_plus);
+        if (compensation <= 20_832) return 0;
+        else if (compensation <  33_333) return (taxable_income - 20_833) * 0.2f;
+        else if (compensation <  66_667) return ((taxable_income - 33_333) * 0.25f) + 2_500;
+        else if (compensation <  166_667) return ((taxable_income - 66_667) * 0.3f) + 10_833;
+        else if (compensation <= 666_667) return ((taxable_income - 166_667) * 0.32f) + 40_833.33f;
+        else return ((taxable_income - 666_667) * 0.35f) + 200_833.33f;
     }
 }
