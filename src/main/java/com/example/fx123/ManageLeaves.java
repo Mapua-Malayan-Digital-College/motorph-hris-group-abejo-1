@@ -106,32 +106,22 @@ public class ManageLeaves {
             consumable_vacation = Integer.parseInt(remainingLeaves[2]);
         if (RECORDS.isEmpty()) addAllLeavesOfEmployee(String.valueOf(eid));
         if (isEmployeeNumberExist()) {
-            System.out.println("Starting at if parent✅");
-            System.out.println(getLeaveType().equals("emergency"));
-            System.out.println("sick left = " + consumable_sick);
-            System.out.println("totalDaysOfLeave() = " + totalDaysOfLeave());
             if (getLeaveType().equals("emergency")) {
-                // includes to if condition consumable_emergency < 5 &&
-                if (Math.abs((totalDaysOfLeave() - consumable_emergency)) < 5 && (totalDaysOfLeave() + consumable_emergency) <= 5) {
-                    System.out.println("true at initial else if if✅");
+                if (Math.abs((totalDaysOfLeave() - consumable_emergency)) < MAX_EMERGENCY_LEAVES && (totalDaysOfLeave() + consumable_emergency) <= MAX_EMERGENCY_LEAVES) {
                     return true;
                 }
             }
             else if (getLeaveType().equals("sick")) {
-                if ((Math.abs(totalDaysOfLeave() - consumable_sick)) < 5 && (totalDaysOfLeave() + consumable_sick) <= 5) {
-                    System.out.println("true at secondary else if if✅");
+                if ((Math.abs(totalDaysOfLeave() - consumable_sick)) < MAX_SICK_LEAVES && (totalDaysOfLeave() + consumable_sick) <= MAX_SICK_LEAVES) {
                     return true;
                 }
             }
             else if (getLeaveType().equals("vacation")) {
-                System.out.println("is it positive : " + (totalDaysOfLeave() - consumable_vacation));
-                if ((Math.abs(totalDaysOfLeave() - consumable_vacation)) < 10 && (totalDaysOfLeave() + consumable_vacation) <= 10) {
-                    System.out.println("true at tertiary else if if✅");
+                if ((Math.abs(totalDaysOfLeave() - consumable_vacation)) < MAX_VACATION_LEAVES && (totalDaysOfLeave() + consumable_vacation) <= MAX_VACATION_LEAVES) {
                     return true;
                 }
             }
         }
-        System.out.println("Ending falsy❌");
         return false;
     }
 
