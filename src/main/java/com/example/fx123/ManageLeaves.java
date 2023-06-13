@@ -27,7 +27,7 @@ public class ManageLeaves {
     public static List<ManageLeaves> RECORDS = new ArrayList<ManageLeaves>();
 
 
-    ManageLeaves(int employeeNumber, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
+    public ManageLeaves(int employeeNumber, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
         this.eid = employeeNumber;
         this.last_name = lname;
         this.first_name = fname;
@@ -74,10 +74,12 @@ public class ManageLeaves {
         }
     }
 
-    public static void createEmployeeLeave(int eid,String lname,String fname,String leaveType,Date leaveStart,Date leaveEnd) {
-        if (isAllowedToCreateLeave(eid,leaveStart,leaveEnd,leaveType)) {
+    public  void createEmployeeLeave(int eid, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
+        this.leave_type = leaveType;
+        this.leave_start = leaveStart;
+        this.leave_end = leaveEnd;
+        if (isAllowedToCreateLeave()) {
             ManageLeaves addNewLeave = new ManageLeaves(eid,lname,fname,leaveType,leaveStart,leaveEnd);
-
             try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.LEAVE_TSV, true));
                 writer.write(addNewLeave.toTabString());
@@ -90,10 +92,91 @@ public class ManageLeaves {
         else System.out.println("This employee is already consumed this type of leave...");
     }
 
+    private boolean isAllowedToCreateLeave() {
+
+        /**
+         *      Remaining Leaves Array =
+         *          [0] = Emergency,
+         *          [1] = Sick,
+         *          [2] = Vacation
+         */
+        String [] remainingLeaves = getRemainingLeavesOfEmployee().split("\t");
+        int consumable_emergency = Integer.parseInt(remainingLeaves[0]),
+            consumable_sick = Integer.parseInt(remainingLeaves[1]),
+            consumable_vacation = Integer.parseInt(remainingLeaves[2]);
+        if (RECORDS.isEmpty()) addAllLeavesOfEmployee(String.valueOf(eid));
+        if (isEmployeeNumberExist()) {
+            System.out.println("Starting at if parent✅");
+            System.out.println(getLeaveType().equals("emergency"));
+            System.out.println("sick left = " + consumable_sick);
+            System.out.println("totalDaysOfLeave() = " + totalDaysOfLeave());
+            if (getLeaveType().equals("emergency")) {
+                // includes to if condition consumable_emergency < 5 &&
+                if (Math.abs((totalDaysOfLeave() - consumable_emergency)) < 5 && (totalDaysOfLeave() + consumable_emergency) <= 5) {
+                    System.out.println("true at initial else if if✅");
+                    return true;
+                }
+            }
+            else if (getLeaveType().equals("sick")) {
+                if ((Math.abs(totalDaysOfLeave() - consumable_sick)) < 5 && (totalDaysOfLeave() + consumable_sick) <= 5) {
+                    System.out.println("true at secondary else if if✅");
+                    return true;
+                }
+            }
+            else if (getLeaveType().equals("vacation")) {
+                System.out.println("is it positive : " + (totalDaysOfLeave() - consumable_vacation));
+                if ((Math.abs(totalDaysOfLeave() - consumable_vacation)) < 10 && (totalDaysOfLeave() + consumable_vacation) <= 10) {
+                    System.out.println("true at tertiary else if if✅");
+                    return true;
+                }
+            }
+        }
+        System.out.println("Ending falsy❌");
+        return false;
+    }
+
+    public boolean isEmployeeNumberExist() {
+        for (int i = 0; i < Employees.records.size() ; i++) {
+            if (Employees.records.get(i).getId().equals(String.valueOf(eid))) {
+                System.out.println("isEmployeeNumberExist = TRUE!!!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int totalDaysOfLeave() {
+        Calendar start_calendar = Calendar.getInstance();
+        Calendar end_calendar = Calendar.getInstance();
+
+        start_calendar.setTime(leave_start);
+        end_calendar.setTime(leave_end);
+
+        int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
+        int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
+
+        return end_dayOfYear - start_dayOfYear;
+    }
+
+    public String getLeaveType() {
+        switch (leave_type.toLowerCase()) {
+            case "emergency" -> {
+                return "emergency";
+            }
+            case "sick" -> {
+                return "sick";
+            }
+            case "vacation" -> {
+                return "vacation";
+            }
+        }
+        return "leave type doesn't exist";
+    }
+
     // TODO: 6/13/2023 Include in condition the date range, if range of leave is greater than to the remaining leaves for the specific leave type
     //          then it will not processed.
 
-    public static boolean isAllowedToCreateLeave(int eid, Date leave_start, Date leave_end, String leave_type) {
+    public  boolean isAllowedToCreateLeaveClone() {
         Calendar start_calendar = Calendar.getInstance();
         Calendar end_calendar = Calendar.getInstance();
 
@@ -104,11 +187,11 @@ public class ManageLeaves {
         int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
 
         //  get the difference of starting sched and end sched of leave
-        int differenceDayOfYear = end_dayOfYear - start_dayOfYear;
+        int schedule_range = end_dayOfYear - start_dayOfYear;
 
-        System.out.println("Difference of end leave and start leave = " + differenceDayOfYear + "\t For " + leave_type);
+        System.out.println("We want to append this sched to tsv Difference of end leave and start leave = " + schedule_range + "\t For " + leave_type);
 
-        String [] str = getRemainingLeavesOfEmployee(eid).split("\t");
+        String [] str = getRemainingLeavesOfEmployee().split("\t");
 
         System.out.println("leave_type.toLowerCase()\t" + leave_type.toLowerCase());
 
@@ -119,11 +202,11 @@ public class ManageLeaves {
                 switch (leave_type.toLowerCase())
                     {
                         case "emergency" ->
-                                differenceDayOfYear - (MAX_EMERGENCY_LEAVES);
+                                (MAX_EMERGENCY_LEAVES)  - schedule_range;
                         case "sick" ->
-                                differenceDayOfYear - (MAX_SICK_LEAVES);
+                                (MAX_SICK_LEAVES)  - schedule_range;
                         case "vacation" ->
-                                differenceDayOfYear - (MAX_VACATION_LEAVES);
+                                (MAX_VACATION_LEAVES)  - schedule_range;
                         default -> 0;
                     };
         System.out.println("getRemainingLeavesOfEmployee()" +
@@ -131,33 +214,26 @@ public class ManageLeaves {
                 "\tSick=\t" + sick +
                 "\tVacation=\t" + vacation);
         System.out.println("remaining leave = " + remaining_leave);
-        if (differenceDayOfYear > remaining_leave) {
-            System.out.println("The differenceDayOfYear("+differenceDayOfYear+")"+ "is greater than remaining_leave("+remaining_leave+")");
-            return false; // check if the scheduled leave exceeds to the remaining leave of the specified leave type
-        }
-        //emergency >= MAX_EMERGENCY_LEAVES || sick >= MAX_SICK_LEAVES || vacation >= MAX_VACATION_LEAVES
-        else if (true) {
-            int credits = 0;
-            for (int i = 0; i < RECORDS.size(); i++){
-                if (RECORDS.get(i).leave_type.equalsIgnoreCase(leave_type)){
-                        credits++;
-                }
-            }
-            int leave_type_max = switch (leave_type.toLowerCase()) {
-                case "emergency" -> MAX_EMERGENCY_LEAVES;
-                case "sick" -> MAX_SICK_LEAVES;
-                case "vacation" -> MAX_VACATION_LEAVES;
-                default -> 0;
-            };
 
-            if (credits >= leave_type_max) {
-                System.out.println("second attempt false");
-                return false;
-            }
+        boolean [] isAllowed = new boolean[]{true,true,true}; // [0] = emergency, [1] = sick, [2] = vacation
+
+        if (remaining_leave < schedule_range && emergency > 5){
+            isAllowed[0] = false;
         }
-        System.out.println("END TRUE");
+
+        else if (remaining_leave < schedule_range && sick > 5) {
+            isAllowed[1] = false;
+        }
+
+        else if (remaining_leave < schedule_range && vacation > 10) {
+            isAllowed[2] = false;
+        }
+
+        System.out.println("The differenceDayOfYear("+schedule_range+")"+ "is greater than remaining_leave("+remaining_leave+")");
         return true;
     }
+
+
 
 
     @Override
@@ -187,7 +263,7 @@ public class ManageLeaves {
     }
 
     // TODO: 6/13/2023 we incremented leaves via types, now we need to count it via start-end date by utilizing leave type
-    public static String getRemainingLeavesOfEmployee(int eid) {
+    public String getRemainingLeavesOfEmployee() {
         int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
 
             for (int i = 0; i < RECORDS.size(); i++) {
@@ -202,16 +278,23 @@ public class ManageLeaves {
                     int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
 
                     //  get the difference of starting sched and end sched of leave
-                    int differenceDayOfYear = end_dayOfYear - start_dayOfYear;
+                    //  if the starting date and end date of leave the same, it should be considered as one day difference or one day leave
+                    int differenceDayOfYear = (end_dayOfYear == start_dayOfYear) ? 1 : end_dayOfYear - start_dayOfYear;
                     switch (RECORDS.get(i).leave_type.toLowerCase()) {
-                        case "sick" ->
-                                sick_counter += differenceDayOfYear;
-                        case "vacation" ->
-                                vacation_counter += differenceDayOfYear;
-                        case "emergency" ->
-                                emergency_counter += differenceDayOfYear;
+                        case "sick":
+                            sick_counter += differenceDayOfYear;
+                            break;
+                        case "vacation":
+                            vacation_counter += differenceDayOfYear;
+                            break;
+                        case "emergency":
+                            emergency_counter += differenceDayOfYear;
+                            break;
                     }
                 }
+                System.out.println("emergency counter = " + emergency_counter);
+                System.out.println("sick      counter = " + sick_counter);
+                System.out.println("vacation  counter = " + vacation_counter);
             }
         System.out.println("emergency_counter = " + emergency_counter + "\tsick_counter = \t"+ sick_counter + "\tvacation_counter =\t" + vacation_counter);
         return emergency_counter+"\t"+sick_counter+"\t"+vacation_counter;
