@@ -173,68 +173,6 @@ public class ManageLeaves {
         return "leave type doesn't exist";
     }
 
-    // TODO: 6/13/2023 Include in condition the date range, if range of leave is greater than to the remaining leaves for the specific leave type
-    //          then it will not processed.
-
-    public  boolean isAllowedToCreateLeaveClone() {
-        Calendar start_calendar = Calendar.getInstance();
-        Calendar end_calendar = Calendar.getInstance();
-
-        start_calendar.setTime(leave_start);
-        end_calendar.setTime(leave_end);
-
-        int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
-        int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
-
-        //  get the difference of starting sched and end sched of leave
-        int schedule_range = end_dayOfYear - start_dayOfYear;
-
-        System.out.println("We want to append this sched to tsv Difference of end leave and start leave = " + schedule_range + "\t For " + leave_type);
-
-        String [] str = getRemainingLeavesOfEmployee().split("\t");
-
-        System.out.println("leave_type.toLowerCase()\t" + leave_type.toLowerCase());
-
-        int emergency = Integer.parseInt(str[0]) ,
-            sick = Integer.parseInt(str[1]),
-            vacation = Integer.parseInt(str[2]),
-                remaining_leave =
-                switch (leave_type.toLowerCase())
-                    {
-                        case "emergency" ->
-                                (MAX_EMERGENCY_LEAVES)  - schedule_range;
-                        case "sick" ->
-                                (MAX_SICK_LEAVES)  - schedule_range;
-                        case "vacation" ->
-                                (MAX_VACATION_LEAVES)  - schedule_range;
-                        default -> 0;
-                    };
-        System.out.println("getRemainingLeavesOfEmployee()" +
-                "\tEmergency=\t" + emergency +
-                "\tSick=\t" + sick +
-                "\tVacation=\t" + vacation);
-        System.out.println("remaining leave = " + remaining_leave);
-
-        boolean [] isAllowed = new boolean[]{true,true,true}; // [0] = emergency, [1] = sick, [2] = vacation
-
-        if (remaining_leave < schedule_range && emergency > 5){
-            isAllowed[0] = false;
-        }
-
-        else if (remaining_leave < schedule_range && sick > 5) {
-            isAllowed[1] = false;
-        }
-
-        else if (remaining_leave < schedule_range && vacation > 10) {
-            isAllowed[2] = false;
-        }
-
-        System.out.println("The differenceDayOfYear("+schedule_range+")"+ "is greater than remaining_leave("+remaining_leave+")");
-        return true;
-    }
-
-
-
 
     @Override
     public String toString() {
