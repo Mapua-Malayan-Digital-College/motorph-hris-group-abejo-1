@@ -12,7 +12,6 @@ import java.io.IOException;
 public class SceneController {
     private static Stage stage;
     private static Scene scene;
-    private static Parent root;
 
     public static void loginScene(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("login.fxml"));
@@ -28,7 +27,7 @@ public class SceneController {
 
 
     public static void employeeScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(EmployeesController.class.getResource("employee-view.fxml"));
+        Parent root = FXMLLoader.load(LeavesController.class.getResource("employee-view.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -42,6 +41,15 @@ public class SceneController {
         scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Attendance");
+        stage.show();
+    }
+
+    public static void leavesScene(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(AttendanceController.class.getResource("leaves-view.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Leaves");
         stage.show();
     }
 }

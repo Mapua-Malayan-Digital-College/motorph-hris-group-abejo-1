@@ -1,6 +1,7 @@
 package com.example.fx123;
 
-import javafx.scene.control.Alert;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,13 +22,37 @@ public class ManageLeaves {
     private String last_name, first_name, leave_type;
     private Date leave_start, leave_end;
 
-    private static final int
+    private final int
             MAX_SICK_LEAVES = 5,
             MAX_VACATION_LEAVES = 10,
             MAX_EMERGENCY_LEAVES = 5;
 
-    public static List<ManageLeaves> RECORDS = new ArrayList<ManageLeaves>();
+    public static List<ManageLeaves> RECORDS = new ArrayList<>();
 
+
+    public int getEid() {
+        return eid;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLeave_type() {
+        return leave_type;
+    }
+
+    public Date getLeave_start() {
+        return leave_start;
+    }
+
+    public Date getLeave_end() {
+        return leave_end;
+    }
 
     public ManageLeaves(int employeeNumber, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
         this.eid = employeeNumber;
@@ -38,7 +63,7 @@ public class ManageLeaves {
         this.leave_end = leaveEnd;
     }
 
-    public static void addAllLeavesOfEmployee(String eid) {
+    public static void addAllLeaves() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(MainApp.LEAVE_TSV));
             boolean headers = true;
@@ -51,22 +76,21 @@ public class ManageLeaves {
                 // skip headers
                 if (headers) {
                     headers = false;
+                    continue;
                 }
 
 
-                else if (arr[0].equals(eid)) {
-                    SimpleDateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-                    try {
-                        Date startDateFormatter = sdf.parse(arr[4]);
-                        Date endDateFormatter = sdf.parse(arr[5]);
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                try {
+                    Date startDateFormatter = sdf.parse(arr[4]);
+                    Date endDateFormatter = sdf.parse(arr[5]);
 
-                        ManageLeaves sl = new ManageLeaves(Integer.valueOf(arr[0]),arr[1],arr[2],arr[3],startDateFormatter,endDateFormatter);
+                    ManageLeaves sl = new ManageLeaves(Integer.valueOf(arr[0]),arr[1],arr[2],arr[3],startDateFormatter,endDateFormatter);
+                    System.out.println(startDateFormatter.toString());
+                    RECORDS.add(sl);
 
-                        RECORDS.add(sl);
-
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
                 }
             }
         } catch (FileNotFoundException e) {
@@ -75,6 +99,7 @@ public class ManageLeaves {
             throw new RuntimeException(e);
         }
     }
+
 
 
     public  void createEmployeeLeave(int eid, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
@@ -109,7 +134,7 @@ public class ManageLeaves {
         int consumable_emergency = Integer.parseInt(remainingLeaves[0]),
             consumable_sick = Integer.parseInt(remainingLeaves[1]),
             consumable_vacation = Integer.parseInt(remainingLeaves[2]);
-        if (RECORDS.isEmpty()) addAllLeavesOfEmployee(String.valueOf(eid));
+        if (RECORDS.isEmpty()) addAllLeaves();
         if (isEmployeeNumberExist()) {
             if (getLeaveType().equals("emergency")) {
                 if (Math.abs((totalDaysOfLeave() - consumable_emergency)) <= MAX_EMERGENCY_LEAVES && (totalDaysOfLeave() + consumable_emergency) <= MAX_EMERGENCY_LEAVES) {

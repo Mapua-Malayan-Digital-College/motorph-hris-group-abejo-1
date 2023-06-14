@@ -359,4 +359,33 @@ public class AttendanceController implements Runnable{
         tf_employee_number.setDisable(true);
         datePicker.setDisable(true);
     }
+
+    public void onClckedEmployee(ActionEvent actionEvent) {
+        try {
+            SceneController.employeeScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void onClickedAttendance(ActionEvent actionEvent) {
+        try {
+            Attendance.records.clear();
+            SceneController.attendanceScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void onClickedLeaves(ActionEvent actionEvent) {
+        try {
+            SceneController.leavesScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void onClickedPayslip(ActionEvent actionEvent) {
+        // In progress
+    }
 }

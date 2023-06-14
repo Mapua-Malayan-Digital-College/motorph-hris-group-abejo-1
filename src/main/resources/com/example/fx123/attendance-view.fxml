@@ -114,7 +114,7 @@
                     <children>
                         <HBox>
                             <children>
-                                <Button fx:id="btn_employee" mnemonicParsing="false" onAction="#handleEmployeeClick" text="Employee">
+                                <Button fx:id="btn_employee" mnemonicParsing="false" onAction="#onClckedEmployee" text="Employee">
                                     <font>
                                         <Font size="15.0" />
                                     </font>
@@ -122,7 +122,7 @@
                                         <Insets right="10.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button fx:id="btn_attendance" mnemonicParsing="false" text="Attendance">
+                                <Button fx:id="btn_attendance" mnemonicParsing="false" onAction="#onClickedAttendance" text="Attendance">
                                     <font>
                                         <Font size="15.0" />
                                     </font>
@@ -130,7 +130,7 @@
                                         <Insets right="10.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button fx:id="btn_leaves" mnemonicParsing="false" text="Leaves">
+                                <Button fx:id="btn_leaves" mnemonicParsing="false" onAction="#onClickedLeaves" text="Leaves">
                                     <font>
                                         <Font size="15.0" />
                                     </font>
@@ -138,7 +138,7 @@
                                         <Insets right="10.0" />
                                     </HBox.margin>
                                 </Button>
-                                <Button fx:id="btn_payslip" mnemonicParsing="false" text="Payslip">
+                                <Button fx:id="btn_payslip" mnemonicParsing="false" onAction="#onClickedPayslip" text="Payslip">
                                     <font>
                                         <Font size="15.0" />
                                     </font>
@@ -247,7 +247,7 @@
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField disable="true" fx:id="tf_employee_number" alignment="TOP_LEFT" promptText="1234">
+                                                <TextField fx:id="tf_employee_number" alignment="TOP_LEFT" disable="true" promptText="1234">
                                                     <HBox.margin>
                                                         <Insets left="20.0" top="3.0" />
                                                     </HBox.margin>
@@ -267,7 +267,7 @@
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField disable="true" fx:id="tf_fName" alignment="TOP_LEFT" promptText="Jomari">
+                                                <TextField fx:id="tf_fName" alignment="TOP_LEFT" disable="true" promptText="Jomari">
                                                     <HBox.margin>
                                                         <Insets left="20.0" top="3.0" />
                                                     </HBox.margin>
@@ -287,7 +287,7 @@
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField disable="true" fx:id="tf_lName" alignment="TOP_LEFT" promptText="Abejo">
+                                                <TextField fx:id="tf_lName" alignment="TOP_LEFT" disable="true" promptText="Abejo">
                                                     <HBox.margin>
                                                         <Insets left="20.0" top="3.0" />
                                                     </HBox.margin>
@@ -307,7 +307,7 @@
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                 </Label>
-                                                <DatePicker disable="true" fx:id="datePicker" minHeight="36.0" minWidth="200.0" promptText="mm/dd/yy" />
+                                                <DatePicker fx:id="datePicker" disable="true" minHeight="36.0" minWidth="200.0" promptText="mm/dd/yy" />
                                             </children>
                                         </HBox>
                                         <HBox alignment="CENTER" layoutX="10.0" layoutY="377.0">
@@ -320,7 +320,7 @@
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField disable="true" fx:id="tf_timeIN" alignment="TOP_LEFT" promptText="08:30">
+                                                <TextField fx:id="tf_timeIN" alignment="TOP_LEFT" disable="true" promptText="08:30">
                                                     <HBox.margin>
                                                         <Insets left="20.0" top="3.0" />
                                                     </HBox.margin>
@@ -340,7 +340,7 @@
                                                         <Font name="System Bold" size="16.0" />
                                                     </font>
                                                 </Label>
-                                                <TextField disable="true" fx:id="tf_timeOUT" alignment="TOP_LEFT" promptText="17:00">
+                                                <TextField fx:id="tf_timeOUT" alignment="TOP_LEFT" disable="true" promptText="17:00">
                                                     <HBox.margin>
                                                         <Insets left="20.0" top="3.0" />
                                                     </HBox.margin>

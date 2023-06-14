@@ -140,13 +140,14 @@ public class Employees {
             BufferedReader tsvReader = new BufferedReader(new FileReader(path));
             String line = null;
 
-            int i = 0;
+            boolean headers = true;
             while ((line = tsvReader.readLine()) != null) {
 
-                if (i == 0) {
-                    i++;
+                if (headers) {
+                    headers = false;
                     continue;
                 }
+
                 String[] arr = line.split("\t");
                 Employees employee = new Employees(
                         arr[0],

@@ -88,7 +88,7 @@ public class Attendance {
 
     public static void addAllAttendanceRecord() {
         try {
-            String path = MainApp.LEAVE_TSV;
+            String path = MainApp.ATTENDANCE_TSV;
             BufferedReader tsvReader = new BufferedReader(new FileReader(path));
             String line = null;
 

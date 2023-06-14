@@ -6,7 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Duration;
 
@@ -49,12 +55,6 @@ public class EmployeesController implements Runnable {
     private Button btn_employee;
 
     @FXML
-    private Button btn_leaves;
-
-    @FXML
-    private Button btn_payslips;
-
-    @FXML
     private Button btn_saveOrUpdate;
 
     @FXML
@@ -80,63 +80,6 @@ public class EmployeesController implements Runnable {
 
     @FXML
     private TableColumn<Employees, String> l_name;
-
-    @FXML
-    private Label lbl_address;
-
-    @FXML
-    private Label lbl_basicSalary;
-
-    @FXML
-    private Label lbl_birthday;
-
-    @FXML
-    private Label lbl_clothingAllowance;
-
-    @FXML
-    private Label lbl_employee_number;
-
-    @FXML
-    private Label lbl_fName;
-
-    @FXML
-    private Label lbl_grossSemiMonthlyRate;
-
-    @FXML
-    private Label lbl_hourlyRate;
-
-    @FXML
-    private Label lbl_immediateSupervisor;
-
-    @FXML
-    private Label lbl_lName;
-
-    @FXML
-    private Label lbl_pagibig;
-
-    @FXML
-    private Label lbl_philhealth;
-
-    @FXML
-    private Label lbl_phone;
-
-    @FXML
-    private Label lbl_phoneAllowance;
-
-    @FXML
-    private Label lbl_position;
-
-    @FXML
-    private Label lbl_riceSubsidy;
-
-    @FXML
-    private Label lbl_sss;
-
-    @FXML
-    private Label lbl_status;
-
-    @FXML
-    private Label lbl_tin;
 
     @FXML
     private TableColumn<Employees, String> pagibig_num;
@@ -556,9 +499,25 @@ public class EmployeesController implements Runnable {
         lbl_employeeSize.setText(String.valueOf(employeeCounter));
     }
 
-    public void onClickAttendance(ActionEvent actionEvent) throws IOException {
-        SceneController.attendanceScene(actionEvent);
+    public void onClickAttendance(ActionEvent actionEvent){
+        try {
+            Attendance.records.clear();
+            SceneController.attendanceScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
+    public void onClickedLeaves(ActionEvent actionEvent) {
+        try {
+            SceneController.leavesScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void onClickedPaySlips(ActionEvent actionEvent) {
+        // inprogress
+    }
 }
