@@ -1,5 +1,7 @@
 package com.example.fx123;
 
+import javafx.scene.control.Alert;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -74,6 +76,7 @@ public class ManageLeaves {
         }
     }
 
+
     public  void createEmployeeLeave(int eid, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
         this.leave_type = leaveType;
         this.leave_start = leaveStart;
@@ -89,7 +92,9 @@ public class ManageLeaves {
                 throw new RuntimeException(e);
             }
         }
-        else System.out.println("This employee is already consumed this type of leave...");
+        else {
+            System.err.println("Employee exceeds credit limit");
+        }
     }
 
     private boolean isAllowedToCreateLeave() {
@@ -107,18 +112,18 @@ public class ManageLeaves {
         if (RECORDS.isEmpty()) addAllLeavesOfEmployee(String.valueOf(eid));
         if (isEmployeeNumberExist()) {
             if (getLeaveType().equals("emergency")) {
-                if (Math.abs((totalDaysOfLeave() - consumable_emergency)) < MAX_EMERGENCY_LEAVES && (totalDaysOfLeave() + consumable_emergency) <= MAX_EMERGENCY_LEAVES) {
-                    return true;
+                if (Math.abs((totalDaysOfLeave() - consumable_emergency)) <= MAX_EMERGENCY_LEAVES && (totalDaysOfLeave() + consumable_emergency) <= MAX_EMERGENCY_LEAVES) {
+                    return consumable_emergency < MAX_EMERGENCY_LEAVES;
                 }
             }
             else if (getLeaveType().equals("sick")) {
-                if ((Math.abs(totalDaysOfLeave() - consumable_sick)) < MAX_SICK_LEAVES && (totalDaysOfLeave() + consumable_sick) <= MAX_SICK_LEAVES) {
-                    return true;
+                if (Math.abs(totalDaysOfLeave() - consumable_sick) <= MAX_SICK_LEAVES&& (totalDaysOfLeave() + consumable_sick) <= MAX_SICK_LEAVES) {
+                    return consumable_sick < MAX_SICK_LEAVES;
                 }
             }
             else if (getLeaveType().equals("vacation")) {
-                if ((Math.abs(totalDaysOfLeave() - consumable_vacation)) < MAX_VACATION_LEAVES && (totalDaysOfLeave() + consumable_vacation) <= MAX_VACATION_LEAVES) {
-                    return true;
+                if ((Math.abs(totalDaysOfLeave() - consumable_vacation)) <= MAX_VACATION_LEAVES && (totalDaysOfLeave() + consumable_vacation) <= MAX_VACATION_LEAVES) {
+                    return consumable_vacation < MAX_VACATION_LEAVES;
                 }
             }
         }
@@ -128,7 +133,6 @@ public class ManageLeaves {
     public boolean isEmployeeNumberExist() {
         for (int i = 0; i < Employees.records.size() ; i++) {
             if (Employees.records.get(i).getId().equals(String.valueOf(eid))) {
-                System.out.println("isEmployeeNumberExist = TRUE!!!");
                 return true;
             }
         }
@@ -180,7 +184,19 @@ public class ManageLeaves {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String start_date = sdf.format(leave_start);
-        String end_date = sdf.format(leave_end);
+
+        Calendar end_date_calendar = Calendar.getInstance();
+        end_date_calendar.setTime(leave_end);
+        int end_dayOfYear = end_date_calendar.get(Calendar.DAY_OF_YEAR);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_YEAR, end_dayOfYear+1);
+        Date endDate = calendar.getTime();
+        String incrementedDate = sdf.format(endDate);
+
+        // Increment the date once if the leave start is same with leave end
+        String end_date = (leave_start.toString().equals(leave_end.toString()))
+                ? incrementedDate : sdf.format(leave_end);
 
         return eid  +  "\t" +
             last_name + "\t" +
@@ -190,7 +206,6 @@ public class ManageLeaves {
             end_date     + "\t";
     }
 
-    // TODO: 6/13/2023 we incremented leaves via types, now we need to count it via start-end date by utilizing leave type
     public String getRemainingLeavesOfEmployee() {
         int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
 
@@ -205,8 +220,6 @@ public class ManageLeaves {
                     int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
                     int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
 
-                    //  get the difference of starting sched and end sched of leave
-                    //  if the starting date and end date of leave the same, it should be considered as one day difference or one day leave
                     int differenceDayOfYear = (end_dayOfYear == start_dayOfYear) ? 1 : end_dayOfYear - start_dayOfYear;
                     switch (RECORDS.get(i).leave_type.toLowerCase()) {
                         case "sick":
@@ -220,11 +233,7 @@ public class ManageLeaves {
                             break;
                     }
                 }
-                System.out.println("emergency counter = " + emergency_counter);
-                System.out.println("sick      counter = " + sick_counter);
-                System.out.println("vacation  counter = " + vacation_counter);
             }
-        System.out.println("emergency_counter = " + emergency_counter + "\tsick_counter = \t"+ sick_counter + "\tvacation_counter =\t" + vacation_counter);
         return emergency_counter+"\t"+sick_counter+"\t"+vacation_counter;
     }
 

@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 public class MainApp  extends Application {
     public static final String EMPLOYEE_TSV = "src/main/resources/tsv/MotorPH Employee Data - Employee Details.tsv";
     public static final String ATTENDANCE_TSV = "src/main/resources/tsv/MotorPH Employee Data - Attendance Record.tsv";
+    public static final String LEAVE_TSV = "src/main/resources/tsv/MotorPH Employee Data - Leaves.tsv";
     @Override
     public void start(Stage stage) {
         try {

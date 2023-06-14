@@ -14,7 +14,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -84,7 +83,7 @@ public class AttendanceController implements Runnable{
     @FXML
     void handleDeleteAttendanceClick(ActionEvent event) {
         try {
-            TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.ATTENDANCE_TSV,tableViewSelectedLineNumber + 2);
+            TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.LEAVE_TSV,tableViewSelectedLineNumber + 2);
             isCreateNewAttendance = false;
             refreshEmployeeList(event);
             run();
@@ -169,7 +168,7 @@ public class AttendanceController implements Runnable{
     public void handleSaveClick(ActionEvent actionEvent) throws IOException {
 
         if (isAllowedToCreateAttendance() && isCreateNewAttendance) {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.ATTENDANCE_TSV, true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.LEAVE_TSV, true));
             // 'true' flag is used to append data to the existing file.
             // Write the new employee details to the file
             writer.write(attendanceDetailsTextFieldToTabString()); // Assuming you have a method to convert an employee object to a string
@@ -185,7 +184,7 @@ public class AttendanceController implements Runnable{
             if (isEmployeeNumberExist((tf_employee_number.getText()))) {
                 try{
                     String [] newValues = attendanceDetailsTextFieldToTabString().split("\t");
-                    TsvUtils.updateEmployeeNumberByLineNumber(MainApp.ATTENDANCE_TSV,tableViewSelectedLineNumber+2,newValues);
+                    TsvUtils.updateEmployeeNumberByLineNumber(MainApp.LEAVE_TSV,tableViewSelectedLineNumber+2,newValues);
                     clearTextField(actionEvent);
                     afterCreateOrUpdateAttendance(actionEvent);
                 }
