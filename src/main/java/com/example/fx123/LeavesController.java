@@ -13,10 +13,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class LeavesController implements Runnable {
+
+    private int tableViewSelectedLineNumber;
+
+    public int getTableViewSelectedLineNumber() {
+        return tableViewSelectedLineNumber;
+    }
+
+    public void setTableViewSelectedLineNumber(int tableViewSelectedLineNumber) {
+        this.tableViewSelectedLineNumber = tableViewSelectedLineNumber;
+    }
 
     @FXML
     private Button btn_addNewEmployee;
@@ -28,7 +41,7 @@ public class LeavesController implements Runnable {
     private Button btn_cancel;
 
     @FXML
-    private Button btn_deleteSelectedEmployee;
+    private Button btn_delete;
 
     @FXML
     private Button btn_employee;
@@ -61,10 +74,10 @@ public class LeavesController implements Runnable {
     private TableColumn<ManageLeaves, String> last_name;
 
     @FXML
-    private TableColumn<ManageLeaves, Date> leave_end;
+    private TableColumn<ManageLeaves, String> leave_end;
 
     @FXML
-    private TableColumn<ManageLeaves, Date> leave_start;
+    private TableColumn<ManageLeaves, String> leave_start;
 
     @FXML
     private TableColumn<ManageLeaves, String> leave_type;
@@ -111,7 +124,12 @@ public class LeavesController implements Runnable {
 
     @FXML
     void onDeleteLeaveClicked(ActionEvent event) {
-
+        TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.LEAVE_TSV,getTableViewSelectedLineNumber() + 2);
+        ManageLeaves.RECORDS.clear();
+        run();
+        btn_cancel.setDisable(true);
+        btn_delete.setDisable(true);
+        btn_saveOrUpdate.setDisable(true);
     }
 
     @FXML
@@ -126,32 +144,132 @@ public class LeavesController implements Runnable {
     @FXML
     void onSaveLeaveClicked(ActionEvent event) {
 
+        LocalDate startLeave = dp_start_date.getValue();
+        LocalDate endLeave = dp_end_date.getValue();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+        Date startLeaveDate = null;
+        Date endLeaveDate = null;
+
+        try {
+            startLeaveDate = sdf.parse(startLeave.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+            endLeaveDate = sdf.parse(endLeave.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (btn_saveOrUpdate.getText().equalsIgnoreCase("save")) {
+            ManageLeaves addNewLeave =
+                    new ManageLeaves(Integer.parseInt(tf_employee_number.getText()),
+                        tf_lName.getText(),tf_fName.getText(),
+                        comboBox_selected_request.getValue(),
+                        startLeaveDate,endLeaveDate);
+            addNewLeave.createEmployeeLeave();
+            ManageLeaves.RECORDS.clear();
+            run();
+        }
+        if (btn_saveOrUpdate.getText().equalsIgnoreCase("update")) {
+            String [] updatedData = {
+                    tf_employee_number.getText(),
+                    tf_lName.getText(),
+                    tf_fName.getText(),
+                    comboBox_selected_request.getValue(),
+                    sdf.format(startLeaveDate),
+                    sdf.format(endLeaveDate)
+            };
+            TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV, getTableViewSelectedLineNumber() + 2,updatedData);
+            btn_saveOrUpdate.setText("Save");
+            ManageLeaves.RECORDS.clear();
+            run();
+        }
     }
 
     @FXML
     void resetDetailsTextField(ActionEvent event) {
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+        LocalDate localDate = LocalDate.parse("January 1, 2022", formatter);
+        tf_employee_number.setText("");
+        tf_fName.setText("");
+        tf_lName.setText("");
+        comboBox_selected_request.setValue("Select request -");
+        dp_start_date.setValue(localDate);
+        dp_end_date.setValue(localDate);
+        btn_saveOrUpdate.setText("Save");
+        btn_delete.setDisable(true);
+        btn_cancel.setDisable(true);
+        btn_saveOrUpdate.setDisable(true);
     }
 
     @FXML
     void setNewLeave(ActionEvent event) {
-
+        resetDetailsTextField(event);
+        tf_employee_number.requestFocus();
+        btn_saveOrUpdate.setText("Save");
+        btn_cancel.setDisable(false);
+        btn_saveOrUpdate.setDisable(false);
     }
+
+
+    public void tableViewSelectedItemListener() {
+
+        leavesTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, leave) -> {
+            if (leave != null) {
+
+                System.out.println("Selected Line Number = " + tableViewSelectedLineNumber);
+                setTableViewSelectedLineNumber(leavesTableView.getSelectionModel().getSelectedIndex());
+
+                System.out.println(leave.toString());
+
+
+
+                /**
+                 * Update the textfields if there is an selected item on tableview textfields
+                 */
+
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+                // Convert Date into LocalDate to store to datepicker
+
+                String str_start_leave = sdf.format(leave.getLeave_start());
+                String str_end_leave = sdf.format(leave.getLeave_end());
+
+                LocalDate local_date_start_leave = LocalDate.parse(str_start_leave , dtf);
+                LocalDate local_date_end_leave = LocalDate.parse(str_end_leave , dtf);
+
+                tf_employee_number.setText(String.valueOf(leave.getEid()));
+                tf_lName.setText(leave.getLast_name());
+                tf_fName.setText(leave.getFirst_name());
+                comboBox_selected_request.setValue(leave.getLeave_type());
+                dp_start_date.setValue(local_date_start_leave);
+                dp_end_date.setValue(local_date_end_leave);
+                /**
+                 * Set save and cancel button to enabled because we have now selected item,
+                 * we can update it via save button and cancel to terminate the update.
+                 */
+                btn_saveOrUpdate.setText("Update");
+                btn_delete.setDisable(false);
+                btn_cancel.setDisable(false);
+                btn_saveOrUpdate.setDisable(false);
+            }
+        });
+    }
+
 
     @Override
     public void run() {
-
-
-    }
-
-    public void initialize () {
+        if(ManageLeaves.RECORDS.isEmpty()) ManageLeaves.addAllLeaves();
         setCellValueFactoryTableColumns();
-        ManageLeaves.addAllLeaves();
+        tableViewSelectedItemListener();
         ObservableList<ManageLeaves> list = FXCollections.observableArrayList(ManageLeaves.RECORDS);
-        list.stream().forEach(System.out::println);
-        System.out.println("Size of observable list = " + list.size());
         leavesTableView.setItems(list);
         addComboBoxItems();
+    }
+
+
+
+    public void initialize () {
+        run();
     }
 
     private void setCellValueFactoryTableColumns() {
@@ -159,12 +277,11 @@ public class LeavesController implements Runnable {
         last_name.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("last_name"));
         first_name.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("first_name"));
         leave_type.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("leave_type"));
-        leave_start.setCellValueFactory(new PropertyValueFactory<ManageLeaves,Date>("leave_start"));
-        leave_end.setCellValueFactory(new PropertyValueFactory<ManageLeaves, Date>("leave_end"));
+        leave_start.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("leave_start"));
+        leave_end.setCellValueFactory(new PropertyValueFactory<ManageLeaves, String>("leave_end"));
     }
 
     public void onClickedPayslip(ActionEvent actionEvent) {
-        System.out.println(textFieldsAndDatePickerToTabString());
         // inprogress
     }
 
@@ -172,7 +289,7 @@ public class LeavesController implements Runnable {
         ObservableList<String> items = FXCollections.observableArrayList(
                 "Emergency",
                 "Sick",
-                "Leave"
+                "Vacation"
         );
         comboBox_selected_request.setItems(items);
     }
@@ -185,5 +302,10 @@ public class LeavesController implements Runnable {
             (comboBox_selected_request.getValue())+ "\t"+
             (dp_start_date.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")) + "\t"+
             (dp_end_date.getValue().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))));
+    }
+
+    public void refreshAttendanceList(ActionEvent actionEvent) {
+        // Clear Employees Record
+        ManageLeaves.clearRecords();
     }
 }

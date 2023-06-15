@@ -414,7 +414,7 @@ public class EmployeesController implements Runnable {
                 System.out.println("Array starting here...");
                 System.out.println(employeeDetailsTextFieldToTabString());
                 System.out.println("Array ending here...");
-                TsvUtils.updateEmployeeNumberByLineNumber(MainApp.EMPLOYEE_TSV,TsvUtils.findLineNumberByEmployeeNumber(MainApp.EMPLOYEE_TSV,tf_employee_number.getText()),newValues);
+                TsvUtils.updateByLineNumber(MainApp.EMPLOYEE_TSV,TsvUtils.findLineNumberByEmployeeNumber(MainApp.EMPLOYEE_TSV,tf_employee_number.getText()),newValues);
                 resetDetailsTextField(actionEvent);
             }
             isAddNewEmployee = false;

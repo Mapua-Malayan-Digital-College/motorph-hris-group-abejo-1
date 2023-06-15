@@ -6,7 +6,7 @@ import java.util.List;
 
 public class TsvUtils {
 
-    public static void updateEmployeeNumberByLineNumber(String filePath, int lineNumber, String[] newData) {
+    public static void updateByLineNumber(String filePath, int lineNumber, String[] newData) {
         List<String> updatedLines = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

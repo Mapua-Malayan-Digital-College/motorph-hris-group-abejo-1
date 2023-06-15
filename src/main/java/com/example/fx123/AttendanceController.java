@@ -85,7 +85,7 @@ public class AttendanceController implements Runnable{
         try {
             TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.LEAVE_TSV,tableViewSelectedLineNumber + 2);
             isCreateNewAttendance = false;
-            refreshEmployeeList(event);
+            refreshAttendanceList(event);
             run();
             clearTextField(event);
             btn_attendance.requestFocus();
@@ -136,7 +136,6 @@ public class AttendanceController implements Runnable{
         Attendance.addAllAttendanceRecord();
         ObservableList<Attendance> list = FXCollections.observableArrayList(Attendance.records);
         attendanceTableView.setItems(list);
-
         tableViewSelectedItemListener();
         btn_attendance.requestFocus();
     }
@@ -184,7 +183,7 @@ public class AttendanceController implements Runnable{
             if (isEmployeeNumberExist((tf_employee_number.getText()))) {
                 try{
                     String [] newValues = attendanceDetailsTextFieldToTabString().split("\t");
-                    TsvUtils.updateEmployeeNumberByLineNumber(MainApp.LEAVE_TSV,tableViewSelectedLineNumber+2,newValues);
+                    TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,tableViewSelectedLineNumber+2,newValues);
                     clearTextField(actionEvent);
                     afterCreateOrUpdateAttendance(actionEvent);
                 }
@@ -201,7 +200,7 @@ public class AttendanceController implements Runnable{
 
     public void afterCreateOrUpdateAttendance(ActionEvent actionEvent) {
         isCreateNewAttendance = false;
-        refreshEmployeeList(actionEvent);
+        refreshAttendanceList(actionEvent);
         run();
         clearTextField(actionEvent);
         disableTextFields();
@@ -288,7 +287,7 @@ public class AttendanceController implements Runnable{
         });
     }
 
-    public void refreshEmployeeList(ActionEvent actionEvent) {
+    public void refreshAttendanceList(ActionEvent actionEvent) {
         // Clear Employees Record
         Attendance.clearAttendanceRecord();
     }

@@ -1,8 +1,5 @@
 package com.example.fx123;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -11,10 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ManageLeaves {
 
@@ -86,7 +80,6 @@ public class ManageLeaves {
                     Date endDateFormatter = sdf.parse(arr[5]);
 
                     ManageLeaves sl = new ManageLeaves(Integer.valueOf(arr[0]),arr[1],arr[2],arr[3],startDateFormatter,endDateFormatter);
-                    System.out.println(startDateFormatter.toString());
                     RECORDS.add(sl);
 
                 } catch (ParseException e) {
@@ -102,15 +95,11 @@ public class ManageLeaves {
 
 
 
-    public  void createEmployeeLeave(int eid, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
-        this.leave_type = leaveType;
-        this.leave_start = leaveStart;
-        this.leave_end = leaveEnd;
+    public void createEmployeeLeave() {
         if (isAllowedToCreateLeave()) {
-            ManageLeaves addNewLeave = new ManageLeaves(eid,lname,fname,leaveType,leaveStart,leaveEnd);
             try {
                 BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.LEAVE_TSV, true));
-                writer.write(addNewLeave.toTabString());
+                writer.write(toTabString());
                 writer.newLine();
                 writer.close();
             } catch (IOException e) {
@@ -124,33 +113,24 @@ public class ManageLeaves {
 
     private boolean isAllowedToCreateLeave() {
 
-        /**
-         *      Remaining Leaves Array =
-         *          [0] = Emergency,
-         *          [1] = Sick,
-         *          [2] = Vacation
-         */
-        String [] remainingLeaves = getRemainingLeavesOfEmployee().split("\t");
-        int consumable_emergency = Integer.parseInt(remainingLeaves[0]),
-            consumable_sick = Integer.parseInt(remainingLeaves[1]),
-            consumable_vacation = Integer.parseInt(remainingLeaves[2]);
-        if (RECORDS.isEmpty()) addAllLeaves();
         if (isEmployeeNumberExist()) {
-            if (getLeaveType().equals("emergency")) {
-                if (Math.abs((totalDaysOfLeave() - consumable_emergency)) <= MAX_EMERGENCY_LEAVES && (totalDaysOfLeave() + consumable_emergency) <= MAX_EMERGENCY_LEAVES) {
-                    return consumable_emergency < MAX_EMERGENCY_LEAVES;
-                }
-            }
-            else if (getLeaveType().equals("sick")) {
-                if (Math.abs(totalDaysOfLeave() - consumable_sick) <= MAX_SICK_LEAVES&& (totalDaysOfLeave() + consumable_sick) <= MAX_SICK_LEAVES) {
-                    return consumable_sick < MAX_SICK_LEAVES;
-                }
-            }
-            else if (getLeaveType().equals("vacation")) {
-                if ((Math.abs(totalDaysOfLeave() - consumable_vacation)) <= MAX_VACATION_LEAVES && (totalDaysOfLeave() + consumable_vacation) <= MAX_VACATION_LEAVES) {
-                    return consumable_vacation < MAX_VACATION_LEAVES;
-                }
-            }
+            System.out.println("Total Days = " + totalDaysLeave());
+
+            String[] remaining_leaves = getConsumedCredits().split("\t");
+            int consumedEmergencyCredits = Integer.parseInt(remaining_leaves[0]),
+                consumedSickCredits = Integer.parseInt(remaining_leaves[1]),
+                consumedVacationCredits = Integer.parseInt(remaining_leaves[2]);
+
+            if (leave_start.equals(leave_end)) return false;
+
+            else if (getLeaveType().equals("emergency") &&
+                    (totalDaysLeave() + consumedEmergencyCredits) <= MAX_EMERGENCY_LEAVES) return true;
+
+            else if (getLeaveType().equals("sick") &&
+                    (totalDaysLeave() + consumedSickCredits) <= MAX_SICK_LEAVES) return true;
+
+            else if (getLeaveType().equals("vacation") &&
+                    (totalDaysLeave() + consumedVacationCredits) <= MAX_VACATION_LEAVES) return true;
         }
         return false;
     }
@@ -164,7 +144,7 @@ public class ManageLeaves {
         return false;
     }
 
-    private int totalDaysOfLeave() {
+    private int totalDaysLeave() {
         Calendar start_calendar = Calendar.getInstance();
         Calendar end_calendar = Calendar.getInstance();
 
@@ -174,20 +154,20 @@ public class ManageLeaves {
         int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
         int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
 
+        System.out.println("start_dayOfYear = " + start_dayOfYear);
+        System.out.println("end_dayOfYear = " + end_dayOfYear);
+
         return end_dayOfYear - start_dayOfYear;
     }
 
     public String getLeaveType() {
         switch (leave_type.toLowerCase()) {
-            case "emergency" -> {
+            case "emergency" :
                 return "emergency";
-            }
-            case "sick" -> {
+            case "sick" :
                 return "sick";
-            }
-            case "vacation" -> {
+            case "vacation" :
                 return "vacation";
-            }
         }
         return "leave type doesn't exist";
     }
@@ -209,19 +189,7 @@ public class ManageLeaves {
 
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String start_date = sdf.format(leave_start);
-
-        Calendar end_date_calendar = Calendar.getInstance();
-        end_date_calendar.setTime(leave_end);
-        int end_dayOfYear = end_date_calendar.get(Calendar.DAY_OF_YEAR);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.DAY_OF_YEAR, end_dayOfYear+1);
-        Date endDate = calendar.getTime();
-        String incrementedDate = sdf.format(endDate);
-
-        // Increment the date once if the leave start is same with leave end
-        String end_date = (leave_start.toString().equals(leave_end.toString()))
-                ? incrementedDate : sdf.format(leave_end);
+        String end_date = sdf.format(leave_end);
 
         return eid  +  "\t" +
             last_name + "\t" +
@@ -231,7 +199,7 @@ public class ManageLeaves {
             end_date     + "\t";
     }
 
-    public String getRemainingLeavesOfEmployee() {
+    public String getConsumedCredits() {
         int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
 
             for (int i = 0; i < RECORDS.size(); i++) {
@@ -245,7 +213,7 @@ public class ManageLeaves {
                     int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
                     int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
 
-                    int differenceDayOfYear = (end_dayOfYear == start_dayOfYear) ? 1 : end_dayOfYear - start_dayOfYear;
+                    int differenceDayOfYear = end_dayOfYear - start_dayOfYear;
                     switch (RECORDS.get(i).leave_type.toLowerCase()) {
                         case "sick":
                             sick_counter += differenceDayOfYear;
@@ -259,6 +227,9 @@ public class ManageLeaves {
                     }
                 }
             }
+        System.out.println("emergency = "+emergency_counter);
+        System.out.println("sick = "+sick_counter);
+        System.out.println("vacation = "+vacation_counter);
         return emergency_counter+"\t"+sick_counter+"\t"+vacation_counter;
     }
 

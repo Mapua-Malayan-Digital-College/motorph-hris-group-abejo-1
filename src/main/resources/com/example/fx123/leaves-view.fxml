@@ -196,7 +196,7 @@
                                 <Font name="Arial" size="15.0" />
                             </font>
                         </Button>
-                        <Button fx:id="btn_deleteSelectedEmployee" alignment="TOP_LEFT" disable="true" layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#onDeleteLeaveClicked" text="Delete Leave" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="btn_delete" alignment="TOP_LEFT" disable="true" layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#onDeleteLeaveClicked" text="Delete Leave" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                             <font>
                                 <Font name="Arial" size="15.0" />
                             </font>
