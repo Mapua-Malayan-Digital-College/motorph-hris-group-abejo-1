@@ -13,28 +13,28 @@ public class TestDeduction {
 
 
         System.out.println("\n\n\nSample SSS");
-        System.out.println(deductionJose.getCompensation()+"\t=\t"+deductionJose.sssContribution());
-        System.out.println(deductionChristian.getCompensation()+"\t=\t"+deductionChristian.sssContribution());
-        System.out.println(deductionBrad.getCompensation()+"\t=\t"+deductionBrad.sssContribution());
-        System.out.println(deductionAnthony.getCompensation()+"\t=\t"+deductionAnthony.sssContribution());
-        System.out.println(deductionAlice.getCompensation()+"\t=\t"+deductionAlice.sssContribution());
-        System.out.println(copyOfWitholdingTaxSample.getCompensation()+"\t=\t"+copyOfWitholdingTaxSample.philHealthContribution());
+        System.out.println(deductionJose.getCompensation()+"\t=\t"+deductionJose.deductSSS());
+        System.out.println(deductionChristian.getCompensation()+"\t=\t"+deductionChristian.deductSSS());
+        System.out.println(deductionBrad.getCompensation()+"\t=\t"+deductionBrad.deductSSS());
+        System.out.println(deductionAnthony.getCompensation()+"\t=\t"+deductionAnthony.deductSSS());
+        System.out.println(deductionAlice.getCompensation()+"\t=\t"+deductionAlice.deductSSS());
+        System.out.println(copyOfWitholdingTaxSample.getCompensation()+"\t=\t"+copyOfWitholdingTaxSample.deductPhilHealth());
 
         System.out.println("\n\n\nSample PhilHealth");
-        System.out.println(deductionJose.getBasic_salary()+"\t=\t"+deductionJose.philHealthContribution());
-        System.out.println(deductionChristian.getBasic_salary()+"\t=\t"+deductionChristian.philHealthContribution());
-        System.out.println(deductionBrad.getBasic_salary()+"\t=\t"+deductionBrad.philHealthContribution());
-        System.out.println(deductionAnthony.getBasic_salary()+"\t=\t"+deductionAnthony.philHealthContribution());
-        System.out.println(deductionAlice.getBasic_salary()+"\t=\t"+deductionAlice.philHealthContribution());
-        System.out.println(copyOfWitholdingTaxSample.getBasic_salary()+"\t=\t"+copyOfWitholdingTaxSample.philHealthContribution());
+        System.out.println(deductionJose.getBasic_salary()+"\t=\t"+deductionJose.deductPhilHealth());
+        System.out.println(deductionChristian.getBasic_salary()+"\t=\t"+deductionChristian.deductPhilHealth());
+        System.out.println(deductionBrad.getBasic_salary()+"\t=\t"+deductionBrad.deductPhilHealth());
+        System.out.println(deductionAnthony.getBasic_salary()+"\t=\t"+deductionAnthony.deductPhilHealth());
+        System.out.println(deductionAlice.getBasic_salary()+"\t=\t"+deductionAlice.deductPhilHealth());
+        System.out.println(copyOfWitholdingTaxSample.getBasic_salary()+"\t=\t"+copyOfWitholdingTaxSample.deductPhilHealth());
 
         System.out.println("\n\n\nSample PagIBIG");
-        System.out.println(deductionJose.pagIbigContribution());
-        System.out.println(deductionChristian.pagIbigContribution());
-        System.out.println(deductionBrad.pagIbigContribution());
-        System.out.println(deductionAnthony.pagIbigContribution());
-        System.out.println(deductionAlice.pagIbigContribution());
-        System.out.println(copyOfWitholdingTaxSample.pagIbigContribution());
+        System.out.println(deductionJose.deductPagIbig());
+        System.out.println(deductionChristian.deductPagIbig());
+        System.out.println(deductionBrad.deductPagIbig());
+        System.out.println(deductionAnthony.deductPagIbig());
+        System.out.println(deductionAlice.deductPagIbig());
+        System.out.println(copyOfWitholdingTaxSample.deductPagIbig());
 
         System.out.println("\n\n\nSample Withholding Tax");
         System.out.println(deductionJose.getCompensation()+"\t=\t"+deductionJose.getWithholdingTax());
