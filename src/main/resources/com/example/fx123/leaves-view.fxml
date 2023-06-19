@@ -203,7 +203,7 @@
                         </Button>
                   <VBox layoutY="297.0" prefHeight="252.0" prefWidth="231.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="229.0" text="Credits Left" textAlignment="CENTER">
+                        <Label alignment="CENTER" prefHeight="35.0" prefWidth="229.0" text="Spent Credits" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>

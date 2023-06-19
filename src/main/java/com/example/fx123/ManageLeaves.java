@@ -16,7 +16,7 @@ public class ManageLeaves {
     private String last_name, first_name, leave_type;
     private Date leave_start, leave_end;
 
-    private final int
+    public final int
             MAX_SICK_LEAVES = 5,
             MAX_VACATION_LEAVES = 10,
             MAX_EMERGENCY_LEAVES = 5;
@@ -144,7 +144,7 @@ public class ManageLeaves {
         return false;
     }
 
-    private int totalDaysLeave() {
+    public int totalDaysLeave() {
         Calendar start_calendar = Calendar.getInstance();
         Calendar end_calendar = Calendar.getInstance();
 

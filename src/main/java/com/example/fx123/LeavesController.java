@@ -4,12 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -95,6 +90,15 @@ public class LeavesController implements Runnable {
     private TextField tf_search;
 
     @FXML
+    private Label lbl_num_emergency_result;
+
+    @FXML
+    private Label lbl_num_sick_result;
+
+    @FXML
+    private Label lbl_num_vacation_result;
+
+    @FXML
     void filterTableData(ActionEvent event) {
 
     }
@@ -119,7 +123,7 @@ public class LeavesController implements Runnable {
 
     @FXML
     void onClickedLeaves(ActionEvent event) {
-
+        run();
     }
 
     @FXML
@@ -141,6 +145,13 @@ public class LeavesController implements Runnable {
         }
     }
 
+    public void createEmployeeLeave(ManageLeaves leaves, ActionEvent event) {
+        leaves.createEmployeeLeave();
+        ManageLeaves.RECORDS.clear();
+        resetDetailsTextField(event);
+        run();
+    }
+
     @FXML
     void onSaveLeaveClicked(ActionEvent event) {
 
@@ -159,15 +170,46 @@ public class LeavesController implements Runnable {
             e.printStackTrace();
         }
         if (btn_saveOrUpdate.getText().equalsIgnoreCase("save")) {
-            ManageLeaves addNewLeave =
-                    new ManageLeaves(Integer.parseInt(tf_employee_number.getText()),
-                        tf_lName.getText(),tf_fName.getText(),
-                        comboBox_selected_request.getValue(),
-                        startLeaveDate,endLeaveDate);
-            addNewLeave.createEmployeeLeave();
-            ManageLeaves.RECORDS.clear();
-            run();
+            ManageLeaves leave = new ManageLeaves(Integer.parseInt(tf_employee_number.getText()),
+                    tf_lName.getText(), tf_fName.getText(), comboBox_selected_request.getValue(),
+                    startLeaveDate, endLeaveDate);
+
+            String[] credits = leave.getConsumedCredits().split("\t");
+            int emergency_spent = Integer.valueOf(credits[0]);
+            int sick_spent = Integer.valueOf(credits[1]);
+            int vacation_spent = Integer.valueOf(credits[2]);
+            int total_days_new_leave = leave.totalDaysLeave();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            switch (leave.getLeaveType().toLowerCase()) {
+                case "emergency":
+                    if ((emergency_spent + total_days_new_leave) <= leave.MAX_EMERGENCY_LEAVES) {
+                        createEmployeeLeave(leave, event);
+                    } else {
+                        alert.setTitle("Emergency Leave Limit Exceeded");
+                        alert.showAndWait();
+                    }
+                    break;
+                case "sick":
+                    if ((sick_spent + total_days_new_leave) <= leave.MAX_SICK_LEAVES) {
+                        createEmployeeLeave(leave, event);
+                    } else {
+                        alert.setTitle("Sick Leave Limit Exceeded");
+                        alert.showAndWait();
+                    }
+                    break;
+                case "vacation":
+                    if ((vacation_spent + total_days_new_leave) <= leave.MAX_VACATION_LEAVES) {
+                        createEmployeeLeave(leave, event);
+                    } else {
+                        alert.setTitle("Vacation Leave Limit Exceeded");
+                        alert.showAndWait();
+                    }
+                    break;
+            }
         }
+
         if (btn_saveOrUpdate.getText().equalsIgnoreCase("update")) {
             String [] updatedData = {
                     tf_employee_number.getText(),
@@ -180,6 +222,7 @@ public class LeavesController implements Runnable {
             TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV, getTableViewSelectedLineNumber() + 2,updatedData);
             btn_saveOrUpdate.setText("Save");
             ManageLeaves.RECORDS.clear();
+            resetDetailsTextField(event);
             run();
         }
     }
@@ -195,9 +238,14 @@ public class LeavesController implements Runnable {
         dp_start_date.setValue(localDate);
         dp_end_date.setValue(localDate);
         btn_saveOrUpdate.setText("Save");
-        btn_delete.setDisable(true);
-        btn_cancel.setDisable(true);
-        btn_saveOrUpdate.setDisable(true);
+
+
+        btn_leaves.requestFocus();
+        onClickedLeaves(event);
+
+        lbl_num_emergency_result.setText("0");
+        lbl_num_sick_result.setText("0");
+        lbl_num_vacation_result.setText("0");
     }
 
     @FXML
@@ -251,6 +299,11 @@ public class LeavesController implements Runnable {
                 btn_delete.setDisable(false);
                 btn_cancel.setDisable(false);
                 btn_saveOrUpdate.setDisable(false);
+
+                String [] creditsleave = leave.getConsumedCredits().split("\t");
+                lbl_num_emergency_result.setText(creditsleave[0]);
+                lbl_num_sick_result.setText(creditsleave[1]);
+                lbl_num_vacation_result.setText(creditsleave[2]);
             }
         });
     }
@@ -264,6 +317,10 @@ public class LeavesController implements Runnable {
         ObservableList<ManageLeaves> list = FXCollections.observableArrayList(ManageLeaves.RECORDS);
         leavesTableView.setItems(list);
         addComboBoxItems();
+
+        btn_delete.setDisable(true);
+        btn_cancel.setDisable(true);
+        btn_saveOrUpdate.setDisable(true);
     }
 
 
