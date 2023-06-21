@@ -57,25 +57,25 @@ public class LeavesController implements Runnable {
     private DatePicker dp_start_date;
 
     @FXML
-    private TableColumn<ManageLeaves, Integer> eid;
+    private TableColumn<EmployeeLeave, Integer> eid;
 
     @FXML
-    private TableView<ManageLeaves> leavesTableView;
+    private TableView<EmployeeLeave> leavesTableView;
 
     @FXML
-    private TableColumn<ManageLeaves, String> first_name;
+    private TableColumn<EmployeeLeave, String> first_name;
 
     @FXML
-    private TableColumn<ManageLeaves, String> last_name;
+    private TableColumn<EmployeeLeave, String> last_name;
 
     @FXML
-    private TableColumn<ManageLeaves, String> leave_end;
+    private TableColumn<EmployeeLeave, String> leave_end;
 
     @FXML
-    private TableColumn<ManageLeaves, String> leave_start;
+    private TableColumn<EmployeeLeave, String> leave_start;
 
     @FXML
-    private TableColumn<ManageLeaves, String> leave_type;
+    private TableColumn<EmployeeLeave, String> leave_type;
 
     @FXML
     private TextField tf_employee_number;
@@ -124,12 +124,13 @@ public class LeavesController implements Runnable {
     @FXML
     void onClickedLeaves(ActionEvent event) {
         run();
+        btn_leaves.requestFocus();
     }
 
     @FXML
     void onDeleteLeaveClicked(ActionEvent event) {
         TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.LEAVE_TSV,getTableViewSelectedLineNumber() + 2);
-        ManageLeaves.RECORDS.clear();
+        EmployeeLeave.RECORDS.clear();
         run();
         btn_cancel.setDisable(true);
         btn_delete.setDisable(true);
@@ -145,9 +146,9 @@ public class LeavesController implements Runnable {
         }
     }
 
-    public void createEmployeeLeave(ManageLeaves leaves, ActionEvent event) {
+    public void createEmployeeLeave(EmployeeLeave leaves, ActionEvent event) {
         leaves.createEmployeeLeave();
-        ManageLeaves.RECORDS.clear();
+        EmployeeLeave.RECORDS.clear();
         resetDetailsTextField(event);
         run();
     }
@@ -170,7 +171,7 @@ public class LeavesController implements Runnable {
             e.printStackTrace();
         }
         if (btn_saveOrUpdate.getText().equalsIgnoreCase("save")) {
-            ManageLeaves leave = new ManageLeaves(Integer.parseInt(tf_employee_number.getText()),
+            EmployeeLeave leave = new EmployeeLeave(Integer.parseInt(tf_employee_number.getText()),
                     tf_lName.getText(), tf_fName.getText(), comboBox_selected_request.getValue(),
                     startLeaveDate, endLeaveDate);
 
@@ -221,7 +222,7 @@ public class LeavesController implements Runnable {
             };
             TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV, getTableViewSelectedLineNumber() + 2,updatedData);
             btn_saveOrUpdate.setText("Save");
-            ManageLeaves.RECORDS.clear();
+            EmployeeLeave.RECORDS.clear();
             resetDetailsTextField(event);
             run();
         }
@@ -311,10 +312,10 @@ public class LeavesController implements Runnable {
 
     @Override
     public void run() {
-        if(ManageLeaves.RECORDS.isEmpty()) ManageLeaves.addAllLeaves();
+        if(EmployeeLeave.RECORDS.isEmpty()) EmployeeLeave.addAllLeaves();
         setCellValueFactoryTableColumns();
         tableViewSelectedItemListener();
-        ObservableList<ManageLeaves> list = FXCollections.observableArrayList(ManageLeaves.RECORDS);
+        ObservableList<EmployeeLeave> list = FXCollections.observableArrayList(EmployeeLeave.RECORDS);
         leavesTableView.setItems(list);
         addComboBoxItems();
 
@@ -330,12 +331,12 @@ public class LeavesController implements Runnable {
     }
 
     private void setCellValueFactoryTableColumns() {
-        eid.setCellValueFactory(new PropertyValueFactory<ManageLeaves,Integer>("eid"));
-        last_name.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("last_name"));
-        first_name.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("first_name"));
-        leave_type.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("leave_type"));
-        leave_start.setCellValueFactory(new PropertyValueFactory<ManageLeaves,String>("leave_start"));
-        leave_end.setCellValueFactory(new PropertyValueFactory<ManageLeaves, String>("leave_end"));
+        eid.setCellValueFactory(new PropertyValueFactory<EmployeeLeave,Integer>("eid"));
+        last_name.setCellValueFactory(new PropertyValueFactory<EmployeeLeave,String>("last_name"));
+        first_name.setCellValueFactory(new PropertyValueFactory<EmployeeLeave,String>("first_name"));
+        leave_type.setCellValueFactory(new PropertyValueFactory<EmployeeLeave,String>("leave_type"));
+        leave_start.setCellValueFactory(new PropertyValueFactory<EmployeeLeave,String>("leave_start"));
+        leave_end.setCellValueFactory(new PropertyValueFactory<EmployeeLeave, String>("leave_end"));
     }
 
     public void onClickedPayslip(ActionEvent actionEvent) {
@@ -363,6 +364,6 @@ public class LeavesController implements Runnable {
 
     public void refreshAttendanceList(ActionEvent actionEvent) {
         // Clear Employees Record
-        ManageLeaves.clearRecords();
+        EmployeeLeave.clearRecords();
     }
 }

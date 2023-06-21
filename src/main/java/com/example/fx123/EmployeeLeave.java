@@ -10,7 +10,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ManageLeaves {
+public class EmployeeLeave {
 
     private int eid;
     private String last_name, first_name, leave_type;
@@ -21,7 +21,7 @@ public class ManageLeaves {
             MAX_VACATION_LEAVES = 10,
             MAX_EMERGENCY_LEAVES = 5;
 
-    public static List<ManageLeaves> RECORDS = new ArrayList<>();
+    public static List<EmployeeLeave> RECORDS = new ArrayList<>();
 
 
     public int getEid() {
@@ -48,7 +48,7 @@ public class ManageLeaves {
         return leave_end;
     }
 
-    public ManageLeaves(int employeeNumber, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
+    public EmployeeLeave(int employeeNumber, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
         this.eid = employeeNumber;
         this.last_name = lname;
         this.first_name = fname;
@@ -61,7 +61,7 @@ public class ManageLeaves {
         try {
             BufferedReader br = new BufferedReader(new FileReader(MainApp.LEAVE_TSV));
             boolean headers = true;
-            String line = null;
+            String line;
 
             while ((line = br.readLine()) != null) {
 
@@ -79,7 +79,7 @@ public class ManageLeaves {
                     Date startDateFormatter = sdf.parse(arr[4]);
                     Date endDateFormatter = sdf.parse(arr[5]);
 
-                    ManageLeaves sl = new ManageLeaves(Integer.valueOf(arr[0]),arr[1],arr[2],arr[3],startDateFormatter,endDateFormatter);
+                    EmployeeLeave sl = new EmployeeLeave(Integer.valueOf(arr[0]),arr[1],arr[2],arr[3],startDateFormatter,endDateFormatter);
                     RECORDS.add(sl);
 
                 } catch (ParseException e) {
@@ -129,8 +129,8 @@ public class ManageLeaves {
             else if (getLeaveType().equals("sick") &&
                     (totalDaysLeave() + consumedSickCredits) <= MAX_SICK_LEAVES) return true;
 
-            else if (getLeaveType().equals("vacation") &&
-                    (totalDaysLeave() + consumedVacationCredits) <= MAX_VACATION_LEAVES) return true;
+            else return getLeaveType().equals("vacation") &&
+                        (totalDaysLeave() + consumedVacationCredits) <= MAX_VACATION_LEAVES;
         }
         return false;
     }

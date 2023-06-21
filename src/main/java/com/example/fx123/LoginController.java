@@ -31,7 +31,7 @@ public class LoginController {
                 pwField_password.getText())) {
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                    "Logged in successfully");
+                    "Successfully logged in.");
             alert.show();
             PauseTransition delay = new PauseTransition(Duration.seconds(3));
             delay.setOnFinished(e -> alert.hide());
@@ -43,8 +43,8 @@ public class LoginController {
             try{
                 SceneController.employeeScene(event);
             }
-            catch (IOException ioException){
-                throw new IllegalArgumentException("Employee scene can't load.");
+            catch (IOException ioException) {
+                throw new IllegalArgumentException("Scene can't load.");
             }
         }
         else {

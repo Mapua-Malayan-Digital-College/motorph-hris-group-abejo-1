@@ -142,4 +142,8 @@ public class Attendance {
             throw new RuntimeException(e);
         }
     }
+
+    public String getFullName() {
+        return f_name + " " + l_name;
+    }
 }

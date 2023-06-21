@@ -55,7 +55,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fx123.EmployeesController">
+<VBox minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fx123.EmployeeController">
     <children>
         <MenuBar minWidth="800.0" VBox.vgrow="NEVER">
             <menus>

@@ -4,12 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -17,7 +12,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class AttendanceController implements Runnable{
+public class AttendanceController implements Runnable {
 
     @FXML
     private TableView<Attendance> attendanceTableView;
@@ -73,17 +68,37 @@ public class AttendanceController implements Runnable{
     @FXML
     private Button btn_delete;
 
+    @FXML
+    private Label lbl_attendance_size;
+
     private boolean isCreateNewAttendance;
     private int tableViewSelectedLineNumber;
     @FXML
     void filterTableData(ActionEvent event) {
+            int employeeCounter = 0;
+            String searchText = tf_search.getText().toLowerCase();
+            // Clear previous filtering
+            attendanceTableView.getItems().clear();
 
-    }
+            // Filter data based on search text
+            for (Attendance item : Attendance.records) {
+                if (item.toString().toLowerCase().contains(searchText)) {
+                    attendanceTableView.getItems().add(item);
+                    employeeCounter++;
+                }
+                else if (item.getFullName().toLowerCase().contains(searchText)) {
+                    attendanceTableView.getItems().add(item);
+                    employeeCounter++;
+                };
+            }
+            // Change Employee Number Size
+         lbl_attendance_size.setText(String.valueOf(employeeCounter));
+        }
 
     @FXML
     void handleDeleteAttendanceClick(ActionEvent event) {
         try {
-            TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.LEAVE_TSV,tableViewSelectedLineNumber + 2);
+            TsvUtils.deleteEmployeeRecordByLineNumber(MainApp.ATTENDANCE_TSV,tableViewSelectedLineNumber + 2);
             isCreateNewAttendance = false;
             refreshAttendanceList(event);
             run();
@@ -94,6 +109,7 @@ public class AttendanceController implements Runnable{
             // Reset attribute
             isCreateNewAttendance = false;
             btn_save.setText("Save");
+            System.out.println(Attendance.records.size());
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -133,11 +149,12 @@ public class AttendanceController implements Runnable{
     @Override
     public void run() {
         setCellValueFactoryTableColumns();
-        Attendance.addAllAttendanceRecord();
+        if (Attendance.records.isEmpty()) Attendance.addAllAttendanceRecord();
         ObservableList<Attendance> list = FXCollections.observableArrayList(Attendance.records);
         attendanceTableView.setItems(list);
         tableViewSelectedItemListener();
         btn_attendance.requestFocus();
+        lbl_attendance_size.setText(String.valueOf(Attendance.records.size()));
     }
 
     public void initialize() {
@@ -167,7 +184,7 @@ public class AttendanceController implements Runnable{
     public void handleSaveClick(ActionEvent actionEvent) throws IOException {
 
         if (isAllowedToCreateAttendance() && isCreateNewAttendance) {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.LEAVE_TSV, true));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.ATTENDANCE_TSV, true));
             // 'true' flag is used to append data to the existing file.
             // Write the new employee details to the file
             writer.write(attendanceDetailsTextFieldToTabString()); // Assuming you have a method to convert an employee object to a string
@@ -178,12 +195,13 @@ public class AttendanceController implements Runnable{
             // Close the writer
             writer.close();
             afterCreateOrUpdateAttendance(actionEvent);
+            lbl_attendance_size.setText(String.valueOf(Employees.records.size()));
         }
         else {
             if (isEmployeeNumberExist((tf_employee_number.getText()))) {
                 try{
                     String [] newValues = attendanceDetailsTextFieldToTabString().split("\t");
-                    TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,tableViewSelectedLineNumber+2,newValues);
+                    TsvUtils.updateByLineNumber(MainApp.ATTENDANCE_TSV,tableViewSelectedLineNumber+2,newValues);
                     clearTextField(actionEvent);
                     afterCreateOrUpdateAttendance(actionEvent);
                 }
@@ -321,7 +339,7 @@ public class AttendanceController implements Runnable{
         }
 
 
-        if (!isEmployeeNumberExist(tf_employee_number.getText())) {
+        else if (!isEmployeeNumberExist(tf_employee_number.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid Employee Number");
             alert.setHeaderText(null);
@@ -371,6 +389,7 @@ public class AttendanceController implements Runnable{
         try {
             Attendance.records.clear();
             SceneController.attendanceScene(actionEvent);
+            btn_attendance.requestFocus();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

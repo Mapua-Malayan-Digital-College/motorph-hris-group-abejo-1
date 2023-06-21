@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class EmployeesController implements Runnable {
+public class EmployeeController implements Runnable {
     /**
      * Start of Attributes
      */
@@ -454,7 +454,7 @@ public class EmployeesController implements Runnable {
             alert.showAndWait();
             SceneController.loginScene(actionEvent);
         }
-        catch (IOException ioException){
+        catch (IOException ioException) {
             throw new IllegalArgumentException("Login scene can't load.");
         }
     }
@@ -499,7 +499,7 @@ public class EmployeesController implements Runnable {
         lbl_employeeSize.setText(String.valueOf(employeeCounter));
     }
 
-    public void onClickAttendance(ActionEvent actionEvent){
+    public void onClickAttendance(ActionEvent actionEvent) {
         try {
             Attendance.records.clear();
             SceneController.attendanceScene(actionEvent);

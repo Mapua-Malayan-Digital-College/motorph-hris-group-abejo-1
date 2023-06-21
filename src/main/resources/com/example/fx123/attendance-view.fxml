@@ -46,6 +46,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -158,6 +160,16 @@
                 </VBox>
                 <Region prefHeight="100.0" />
                 <Label />
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/attendance-icon-png-6.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="lbl_attendance_size" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="0" textAlignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
                 <Label maxWidth="-1.0" text="Search">
                     <font>
                         <Font size="11.0" fx:id="x31" />
