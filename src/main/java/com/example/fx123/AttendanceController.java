@@ -195,7 +195,7 @@ public class AttendanceController implements Runnable {
             // Close the writer
             writer.close();
             afterCreateOrUpdateAttendance(actionEvent);
-            lbl_attendance_size.setText(String.valueOf(Employees.records.size()));
+            lbl_attendance_size.setText(String.valueOf(Attendance.records.size()));
         }
         else {
             if (isEmployeeNumberExist((tf_employee_number.getText()))) {
