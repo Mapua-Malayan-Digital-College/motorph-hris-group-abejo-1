@@ -21,7 +21,7 @@ public class SceneController {
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
-        stage.setTitle("Login Scene");
+        stage.setTitle("Login View");
         stage.show();
     }
 
@@ -31,7 +31,7 @@ public class SceneController {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Employees");
+        stage.setTitle("Employee View");
         stage.show();
     }
 
@@ -40,7 +40,7 @@ public class SceneController {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Attendance");
+        stage.setTitle("Attendance View");
         stage.show();
     }
 
@@ -49,7 +49,7 @@ public class SceneController {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Leaves");
+        stage.setTitle("Leaves View");
         stage.show();
     }
 }
