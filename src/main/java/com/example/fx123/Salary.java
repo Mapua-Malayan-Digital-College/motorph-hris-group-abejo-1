@@ -30,7 +30,7 @@ public class Salary {
         int i = 0;
         int eidcounter = 0;
         // Hours Worked Breakdown
-        // Increment one of this variable once if the attendance date
+        // Increment one of this variable once, if the attendance date matches to week of month
         int weekOne = 0,
             weekTwo = 0,
             weekThree = 0,
