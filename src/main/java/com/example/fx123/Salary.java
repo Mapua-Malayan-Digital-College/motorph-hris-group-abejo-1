@@ -16,7 +16,17 @@ public class Salary {
     static int calculateWeeklySalary() throws ParseException {
         return 0;
     }
-    static int calculateWeeklyHoursWorked(int eid, int numMonth,List<Attendance> lsAttendance) throws ParseException {
+
+    /**
+     *
+     * @param eid employee number
+     * @param numMonth Use the month number instead of month words, it use to calculate the
+     * @param year year of
+     * @param lsAttendance
+     * @return
+     * @throws ParseException
+     */
+    static int [] calculateWeeklyHoursWorked(int eid, int numMonth, int year,List<Attendance> lsAttendance) throws ParseException {
         // sort lsAttendance
         Collections.sort(lsAttendance, new Comparator<Attendance>() {
             @Override
@@ -38,14 +48,26 @@ public class Salary {
             weekFive = 0,
             weekSix = 0;
         while (i < lsAttendance.size()) {
-            System.out.println(lsAttendance.get(i).toString());
+
             if (eid == (lsAttendance.get(i).getEmployee_number())) {
-                // check if month is the same
                 // mm,dd,yy
                 String [] arrDateAttendance = lsAttendance.get(i).getDate().split("/");
-                if (Integer.parseInt(arrDateAttendance[0]) == (numMonth)) {
-                    // TODO: 6/24/2023 increment weeklyhoursworked
-                    calendar.setTime(sdf.parse(lsAttendance.get(i).getDate()));
+
+                /**
+                 * Not all attendance records from csv/tsv have four digits( ex: [2022 = 22]
+                 *  To solve the problem we can create another variable where we can make the week year into four digits.
+                 */
+
+                int getArrYear = Integer.parseInt(arrDateAttendance[2]) > 2000
+                        ? Integer.parseInt(arrDateAttendance[2])
+                        : Integer.parseInt(arrDateAttendance[2]) + 2000;
+
+                calendar.setTime(sdf.parse(lsAttendance.get(i).getDate()));
+                int final_week_year = calendar.getWeekYear() > 2000 ? calendar.getWeekYear() : calendar.getWeekYear() + 2000;
+                // check if month and year from datasource is the same with params
+                if (Integer.parseInt(arrDateAttendance[0]) == (numMonth)
+                        && getArrYear == final_week_year) {
+                    System.out.println("@final week year = " + final_week_year);
 
                     String startTimeString = lsAttendance.get(i).getTimeIn();
                     String endTimeString = lsAttendance.get(i).getTimeOut();
@@ -92,12 +114,12 @@ public class Salary {
         System.out.println("Week 4: " + weekFour);
         System.out.println("Week 5: " + weekFive);
         System.out.println("Week 6: " + weekSix);
-        return 0;
+        return new int[] {};
     }
 
     public static void main(String[] args) throws ParseException {
         Attendance.addAllAttendanceRecord();
-        calculateWeeklyHoursWorked(10001,1,Attendance.records);
+        calculateWeeklyHoursWorked(10001,1,2022,Attendance.records);
 
         System.out.println(Attendance.records.size());
     }
