@@ -20,10 +20,12 @@ public class Salary {
     /**
      *
      * @param eid employee number
-     * @param numMonth Use the month number instead of month words, it use to calculate the
-     * @param year year of
-     * @param lsAttendance
-     * @return
+     * @param numMonth Month to be calculated worked hours, Use the month number instead of month words, it use to calculate the
+     * @param year Year to be calculated worked hours
+     * @param lsAttendance attendance list
+     * @return Array of integer that includes [total hours worked, week 1 hours worked, week 2 hours worked ,
+     *                                          week 3 hours worked, week 4 hours worked, week 5 hours worked,
+     *                                          week 6 hours worked];
      * @throws ParseException
      */
     static int [] calculateWeeklyHoursWorked(int eid, int numMonth, int year,List<Attendance> lsAttendance) throws ParseException {
@@ -41,7 +43,9 @@ public class Salary {
         int eidcounter = 0;
         // Hours Worked Breakdown
         // Increment one of this variable once, if the attendance date matches to week of month
-        int weekOne = 0,
+        int
+            total_hours_worked = 0,
+            weekOne = 0,
             weekTwo = 0,
             weekThree = 0,
             weekFour = 0,
@@ -85,21 +89,27 @@ public class Salary {
                     System.out.println("Total hours worked: " + totalHours);
                     if (calendar.get(Calendar.WEEK_OF_MONTH) == 1) {
                         weekOne += ((int) totalHours);
+                        total_hours_worked += ((int) totalHours);
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 2) {
                         weekTwo += ((int) totalHours);
+                        total_hours_worked += ((int) totalHours);
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 3) {
                         weekThree += ((int) totalHours);
+                        total_hours_worked += ((int) totalHours);
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 4) {
                         weekFour += ((int) totalHours);
+                        total_hours_worked += ((int) totalHours);
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 5) {
                         weekFive += ((int) totalHours);
+                        total_hours_worked += ((int) totalHours);
                     }
                     else {
                         weekSix += ((int) totalHours);
+                        total_hours_worked += ((int) totalHours);
                     }
                     eidcounter++;
                     System.out.println(eidcounter+"."+"Date Attendance = " + lsAttendance.get(i).getDate() + " Week " + calendar.getWeeksInWeekYear() + "Week of the month " + calendar.get(Calendar.WEEK_OF_MONTH));
@@ -114,6 +124,7 @@ public class Salary {
         System.out.println("Week 4: " + weekFour);
         System.out.println("Week 5: " + weekFive);
         System.out.println("Week 6: " + weekSix);
+        System.out.println("Total Hours Worked = " + total_hours_worked);
         return new int[] {};
     }
 
