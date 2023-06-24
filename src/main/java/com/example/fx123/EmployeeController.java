@@ -498,7 +498,7 @@ public class EmployeeController implements Runnable {
         lbl_employeeSize.setText(String.valueOf(employeeCounter));
     }
 
-    public void onClickAttendance(ActionEvent actionEvent) {
+    public void onAttendanceClicked(ActionEvent actionEvent) {
         try {
             Attendance.records.clear();
             SceneController.attendanceScene(actionEvent);
@@ -508,7 +508,7 @@ public class EmployeeController implements Runnable {
     }
 
 
-    public void onClickedLeaves(ActionEvent actionEvent) {
+    public void onLeavesClicked(ActionEvent actionEvent) {
         try {
             SceneController.leavesScene(actionEvent);
         } catch (IOException e) {
@@ -516,7 +516,7 @@ public class EmployeeController implements Runnable {
         }
     }
 
-    public void onClickedPaySlips(ActionEvent actionEvent) {
+    public void onPaySlipClicked(ActionEvent actionEvent) {
         // inprogress
     }
 }

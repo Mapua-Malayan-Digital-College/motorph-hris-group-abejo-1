@@ -148,7 +148,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onLogoutClicked" text="Logout">
+                        <Button mnemonicParsing="false" onAction="#onClickedLogout" text="Logout">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -191,12 +191,12 @@
                                 <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
                             </textFill>
                         </Label>
-                        <Button fx:id="btn_addNewEmployee" alignment="TOP_LEFT" layoutX="5.0" layoutY="57.0" mnemonicParsing="false" onAction="#setNewLeave" text="Set New Leave" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="btn_addNewEmployee" alignment="TOP_LEFT" layoutX="5.0" layoutY="57.0" mnemonicParsing="false" onAction="#onClickedSetNewLeave" text="Set New Leave" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                             <font>
                                 <Font name="Arial" size="15.0" />
                             </font>
                         </Button>
-                        <Button fx:id="btn_delete" alignment="TOP_LEFT" disable="true" layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#onDeleteLeaveClicked" text="Delete Leave" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                        <Button fx:id="btn_delete" alignment="TOP_LEFT" disable="true" layoutX="10.0" layoutY="91.0" mnemonicParsing="false" onAction="#onClickedDeleteLeave" text="Delete Leave" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                             <font>
                                 <Font name="Arial" size="15.0" />
                             </font>
@@ -288,7 +288,7 @@
                 <AnchorPane maxWidth="200.0" minWidth="200.0">
                     <children>
                         <Button fx:id="btn_save_update" disable="true" layoutX="10.0" layoutY="33.0" mnemonicParsing="false" onAction="#onSaveLeaveClicked" text="Save" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                        <Button fx:id="btn_cancel" disable="true" layoutX="20.0" layoutY="43.0" mnemonicParsing="false" onAction="#resetDetailsTextField" text="Cancel" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                        <Button fx:id="btn_cancel" disable="true" layoutX="20.0" layoutY="43.0" mnemonicParsing="false" onAction="#onClickedCancel" text="Cancel" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
                   <ScrollPane layoutX="33.0" layoutY="75.0" prefHeight="516.6666666666666" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="65.0">
                      <content>
                         <AnchorPane minWidth="175.0">

@@ -123,13 +123,13 @@ public class EmployeeLeave {
 
             if (leave_start.equals(leave_end)) return false;
 
-            else if (getLeaveType().equals("emergency") &&
+            else if (getLeaveType().equals("Emergency") &&
                     (totalDaysLeave() + consumedEmergencyCredits) <= MAX_EMERGENCY_LEAVES) return true;
 
-            else if (getLeaveType().equals("sick") &&
+            else if (getLeaveType().equals("Sick") &&
                     (totalDaysLeave() + consumedSickCredits) <= MAX_SICK_LEAVES) return true;
 
-            else return getLeaveType().equals("vacation") &&
+            else return getLeaveType().equals("Vacation") &&
                         (totalDaysLeave() + consumedVacationCredits) <= MAX_VACATION_LEAVES;
         }
         return false;
@@ -163,11 +163,11 @@ public class EmployeeLeave {
     public String getLeaveType() {
         switch (leave_type.toLowerCase()) {
             case "emergency" :
-                return "emergency";
+                return "Emergency";
             case "sick" :
-                return "sick";
-            case "vacation" :
-                return "vacation";
+                return "Sick";
+            case "acation" :
+                return "Vacation";
         }
         return "leave type doesn't exist";
     }

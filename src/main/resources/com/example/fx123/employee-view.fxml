@@ -124,7 +124,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                               </Button>
-                              <Button fx:id="btn_attendance" mnemonicParsing="false" onAction="#onClickAttendance" text="Attendance">
+                              <Button fx:id="btn_attendance" mnemonicParsing="false" onAction="#onAttendanceClicked" text="Attendance">
                                   <font>
                                       <Font size="15.0" />
                                   </font>
@@ -132,7 +132,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                               </Button>
-                              <Button fx:id="btn_leaves" mnemonicParsing="false" onAction="#onClickedLeaves" text="Leaves">
+                              <Button fx:id="btn_leaves" mnemonicParsing="false" onAction="#onLeavesClicked" text="Leaves">
                                   <font>
                                       <Font size="15.0" />
                                   </font>
@@ -140,7 +140,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                               </Button>
-                        <Button fx:id="btn_payslips" mnemonicParsing="false" onAction="#onClickedPaySlips" text="Payslips">
+                        <Button fx:id="btn_payslips" mnemonicParsing="false" onAction="#onPaySlipClicked" text="Payslip">
                            <font>
                               <Font size="15.0" />
                            </font>

@@ -1,11 +1,13 @@
 package com.example.fx123;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,26 +23,26 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class LeavesController implements Runnable {
+public class LeavesController implements Runnable
+{
     private int tableViewSelectedLineNumber;
 
-    public int getTableViewSelectedLineNumber() {
+    public int
+    getTableViewSelectedLineNumber ()
+    {
         return tableViewSelectedLineNumber;
     }
 
-    public void setTableViewSelectedLineNumber(int tableViewSelectedLineNumber) {
+    public void
+    setTableViewSelectedLineNumber (int tableViewSelectedLineNumber)
+    {
         this.tableViewSelectedLineNumber = tableViewSelectedLineNumber;
     }
 
-    @FXML private Button btn_addNewEmployee;
-
-    @FXML private Button btn_attendance;
 
     @FXML private Button btn_cancel;
 
     @FXML private Button btn_delete;
-
-    @FXML private Button btn_employee;
 
     @FXML private Button btn_leaves;
 
@@ -72,8 +74,6 @@ public class LeavesController implements Runnable {
 
     @FXML private TextField tf_lName;
 
-    @FXML private TextField tf_search;
-
     @FXML private Label lbl_num_emergency_result;
 
     @FXML private Label lbl_num_sick_result;
@@ -81,364 +81,574 @@ public class LeavesController implements Runnable {
     @FXML private Label lbl_num_vacation_result;
 
     @FXML
-    void filterTableData(ActionEvent event) {}
+    void
+    filterTableData (ActionEvent event)
+    {
+    }
 
     @FXML
-    void onClckedEmployee(ActionEvent event) {
-        try {
-            SceneController.employeeScene(event);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    void
+    onClckedEmployee (ActionEvent event)
+    {
+        try
+        {
+            SceneController.employeeScene (event);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException (e);
         }
     }
 
     @FXML
-    void onClickAttendance(ActionEvent event) {
-        try {
-            SceneController.attendanceScene(event);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    void
+    onClickAttendance (ActionEvent event)
+    {
+        try
+        {
+            SceneController.attendanceScene (event);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException (e);
         }
     }
 
     @FXML
-    void onClickedLeaves(ActionEvent event) {
-        run();
-        btn_leaves.requestFocus();
+    void
+    onClickedLeaves (ActionEvent event)
+    {
+        run ();
+        btn_leaves.requestFocus ();
     }
 
     @FXML
-    void onDeleteLeaveClicked(ActionEvent event) {
-        TsvUtils.deleteEmployeeRecordByLineNumber(
-                MainApp.LEAVE_TSV, getTableViewSelectedLineNumber() + 2);
-        EmployeeLeave.RECORDS.clear();
-        run();
-        btn_cancel.setDisable(true);
-        btn_delete.setDisable(true);
-        btn_save_update.setDisable(true);
+    void
+    onClickedDeleteLeave (ActionEvent event)
+    {
+        TsvUtils.deleteEmployeeRecordByLineNumber (
+                MainApp.LEAVE_TSV, getTableViewSelectedLineNumber () + 2);
+        EmployeeLeave.RECORDS.clear ();
+        run ();
+        btn_cancel.setDisable (true);
+        btn_delete.setDisable (true);
+        btn_save_update.setDisable (true);
     }
 
     @FXML
-    void onLogoutClicked(ActionEvent event) {
-        try {
-            SceneController.loginScene(event);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    void
+    onClickedLogout (ActionEvent event)
+    {
+        try
+        {
+            SceneController.loginScene (event);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException (e);
         }
     }
 
-    public void createEmployeeLeave(EmployeeLeave leaves, ActionEvent event) {
-        leaves.createEmployeeLeave();
-        EmployeeLeave.RECORDS.clear();
-        resetDetailsTextField(event);
-        run();
+    public void
+    createEmployeeLeave (EmployeeLeave leaves, ActionEvent event)
+    {
+        leaves.createEmployeeLeave ();
+        EmployeeLeave.RECORDS.clear ();
+        onClickedCancel (event);
     }
 
     @FXML
-    void onSaveLeaveClicked(ActionEvent event) {
-        LocalDate startLeave = dp_start_date.getValue();
-        LocalDate endLeave = dp_end_date.getValue();
+    void
+    onSaveLeaveClicked (ActionEvent event)
+    {
+        LocalDate dp_startLeave = dp_start_date.getValue ();
+        LocalDate dp_endLeave = dp_end_date.getValue ();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yyyy");
 
-        Date startLeaveDate = null;
-        Date endLeaveDate = null;
+        Date startLeaveDate;
+        Date endLeaveDate;
 
-        try {
-            startLeaveDate = sdf.parse(
-                    startLeave.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-            endLeaveDate =
-                    sdf.parse(endLeave.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        EmployeeLeave leave =
-                new EmployeeLeave(Integer.parseInt(tf_employee_number.getText()),
-                        tf_lName.getText(), tf_fName.getText(),
-                        comboBox_selected_request.getValue(), startLeaveDate, endLeaveDate);
-        if (btn_save_update.getText().equalsIgnoreCase("save")) {
-            String[] credits = leave.getConsumedCredits().split("\t");
-            int emergency_spent = Integer.parseInt(credits[0]);
-            int sick_spent = Integer.parseInt(credits[1]);
-            int vacation_spent = Integer.parseInt(credits[2]);
+        try
+        {
+            startLeaveDate = sdf.parse (
+                    dp_startLeave.format (DateTimeFormatter.ofPattern ("MM/dd/yyyy")));
+            endLeaveDate = sdf.parse (
+                    dp_endLeave.format (DateTimeFormatter.ofPattern ("MM/dd/yyyy")));
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            EmployeeLeave leave = new EmployeeLeave (
+                    Integer.parseInt (tf_employee_number.getText ()),
+                    tf_lName.getText (), tf_fName.getText (),
+                    comboBox_selected_request.getValue (), startLeaveDate,
+                    endLeaveDate);
+            if (btn_save_update.getText ().equalsIgnoreCase ("save"))
+            {
+                String[] credits = leave.getConsumedCredits ().split ("\t");
+                int emergency_spent = Integer.parseInt (credits[0]);
+                int sick_spent = Integer.parseInt (credits[1]);
+                int vacation_spent = Integer.parseInt (credits[2]);
 
-            switch (leave.getLeaveType().toLowerCase()) {
-                case "emergency":
-                    if ((emergency_spent + leave.totalDaysLeave())
-                            <= leave.MAX_EMERGENCY_LEAVES) {
-                        createEmployeeLeave(leave, event);
-                    } else {
-                        alert.setTitle("Emergency Leave Limit Exceeded");
-                        alert.showAndWait();
+                Alert alert = new Alert (Alert.AlertType.ERROR);
+
+                if (!isLeaveOccupied (tf_employee_number.getText (),
+                        sdf.format (startLeaveDate),
+                        sdf.format (endLeaveDate)))
+                {
+
+                    switch (leave.getLeaveType ())
+                    {
+                        case "Emergency":
+                            if ((emergency_spent + leave.totalDaysLeave ())
+                                    <= leave.MAX_EMERGENCY_LEAVES)
+                            {
+                                createEmployeeLeave (leave, event);
+                                refreshLeaveTbl();
+                            }
+                            else
+                            {
+                                alert.setTitle ("Emergency Leave Limit Exceeded");
+                                alert.showAndWait ();
+                            }
+                            break;
+                        case "Sick":
+                            if ((sick_spent + leave.totalDaysLeave ())
+                                    <= leave.MAX_SICK_LEAVES)
+                            {
+                                createEmployeeLeave (leave, event);
+                                refreshLeaveTbl();
+                            }
+                            else
+                            {
+                                alert.setTitle ("Sick Leave Limit Exceeded");
+                                alert.showAndWait ();
+                            }
+                            break;
+                        case "Vacation":
+                            if ((vacation_spent + leave.totalDaysLeave ())
+                                    <= leave.MAX_VACATION_LEAVES)
+                            {
+                                createEmployeeLeave (leave, event);
+                                refreshLeaveTbl();
+                            }
+                            else
+                            {
+                                alert.setTitle ("Vacation Leave Limit Exceeded");
+                                alert.showAndWait ();
+                            }
+                            break;
                     }
-                    break;
-                case "sick":
-                    if ((sick_spent + leave.totalDaysLeave()) <= leave.MAX_SICK_LEAVES) {
-                        createEmployeeLeave(leave, event);
-                    } else {
-                        alert.setTitle("1. Sick Leave Limit Exceeded");
-                        alert.showAndWait();
-                        System.out.println("Why");
-                    }
-                    break;
-                case "vacation":
-                    if ((vacation_spent + leave.totalDaysLeave())
-                            <= leave.MAX_VACATION_LEAVES) {
-                        createEmployeeLeave(leave, event);
-                    } else {
-                        alert.setTitle("Vacation Leave Limit Exceeded");
-                        alert.showAndWait();
-                    }
-                    break;
-            }
-        }
-
-        if (btn_save_update.getText().equalsIgnoreCase("update")) {
-            String[] arr_credits_spent = leave.getConsumedCredits().split("\t");
-            int emergency_spent = Integer.parseInt(arr_credits_spent[0]);
-            int sick_spent = Integer.parseInt(arr_credits_spent[1]);
-            int vacation_spent = Integer.parseInt(arr_credits_spent[2]);
-            int total_days_new_leave = leave.totalDaysLeave();
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            String[] updatedData = {String.valueOf(leave.getEid()),
-                    leave.getLast_name(), leave.getFirst_name(), leave.getLeaveType(),
-                    sdf.format(leave.getLeave_start()), sdf.format(leave.getLeave_end())};
-
-            int sum_day_leave, diff_day_leave;
-
-            switch (leave.getLeaveType().toLowerCase()) {
-                case "emergency":
-                    System.out.println("❌");
-                    sum_day_leave = total_days_new_leave + emergency_spent;
-                    diff_day_leave = Math.abs(total_days_new_leave - emergency_spent);
-
-                    // for higher leave
-                    if (leave.MAX_EMERGENCY_LEAVES >= sum_day_leave) {
-                        TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,
-                                getTableViewSelectedLineNumber() + 2, updatedData);
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Emergency Updating for higher days");
-                        alert.showAndWait();
-                    } else if (diff_day_leave <= leave.MAX_EMERGENCY_LEAVES
-                            && total_days_new_leave <= leave.MAX_EMERGENCY_LEAVES) {
-                        TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,
-                                getTableViewSelectedLineNumber() + 2, updatedData);
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Emergency Updating for lower days");
-                        alert.showAndWait();
-                    }
-
-                    else {
-                        alert.setTitle("Emergency Leave Limit Exceeded");
-                        alert.setContentText("Emergency Spent = " + emergency_spent + "\n"
-                                + "Total Days New  = " + total_days_new_leave + "\n"
-                                + "Emergency MAX = 5");
-                        alert.showAndWait();
-                    }
-                    break;
-
-                case "sick":
-                    sum_day_leave = total_days_new_leave + sick_spent;
-                    diff_day_leave = Math.abs(total_days_new_leave - sick_spent);
-                    // for higher leave
-                    if (leave.MAX_SICK_LEAVES >= sum_day_leave) {
-                        TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,
-                                getTableViewSelectedLineNumber() + 2, updatedData);
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Sick Updating for higher days");
-                        alert.showAndWait();
-                    } else if (diff_day_leave <= leave.MAX_SICK_LEAVES
-                            && total_days_new_leave <= leave.MAX_SICK_LEAVES) {
-                        TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,
-                                getTableViewSelectedLineNumber() + 2, updatedData);
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Sick Updating for lower days");
-                        alert.showAndWait();
-                    }
-
-                    else {
-                        alert.setTitle("Sick Leave Limit Exceeded");
-                        alert.setContentText("Sick Spent = " + emergency_spent + "\n"
-                                + "Total Days New  = " + total_days_new_leave + "\n"
-                                + "Sick MAX = 5");
-                        alert.showAndWait();
-                    }
-                    break;
-
-                case "vacation":
-                    sum_day_leave = total_days_new_leave + vacation_spent;
-                    diff_day_leave = Math.abs(total_days_new_leave - vacation_spent);
-                    // for higher leave
-                    if (leave.MAX_VACATION_LEAVES >= sum_day_leave) {
-                        TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,
-                                getTableViewSelectedLineNumber() + 2, updatedData);
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Vacation Updating for higher days");
-                        alert.showAndWait();
-                    } else if (diff_day_leave <= leave.MAX_VACATION_LEAVES
-                            && total_days_new_leave <= leave.MAX_VACATION_LEAVES) {
-                        TsvUtils.updateByLineNumber(MainApp.LEAVE_TSV,
-                                getTableViewSelectedLineNumber() + 2, updatedData);
-                        alert.setAlertType(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Vacation Updating for lower days");
-                        alert.showAndWait();
-                    }
-
-                    else {
-                        alert.setTitle("Vacation Leave Limit Exceeded");
-                        alert.setContentText("Vacation Spent = " + emergency_spent + "\n"
-                                + "Total Days New  = " + total_days_new_leave + "\n"
-                                + "Vacation MAX = 5");
-                        alert.showAndWait();
-                    }
-                    break;
+                }
+                else
+                {
+                    Alert alert_save = new Alert (Alert.AlertType.ERROR);
+                    alert_save.setTitle ("Leave Occupied");
+                    alert_save.setContentText (
+                            "Leave is already occupied, please try other dates");
+                    alert_save.showAndWait ();
+                }
             }
 
-            System.out.println("String [] updatedData");
-            System.out.println(leave.getEid());
-            System.out.println(leave.getLast_name());
-            System.out.println(leave.getFirst_name());
-            System.out.println(comboBox_selected_request.getValue());
-            System.out.println("PRINTING DATA IN ARRAY✅");
-            Arrays.stream(updatedData).forEach(System.out::println);
-            btn_save_update.setText("Save");
-            EmployeeLeave.RECORDS.clear();
-            resetDetailsTextField(event);
-            run();
+
+            if (btn_save_update.getText ().equalsIgnoreCase ("update"))
+            {
+                System.out.println (
+                        "IS SET LEAVE OCCUPIED = "
+                                + isLeaveOccupied (tf_employee_number.getText (),
+                                sdf.format (startLeaveDate),
+                                sdf.format (endLeaveDate)));
+                if (!isLeaveOccupied (tf_employee_number.getText (),
+                        sdf.format (startLeaveDate),
+                        sdf.format (endLeaveDate)))
+                {
+                    String[] arr_credits_spent = leave.getConsumedCredits ().split ("\t");
+                    int emergency_spent = Integer.parseInt (arr_credits_spent[0]),
+                        sick_spent = Integer.parseInt (arr_credits_spent[1]),
+                        vacation_spent = Integer.parseInt (arr_credits_spent[2]),
+                        total_days_new_leave = leave.totalDaysLeave ();
+
+                    Alert alert = new Alert (Alert.AlertType.ERROR);
+                    String[] updatedData = { String.valueOf (leave.getEid ()),
+                            leave.getLast_name (),
+                            leave.getFirst_name (),
+                            leave.getLeaveType (),
+                            sdf.format (leave.getLeave_start ()),
+                            sdf.format (leave.getLeave_end ()) };
+
+                    int sum_day_leave, diff_day_leave;
+
+                    switch (leave.getLeaveType ().toLowerCase ())
+                    {
+                        case "emergency":
+                            sum_day_leave = total_days_new_leave + emergency_spent;
+                            diff_day_leave
+                                    = Math.abs (total_days_new_leave - emergency_spent);
+
+                            // for higher leave
+                            if (leave.MAX_EMERGENCY_LEAVES >= sum_day_leave)
+                            {
+                            System.out.println ("❌❌❌");
+                                TsvUtils.updateByLineNumber (
+                                        MainApp.LEAVE_TSV,
+                                        getTableViewSelectedLineNumber () + 2, updatedData);
+                                alert.setAlertType (Alert.AlertType.INFORMATION);
+                                alert.setTitle ("Emergency Updating for higher days");
+                                alert.showAndWait ();
+                                refreshLeaveTbl();
+                            }
+
+                            /**
+                             * Emergency Spent      = 5
+                             * Total Days new leave = 10
+                             *
+                             */
+                            else if (diff_day_leave <= leave.MAX_EMERGENCY_LEAVES
+                                    && total_days_new_leave
+                                    <= leave.MAX_EMERGENCY_LEAVES
+                                    &&
+                                    ((total_days_new_leave) <= (leave.MAX_EMERGENCY_LEAVES - emergency_spent)))
+                            {
+                            System.out.println ("❌❌");
+                            System.out.println(diff_day_leave);
+                            System.out.println(total_days_new_leave);
+                                TsvUtils.updateByLineNumber (
+                                        MainApp.LEAVE_TSV,
+                                        getTableViewSelectedLineNumber () + 2, updatedData);
+                                alert.setAlertType (Alert.AlertType.INFORMATION);
+                                alert.setTitle ("Emergency Updating for lower days");
+                                alert.showAndWait ();
+                                refreshLeaveTbl();
+                            }
+                            else
+                            {
+                                System.out.println ("❌");
+                                alert.setTitle ("Emergency Leave Limit Exceeded");
+                                alert.setContentText (
+                                        "Emergency Spent = " + emergency_spent + "\n"
+                                                + "Total Days New  = " + total_days_new_leave + "\n"
+                                                + "Emergency MAX = 5");
+                                alert.showAndWait ();
+                            }
+                            break;
+
+                        case "sick":
+                            sum_day_leave = total_days_new_leave + sick_spent;
+                            diff_day_leave
+                                    = Math.abs (total_days_new_leave - sick_spent);
+                            // for higher leave
+                            if (leave.MAX_SICK_LEAVES >= sum_day_leave)
+                            {
+                                TsvUtils.updateByLineNumber (
+                                        MainApp.LEAVE_TSV,
+                                        getTableViewSelectedLineNumber () + 2, updatedData);
+                                alert.setAlertType (Alert.AlertType.INFORMATION);
+                                alert.setTitle ("Sick Updating for higher days");
+                                alert.showAndWait ();
+                                refreshLeaveTbl();
+                            }
+                            else if (diff_day_leave <= leave.MAX_SICK_LEAVES
+                                    && total_days_new_leave <= leave.MAX_SICK_LEAVES
+                                    &&
+                                    ((total_days_new_leave) <= (leave.MAX_SICK_LEAVES - sick_spent)))
+                            {
+                                TsvUtils.updateByLineNumber (
+                                        MainApp.LEAVE_TSV,
+                                        getTableViewSelectedLineNumber () + 2, updatedData);
+                                alert.setAlertType (Alert.AlertType.INFORMATION);
+                                alert.setTitle ("Sick Updating for lower days");
+                                alert.showAndWait ();
+                                refreshLeaveTbl();
+                            }
+                            else
+                            {
+                                alert.setTitle ("Sick Leave Limit Exceeded");
+                                alert.setContentText (
+                                        "Sick Spent = " + emergency_spent + "\n"
+                                                + "Total Days New  = " + total_days_new_leave + "\n"
+                                                + "Sick MAX = 5");
+                                alert.showAndWait ();
+                            }
+                            break;
+
+                        case "vacation":
+                            sum_day_leave = total_days_new_leave + vacation_spent;
+                            diff_day_leave
+                                    = Math.abs (total_days_new_leave - vacation_spent);
+                            // for higher leave
+                            if (leave.MAX_VACATION_LEAVES >= sum_day_leave)
+                            {
+                                TsvUtils.updateByLineNumber (
+                                        MainApp.LEAVE_TSV,
+                                        getTableViewSelectedLineNumber () + 2, updatedData);
+                                alert.setAlertType (Alert.AlertType.INFORMATION);
+                                alert.setTitle ("Vacation Updating for higher days");
+                                alert.showAndWait ();
+                                refreshLeaveTbl();
+                            }
+                            else if (diff_day_leave <= leave.MAX_VACATION_LEAVES
+                                    && total_days_new_leave <= leave.MAX_VACATION_LEAVES
+                                    && ((total_days_new_leave) <= (leave.MAX_VACATION_LEAVES - vacation_spent)))
+                            {
+                                TsvUtils.updateByLineNumber (
+                                        MainApp.LEAVE_TSV,
+                                        getTableViewSelectedLineNumber () + 2, updatedData);
+                                alert.setAlertType (Alert.AlertType.INFORMATION);
+                                alert.setTitle ("Vacation Updating for lower days");
+                                alert.showAndWait ();
+                                refreshLeaveTbl();
+                            }
+                            else
+                            {
+                                alert.setTitle ("Vacation Leave Limit Exceeded");
+                                alert.setContentText (
+                                        "Vacation Spent = " + emergency_spent + "\n"
+                                                + "Total Days New  = " + total_days_new_leave + "\n"
+                                                + "Vacation MAX = 5");
+                                alert.showAndWait ();
+                            }
+                            break;
+                    }
+                }
+                else
+                {
+                    Alert alert_update = new Alert (Alert.AlertType.ERROR);
+                    alert_update.setTitle ("Leave Occupied");
+                    alert_update.setContentText (
+                            "Leave is already occupied, please try other dates");
+                    alert_update.showAndWait ();
+                }
+            }
+        }
+        catch (ParseException ex)
+        {
+            throw new RuntimeException (ex);
         }
     }
-
+    void refreshLeaveTbl() {
+        btn_save_update.setText ("Save");
+        EmployeeLeave.RECORDS.clear ();
+        run ();
+    }
     @FXML
-    void resetDetailsTextField(ActionEvent event) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-        LocalDate localDate = LocalDate.parse("January 1, 2022", formatter);
-        tf_employee_number.setText("");
-        tf_fName.setText("");
-        tf_lName.setText("");
-        comboBox_selected_request.setValue("Select request -");
-        dp_start_date.setValue(localDate);
-        dp_end_date.setValue(localDate);
-        btn_save_update.setText("Save");
-
-        btn_leaves.requestFocus();
-        onClickedLeaves(event);
-
-        lbl_num_emergency_result.setText("0");
-        lbl_num_sick_result.setText("0");
-        lbl_num_vacation_result.setText("0");
+    void
+    onClickedCancel (ActionEvent event)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("MMMM d, yyyy");
+        LocalDate localDate = LocalDate.parse ("January 1, 2022", formatter);
+        tf_employee_number.setText ("");
+        tf_fName.setText ("");
+        tf_lName.setText ("");
+        comboBox_selected_request.setValue ("Select request -");
+        dp_start_date.setValue (localDate);
+        dp_end_date.setValue (localDate);
+        btn_save_update.setText ("Save");
+        lbl_num_emergency_result.setText ("0");
+        lbl_num_sick_result.setText ("0");
+        lbl_num_vacation_result.setText ("0");
+        btn_leaves.requestFocus ();
+        //        onClickedLeaves(event);
     }
 
     @FXML
-    void setNewLeave(ActionEvent event) {
-        resetDetailsTextField(event);
-        tf_employee_number.requestFocus();
-        btn_save_update.setText("Save");
-        btn_cancel.setDisable(false);
-        btn_save_update.setDisable(false);
+    void
+    onClickedSetNewLeave (ActionEvent event)
+    {
+//        onClickedCancel (event);
+        tf_employee_number.requestFocus ();
+        btn_save_update.setText ("Save");
+        btn_cancel.setDisable (false);
+        btn_save_update.setDisable (false);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("MMMM d, yyyy");
+        LocalDate localDateStart = LocalDate.parse ("January 1, 2022", formatter);
+        LocalDate localDateEnd = LocalDate.parse ("January 2, 2022", formatter);
+        tf_employee_number.setText ("");
+        tf_fName.setText ("");
+        tf_lName.setText ("");
+        comboBox_selected_request.setValue ("Select request -");
+        dp_start_date.setValue (localDateStart);
+        dp_end_date.setValue (localDateEnd);
+        btn_save_update.setText ("Save");
+        tf_employee_number.requestFocus ();
     }
 
-    public void tableViewSelectedItemListener() {
-        leavesTableView.getSelectionModel().selectedItemProperty().addListener(
+    public void
+    tableViewSelectedItemListener ()
+    {
+        leavesTableView.getSelectionModel ().selectedItemProperty ().addListener (
                 (obs, oldSelection, leave) -> {
-                    if (leave != null) {
-                        System.out.println(
-                                "Selected Line Number = " + tableViewSelectedLineNumber);
-                        setTableViewSelectedLineNumber(
-                                leavesTableView.getSelectionModel().getSelectedIndex());
+                    if (leave != null)
+                    {
+                        System.out.println ("Selected Line Number = "
+                                + tableViewSelectedLineNumber);
+                        setTableViewSelectedLineNumber (
+                                leavesTableView.getSelectionModel ().getSelectedIndex ());
 
-                        System.out.println(leave.toString());
+                        System.out.println (leave.toString ());
 
                         /**
                          * Update the textfields if there is an selected item on tableview
                          * textfields
                          */
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                        SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yyyy");
+                        DateTimeFormatter dtf
+                                = DateTimeFormatter.ofPattern ("MM/dd/yyyy");
 
                         // Convert Date into LocalDate to store to datepicker
 
-                        String str_start_leave = sdf.format(leave.getLeave_start());
-                        String str_end_leave = sdf.format(leave.getLeave_end());
+                        String str_start_leave = sdf.format (leave.getLeave_start ());
+                        String str_end_leave = sdf.format (leave.getLeave_end ());
 
-                        LocalDate local_date_start_leave =
-                                LocalDate.parse(str_start_leave, dtf);
-                        LocalDate local_date_end_leave =
-                                LocalDate.parse(str_end_leave, dtf);
+                        LocalDate local_date_start_leave
+                                = LocalDate.parse (str_start_leave, dtf);
+                        LocalDate local_date_end_leave
+                                = LocalDate.parse (str_end_leave, dtf);
 
-                        tf_employee_number.setText(String.valueOf(leave.getEid()));
-                        tf_lName.setText(leave.getLast_name());
-                        tf_fName.setText(leave.getFirst_name());
-                        comboBox_selected_request.setValue(leave.getLeave_type());
-                        dp_start_date.setValue(local_date_start_leave);
-                        dp_end_date.setValue(local_date_end_leave);
+                        tf_employee_number.setText (String.valueOf (leave.getEid ()));
+                        tf_lName.setText (leave.getLast_name ());
+                        tf_fName.setText (leave.getFirst_name ());
+                        comboBox_selected_request.setValue (leave.getLeave_type ());
+                        dp_start_date.setValue (local_date_start_leave);
+                        dp_end_date.setValue (local_date_end_leave);
                         /**
                          * Set save and cancel button to enabled because we have now
                          * selected item, we can update it via save button and cancel to
                          * terminate the update.
                          */
-                        btn_save_update.setText("Update");
-                        btn_delete.setDisable(false);
-                        btn_cancel.setDisable(false);
-                        btn_save_update.setDisable(false);
-                        System.out.println("Already set to false");
-                        System.out.println("btn_delete.setDisable(false);\n"
-                                + "                btn_cancel.setDisable(false);\n"
-                                + "                btn_saveOrUpdate.setDisable(false);");
+                        btn_save_update.setText ("Update");
+                        btn_delete.setDisable (false);
+                        btn_cancel.setDisable (false);
+                        btn_save_update.setDisable (false);
+                        System.out.println ("Already set to false");
+                        System.out.println (
+                                "btn_delete.setDisable(false);\n"
+                                        + "                btn_cancel.setDisable(false);\n"
+                                        + "                btn_saveOrUpdate.setDisable(false);");
 
-                        String[] creditsleave = leave.getConsumedCredits().split("\t");
-                        lbl_num_emergency_result.setText(creditsleave[0]);
-                        lbl_num_sick_result.setText(creditsleave[1]);
-                        lbl_num_vacation_result.setText(creditsleave[2]);
+                        String[] creditsleave = leave.getConsumedCredits ().split ("\t");
+                        lbl_num_emergency_result.setText (creditsleave[0]);
+                        lbl_num_sick_result.setText (creditsleave[1]);
+                        lbl_num_vacation_result.setText (creditsleave[2]);
                     }
                 });
     }
 
     @Override
-    public void run() {
-        if (EmployeeLeave.RECORDS.isEmpty())
-            EmployeeLeave.addAllLeaves();
-        setCellValueFactoryTableColumns();
-        tableViewSelectedItemListener();
-        ObservableList<EmployeeLeave> list =
-                FXCollections.observableArrayList(EmployeeLeave.RECORDS);
-        leavesTableView.setItems(list);
-        addComboBoxItems();
+    public void
+    run ()
+    {
+        if (EmployeeLeave.RECORDS.isEmpty ())
+            EmployeeLeave.addAllLeaves ();
+        setCellValueFactoryTableColumns ();
+        tableViewSelectedItemListener ();
+        ObservableList<EmployeeLeave> list
+                = FXCollections.observableArrayList (EmployeeLeave.RECORDS);
+        leavesTableView.setItems (list);
+        addComboBoxItems ();
 
-        btn_delete.setDisable(true);
-        btn_cancel.setDisable(true);
-        btn_save_update.setDisable(true);
+        btn_delete.setDisable (true);
+        btn_cancel.setDisable (true);
+        btn_save_update.setDisable (true);
     }
 
-    public void initialize() {
-        run();
+    public void
+    initialize ()
+    {
+        run ();
     }
 
-    private void setCellValueFactoryTableColumns() {
-        eid.setCellValueFactory(
-                new PropertyValueFactory<EmployeeLeave, Integer>("eid"));
-        last_name.setCellValueFactory(
-                new PropertyValueFactory<EmployeeLeave, String>("last_name"));
-        first_name.setCellValueFactory(
-                new PropertyValueFactory<EmployeeLeave, String>("first_name"));
-        leave_type.setCellValueFactory(
-                new PropertyValueFactory<EmployeeLeave, String>("leave_type"));
-        leave_start.setCellValueFactory(
-                new PropertyValueFactory<EmployeeLeave, String>("leave_start"));
-        leave_end.setCellValueFactory(
-                new PropertyValueFactory<EmployeeLeave, String>("leave_end"));
+    private void
+    setCellValueFactoryTableColumns ()
+    {
+        eid.setCellValueFactory (
+                new PropertyValueFactory<EmployeeLeave, Integer> ("eid"));
+        last_name.setCellValueFactory (
+                new PropertyValueFactory<EmployeeLeave, String> ("last_name"));
+        first_name.setCellValueFactory (
+                new PropertyValueFactory<EmployeeLeave, String> ("first_name"));
+        leave_type.setCellValueFactory (
+                new PropertyValueFactory<EmployeeLeave, String> ("leave_type"));
+        leave_start.setCellValueFactory (
+                new PropertyValueFactory<EmployeeLeave, String> ("leave_start"));
+        leave_end.setCellValueFactory (
+                new PropertyValueFactory<EmployeeLeave, String> ("leave_end"));
     }
 
-    public void onClickedPayslip(ActionEvent actionEvent) {
+    public void
+    onClickedPayslip (ActionEvent actionEvent)
+    {
         // inprogress
     }
 
-    public void addComboBoxItems() {
-        ObservableList<String> items =
-                FXCollections.observableArrayList("Emergency", "Sick", "Vacation");
-        comboBox_selected_request.setItems(items);
+    public void
+    addComboBoxItems ()
+    {
+        ObservableList<String> items
+                = FXCollections.observableArrayList ("Emergency", "Sick", "Vacation");
+        comboBox_selected_request.setItems (items);
     }
+
+    boolean
+    isLeaveOccupied (String eid, String estart_leave, String eend_leave)
+    {
+        try
+        {
+            BufferedReader br = new BufferedReader (new FileReader (MainApp.LEAVE_TSV));
+            String[] line;
+            while (br.readLine () != null)
+            {
+                try {
+                    line = br.readLine ().split ("\t");
+                    if (eid.equals (line[0]))
+                    {
+                        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+                        // convert the string from tsv to Date
+                        Date date_start = sdf.parse(line[4]);
+                        Date date_end = sdf.parse(line[5]);
+                        // convert the string input of the user to Date
+                        Date input_date_start = sdf.parse(estart_leave);
+                        Date input_date_end = sdf.parse(eend_leave);
+
+                        Calendar tsv_start_calendar = Calendar.getInstance();
+                        Calendar tsv_end_calendar = Calendar.getInstance();
+                        Calendar input_start_calendar = Calendar.getInstance();
+                        Calendar input_end_calendar = Calendar.getInstance();
+
+                        tsv_start_calendar.setTime(date_start);
+                        tsv_end_calendar.setTime(date_end);
+                        input_start_calendar.setTime(input_date_start);
+                        input_end_calendar.setTime(input_date_end);
+
+                        int tsv_start_dayOfYear = tsv_start_calendar.get(Calendar.DAY_OF_YEAR);
+                        int tsv_end_dayOfYear = tsv_end_calendar.get(Calendar.DAY_OF_YEAR);
+                        int input_start_dayOfYear = input_start_calendar.get(Calendar.DAY_OF_YEAR);
+                        int input_end_dayOfYear = input_end_calendar.get(Calendar.DAY_OF_YEAR);
+
+                        System.out.println("🗓️tsv_start_dayOfYear  = " + tsv_start_dayOfYear);
+                        System.out.println("🗓️tsv_end_dayOfYear  = " + tsv_end_dayOfYear);
+                        System.out.println("🗓️input_start_dayOfYear  = " + input_start_dayOfYear);
+                        System.out.println("🗓️input_end_dayOfYear  = " + input_end_dayOfYear);
+                        if (estart_leave.equals (line[4]) && eend_leave.equals (line[5]))
+                        {
+                            return true;
+                        }
+                        if (input_start_dayOfYear <= tsv_start_dayOfYear && input_end_dayOfYear >= tsv_end_dayOfYear)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    // br.readline is null
+                    return false;
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException (e);
+        }
+        return false;
+    }
+
 }
