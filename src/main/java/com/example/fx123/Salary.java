@@ -79,13 +79,13 @@ public class Salary {
                     else {
                         weekSix += ((int) totalHours);
                     }
+                    eidcounter++;
                     System.out.println(eidcounter+"."+"Date Attendance = " + lsAttendance.get(i).getDate() + " Week " + calendar.getWeeksInWeekYear() + "Week of the month " + calendar.get(Calendar.WEEK_OF_MONTH));
                 }
             }
             i++;
         }
-        System.out.println("eid counter = " + eidcounter);
-        System.out.println("Hours Worked Breakdown");
+        System.out.println("Hours Worked Breakdown month "+ numMonth +" for Employee number = " + eid + " and he/she called " + eidcounter + " times.");
         System.out.println("Week 1: " + weekOne);
         System.out.println("Week 2: " + weekTwo);
         System.out.println("Week 3: " + weekThree);
@@ -95,10 +95,10 @@ public class Salary {
         return 0;
     }
 
-//    public static void main(String[] args) throws ParseException {
-//        Attendance.addAllAttendanceRecord();
-//        calculateWeeklyHoursWorked(10001,1,Attendance.records);
-//
-//        System.out.println(Attendance.records.size());
-//    }
+    public static void main(String[] args) throws ParseException {
+        Attendance.addAllAttendanceRecord();
+        calculateWeeklyHoursWorked(10001,1,Attendance.records);
+
+        System.out.println(Attendance.records.size());
+    }
 }
