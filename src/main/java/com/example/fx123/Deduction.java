@@ -23,7 +23,7 @@ public class Deduction {
         float premium_rate = 0.03f, employee_share = 2;
         if (basic_salary <= 10_000) return 300 / employee_share;
         else if (basic_salary > 10_000 && basic_salary < 60_000) return (basic_salary * premium_rate) / employee_share;
-        else return 1_800;
+        else return 1_800/employee_share;
     }
 
     public float deductPagIbig() {

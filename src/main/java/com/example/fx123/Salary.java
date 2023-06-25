@@ -50,7 +50,8 @@ public class Salary {
         this.philhealth = deduction.deductPhilHealth();
         this.pagibig = deduction.deductPagIbig();
         this.withholding_tax = deduction.getWithholdingTax();
-        this.net_salary = getMonthly_gross_salary() - deduction.getWithholdingTax();
+        double increased_precision_net_salary = getMonthly_gross_salary() - deduction.getWithholdingTax();
+        this.net_salary = (float) increased_precision_net_salary;
     }
 
 

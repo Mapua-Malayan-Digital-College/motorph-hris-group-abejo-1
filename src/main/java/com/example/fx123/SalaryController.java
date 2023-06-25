@@ -273,7 +273,10 @@ public class SalaryController implements Runnable {
         lbl_total_gross_salary.setText(String.valueOf(getSalary.getMonthly_gross_salary()));
         lbl_total_gross_salary1.setText(String.valueOf(getSalary.getMonthly_gross_salary()));
         float gross_salary = getSalary.getMonthly_hours_worked() * Float.parseFloat(lbl_hourly_rate.getText());
+        System.out.println("Get basic salary   = " + Integer.parseInt(lbl_basic_salary.getText()));
+        System.out.println("Get gross salary   = " + gross_salary);
         Deduction getDeduction = new Deduction(Integer.parseInt(lbl_basic_salary.getText()), gross_salary);
+        System.out.println("Get ded Philhealth = " + getDeduction.deductPhilHealth());
         /**
          * Set Deduction Breakdown
          */

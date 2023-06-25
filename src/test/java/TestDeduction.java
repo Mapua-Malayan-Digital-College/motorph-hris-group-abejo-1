@@ -1,4 +1,5 @@
 import com.example.fx123.Deduction;
+import com.example.fx123.Salary;
 
 public class TestDeduction {
     public static void main(String[] args) {
@@ -43,5 +44,9 @@ public class TestDeduction {
         System.out.println(deductionAnthony.getCompensation()+"\t=\t"+deductionAnthony.getWithholdingTax());
         System.out.println(deductionAlice.getCompensation()+"\t=\t"+deductionAlice.getWithholdingTax());
         System.out.println(copyOfWitholdingTaxSample.getCompensation()+"\t=\t"+copyOfWitholdingTaxSample.getWithholdingTax());
+
+
+        Deduction deduction = new Deduction(10_071,10_071);
+        System.out.println(deduction.deductPhilHealth());
     }
 }
