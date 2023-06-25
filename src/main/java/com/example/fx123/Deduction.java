@@ -2,33 +2,33 @@ package com.example.fx123;
 
 public class Deduction {
 
-    private float basic_salary;
-    private float compensation;
-    private float taxable_income;
+    private double basic_salary;
+    private double compensation;
+    private double taxable_income;
 
-    public float getBasic_salary() {
+    public double getBasic_salary() {
         return basic_salary;
     }
 
-    public float getCompensation() {
+    public double getCompensation() {
         return compensation;
     }
 
-    public Deduction (float basicSalary, float compensation) {
+    public Deduction (double basicSalary, double compensation) {
         this.basic_salary = basicSalary;
         this.compensation = compensation;
     }
 
-    public float deductPhilHealth() {
-        float premium_rate = 0.03f, employee_share = 2;
+    public double deductPhilHealth() {
+        double premium_rate = 0.03f, employee_share = 2;
         if (basic_salary <= 10_000) return 300 / employee_share;
         else if (basic_salary > 10_000 && basic_salary < 60_000) return (basic_salary * premium_rate) / employee_share;
         else return 1_800/employee_share;
     }
 
-    public float deductPagIbig() {
+    public double deductPagIbig() {
 
-        float contribution = basic_salary >= 1_500
+        double contribution = basic_salary >= 1_500
             ? basic_salary * 0.02f
             : (basic_salary >= 1_000)
                 ? basic_salary * 0.01f
@@ -37,13 +37,13 @@ public class Deduction {
         return (contribution>=100) ? 100 : contribution;
     }
 
-    public float deductSSS() {
+    public double deductSSS() {
 
         if (this.compensation < 3_250) return 135.00f;
 
         if (this.compensation >= 24_750) return 1_125.00f;
 
-        float[] compensationRange = {
+        double[] compensationRange = {
                 3_250, 3_750, 157.50f,
                 3_750, 4_250, 180.00f,
                 4_250, 4_750, 202.50f,
@@ -90,17 +90,17 @@ public class Deduction {
         };
 
         for (int i = 0; i < compensationRange.length; i += 3) {
-            float min_salary_limit = compensationRange[i]; //minimum col
-            float max_salary_limit = compensationRange[i + 1]; //maximum col
-            if (compensation >= min_salary_limit && compensation < max_salary_limit) {
+            double min_salary_limit = compensationRange[i]; //minimum col
+            double max_salary_limit = compensationRange[i + 1]; //maximum col
+if (compensation >= min_salary_limit && compensation < max_salary_limit) {
                 return compensationRange[i + 2];
             }
         }
-        return 0.00f;
+        return 0.00d;
     }
 
 
-    private float TotalDeduction() {
+    public double TotalContribution() {
         System.out.println("Total Deduction Breakdown:");
         System.out.println("Pagibig   = " + deductPagIbig());
         System.out.println("SSS   = " + deductSSS());
@@ -108,15 +108,15 @@ public class Deduction {
         return deductPagIbig() + deductSSS() + deductPhilHealth();
     }
 
-    public float getWithholdingTax() {
+    public double getWithholdingTax() {
 
-        float taxable_income = compensation - TotalDeduction();
+        double taxable_income = compensation - TotalContribution();
 
         if (taxable_income <= 20_832) return 0;
-        else if (taxable_income <  33_333) return (taxable_income - 20_833) * 0.2f;
-        else if (taxable_income <  66_667) return ((taxable_income - 33_333) * 0.25f) + 2_500;
-        else if (taxable_income <  166_667) return ((taxable_income - 66_667) * 0.3f) + 10_833;
-        else if (taxable_income < 666_667) return ((taxable_income - 166_667) * 0.32f) + 40_833.33f;
-        else return ((taxable_income - 666_667) * 0.35f) + 200_833.33f;
+        else if (taxable_income <  33_333) return (taxable_income - 20_833) * 0.2d;
+        else if (taxable_income <  66_667) return ((taxable_income - 33_333) * 0.25d) + 2_500;
+        else if (taxable_income <  166_667) return ((taxable_income - 66_667) * 0.3d) + 10_833;
+        else if (taxable_income < 666_667) return ((taxable_income - 166_667) * 0.32d) + 40_833.33f;
+        else return ((taxable_income - 666_667) * 0.35d) + 200_833.33f;
     }
 }

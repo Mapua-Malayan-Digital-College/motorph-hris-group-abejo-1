@@ -12,27 +12,27 @@ public class Salary {
     private int eid;
     private int num_month;
     private int year;
-    private float net_salary;
-    private float sss, philhealth, pagibig, withholding_tax;
-    private int [] weekly_gross_salary = new int[6];
-    private int [] weekly_hours_worked = new int[6];
+    private double net_salary;
+    private double sss, philhealth, pagibig, withholding_tax;
+    private double [] weekly_gross_salary = new double[6];
+    private double [] weekly_hours_worked = new double[6];
 
-    public float getMonthly_gross_salary() {
+    public double getMonthly_gross_salary() {
         return Arrays.stream(weekly_gross_salary).sum();
     }
-    public float getMonthly_net_salary () {
+    public double getMonthly_net_salary () {
         return net_salary;
     }
 
-    public float getMonthly_hours_worked() {
+    public double getMonthly_hours_worked() {
         return Arrays.stream(weekly_hours_worked).sum();
     }
 
-    public int getWeekly_gross_salary(int week) {
+    public double getWeekly_gross_salary(int week) {
         return weekly_gross_salary[week];
     }
 
-    public int getWeekly_hours_worked(int week) {
+    public double getWeekly_hours_worked(int week) {
         return weekly_hours_worked[week];
     }
 
@@ -50,8 +50,8 @@ public class Salary {
         this.philhealth = deduction.deductPhilHealth();
         this.pagibig = deduction.deductPagIbig();
         this.withholding_tax = deduction.getWithholdingTax();
-        double increased_precision_net_salary = getMonthly_gross_salary() - deduction.getWithholdingTax();
-        this.net_salary = (float) increased_precision_net_salary;
+        double increased_precision_net_salary = getMonthly_gross_salary() - deduction.getWithholdingTax() - deduction.TotalContribution();
+        this.net_salary = increased_precision_net_salary;
     }
 
 
@@ -67,7 +67,7 @@ public class Salary {
          *  [5] week 5 gross salary
          *  [6] week 6 gross salary
          */
-        int hourly_rate = ((int) Employees.records.get(eid - 10_001).getHourly_rate());
+        double hourly_rate = Employees.records.get(eid - 10_001).getHourly_rate();
         weekly_gross_salary[0] = weekly_hours_worked[0] * hourly_rate;
         weekly_gross_salary[1] = weekly_hours_worked[1] * hourly_rate;
         weekly_gross_salary[2] = weekly_hours_worked[2] * hourly_rate;
@@ -105,10 +105,6 @@ public class Salary {
                  * Not all attendance records from csv/tsv have four digits( ex: [2022 = 22]
                  *  To solve the problem we can create another variable where we can make the week year into four digits.
                  */
-
-                int getArrYear = Integer.parseInt(arrDateAttendance[2]) > 2000
-                        ? Integer.parseInt(arrDateAttendance[2])
-                        : Integer.parseInt(arrDateAttendance[2]) + 2000;
 
                 calendar.setTime(sdf.parse(Attendance.records.get(i).getDate()));
                 int final_week_year = calendar.getWeekYear() > 2000 ? calendar.getWeekYear() : calendar.getWeekYear() + 2000;

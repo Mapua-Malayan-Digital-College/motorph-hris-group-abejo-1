@@ -1,7 +1,5 @@
 package com.example.fx123;
 
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,8 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 public class SalaryController implements Runnable {
 
@@ -229,6 +227,10 @@ public class SalaryController implements Runnable {
         int employee_number = Integer.parseInt(txtField_eid.getText());
         int search_year = Integer.parseInt(txtField_select_YY.getText());
 
+        /**
+         * Initialized decimal formatter
+         */
+        DecimalFormat decimalFormat = new DecimalFormat("#.####");
 
         /**
          * Compute Salary
@@ -247,32 +249,32 @@ public class SalaryController implements Runnable {
         /**
          * Set Hours Worked Breakdown
          */
-        lbl_w1_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(0)));
-        lbl_w2_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(1)));
-        lbl_w3_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(2)));
-        lbl_w4_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(3)));
-        lbl_w5_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(4)));
-        lbl_w6_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(5)));
+        lbl_w1_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(0))));
+        lbl_w2_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(1))));
+        lbl_w3_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(2))));
+        lbl_w4_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(3))));
+        lbl_w5_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(4))));
+        lbl_w6_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(5))));
 
 
         /**
          * Set Gross Salary Breakdown
          */
-        lbl_w1_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(0)));
-        lbl_w2_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(1)));
-        lbl_w3_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(2)));
-        lbl_w4_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(3)));
-        lbl_w5_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(4)));
-        lbl_w6_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(5)));
+        lbl_w1_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(0))));
+        lbl_w2_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(1))));
+        lbl_w3_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(2))));
+        lbl_w4_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(3))));
+        lbl_w5_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(4))));
+        lbl_w6_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(5))));
 
 
         /**
          * Set total hours worked and gross salary
          */
-        lbl_total_hours_worked.setText(String.valueOf(getSalary.getMonthly_hours_worked()));
-        lbl_total_gross_salary.setText(String.valueOf(getSalary.getMonthly_gross_salary()));
-        lbl_total_gross_salary1.setText(String.valueOf(getSalary.getMonthly_gross_salary()));
-        float gross_salary = getSalary.getMonthly_hours_worked() * Float.parseFloat(lbl_hourly_rate.getText());
+        lbl_total_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_hours_worked())));
+        lbl_total_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_gross_salary())));
+        lbl_total_gross_salary1.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_gross_salary())));
+        double gross_salary = getSalary.getMonthly_hours_worked() * Float.parseFloat(lbl_hourly_rate.getText());
         System.out.println("Get basic salary   = " + Integer.parseInt(lbl_basic_salary.getText()));
         System.out.println("Get gross salary   = " + gross_salary);
         Deduction getDeduction = new Deduction(Integer.parseInt(lbl_basic_salary.getText()), gross_salary);
@@ -280,15 +282,25 @@ public class SalaryController implements Runnable {
         /**
          * Set Deduction Breakdown
          */
-        lbl_sss.setText(String.valueOf(getDeduction.deductSSS()));
-        lbl_pagibig.setText(String.valueOf(getDeduction.deductPagIbig()));
-        lbl_philhealth.setText(String.valueOf(getDeduction.deductPhilHealth()));
-        lbl_witholding_tax.setText(String.valueOf(getDeduction.getWithholdingTax()));
+        lbl_sss.setText(String.valueOf(decimalFormat.format(getDeduction.deductSSS())));
+        lbl_pagibig.setText(String.valueOf(decimalFormat.format(getDeduction.deductPagIbig())));
+        lbl_philhealth.setText(String.valueOf(decimalFormat.format(getDeduction.deductPhilHealth())));
+        lbl_witholding_tax.setText(String.valueOf(decimalFormat.format(getDeduction.getWithholdingTax())));
         /**
          * Set Net Salary
          */
-        lbl_net_salary.setText(String.valueOf(getSalary.getMonthly_net_salary()));
+        lbl_net_salary.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_net_salary())));
         System.out.println("Finishing ... Attendance Record Size = " + Attendance.records.size());
+        /**
+         * Check net salary precision
+         *
+         */
+        System.out.println("⬇️⬇️⬇️This is the gross salary");
+        System.out.println(getSalary.getMonthly_gross_salary());
+        System.out.println("⬇️⬇️⬇️This is the deduction");
+        System.out.println(getDeduction.getWithholdingTax());
+        System.out.println("⬇️⬇️⬇️This is the net salary");
+        System.out.println(getSalary.getMonthly_net_salary());
     }
 
     public void onGenerateClicked(ActionEvent actionEvent) {
