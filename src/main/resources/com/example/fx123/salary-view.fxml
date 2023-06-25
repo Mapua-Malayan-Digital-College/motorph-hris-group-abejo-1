@@ -48,7 +48,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fx123.EmployeeController">
+<VBox minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.fx123.SalaryController">
     <children>
         <MenuBar minWidth="800.0" VBox.vgrow="NEVER">
             <menus>
@@ -511,7 +511,7 @@
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_total_gross_salary" text="Total Gross Salary">
+                  <Label fx:id="lbl_total_gross_salary1" text="Total Gross Salary">
                      <padding>
                         <Insets right="20.0" />
                      </padding>
