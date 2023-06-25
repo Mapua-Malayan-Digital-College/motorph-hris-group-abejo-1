@@ -3,59 +3,95 @@ package com.example.fx123;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Salary {
-    static int calculateWeeklySalary() throws ParseException {
-        return 0;
+
+    private int eid;
+    private int num_month;
+    private int year;
+    private float net_salary;
+    private int [] weekly_gross_salary = new int[6];
+    private int [] weekly_hours_worked = new int[6];
+
+    public float getMonthly_gross_salary() {
+        return Arrays.stream(weekly_gross_salary).sum();
+    }
+    public float getMonthly_net_salary () {
+        return net_salary;
+    }
+
+    public float getMonthly_hours_worked() {
+        return Arrays.stream(weekly_hours_worked).sum();
+    }
+
+    public int[] getWeekly_gross_salary(int week) {
+        return weekly_gross_salary;
+    }
+
+    public int[] getWeekly_hours_worked(int week) {
+        return weekly_hours_worked;
+    }
+
+    public Salary(int eid, int month, int year) throws ParseException {
+        this.eid = eid;
+        this.num_month = month;
+        this.year = year;
+        calculateWeeklySalary();
+        Deduction deduction = new Deduction(Employees.records.get(eid - 10001).getBasic_salary(),getMonthly_gross_salary());
+        this.net_salary = getMonthly_gross_salary() - deduction.getWithholdingTax();
+    }
+
+
+      void calculateWeeklySalary() throws ParseException {
+        calculateWeeklyHoursWorked();
+
+        if (Employees.records.isEmpty()) Employees.addAllEmployees();
+        if (Attendance.records.isEmpty()) Attendance.addAllAttendanceRecord();
+
+        /** [0] total gross salary
+         *  [1] week 1 gross salary
+         *  [2] week 2 gross salary
+         *  [3] week 3 gross salary
+         *  [4] week 4 gross salary
+         *  [5] week 5 gross salary
+         *  [6] week 6 gross salary
+         */
+        int hourly_rate = ((int) Employees.records.get(eid - 10_001).getHourly_rate());
+        weekly_gross_salary[0] = weekly_hours_worked[0] * hourly_rate;
+        weekly_gross_salary[1] = weekly_hours_worked[1] * hourly_rate;
+        weekly_gross_salary[2] = weekly_hours_worked[2] * hourly_rate;
+        weekly_gross_salary[3] = weekly_hours_worked[3] * hourly_rate;
+        weekly_gross_salary[4] = weekly_hours_worked[4] * hourly_rate;
+        weekly_gross_salary[5] = weekly_hours_worked[5] * hourly_rate;
+
+        System.out.println("Hourly Rate = " + hourly_rate);
+        System.out.println("Gross salary eid = "+ eid  + " for month = " + this.num_month + " " + "Total Hours Worked = " + getMonthly_hours_worked());
     }
 
     /**
      *
-     * @param eid employee number
-     * @param numMonth Month to be calculated worked hours, Use the month number instead of month words, it use to calculate the
-     * @param year Year to be calculated worked hours
-     * @param lsAttendance attendance list
      * @return Array of integer that includes [total hours worked, week 1 hours worked, week 2 hours worked ,
      *                                          week 3 hours worked, week 4 hours worked, week 5 hours worked,
      *                                          week 6 hours worked];
      * @throws ParseException
      */
-    static int [] calculateWeeklyHoursWorked(int eid, int numMonth, int year,List<Attendance> lsAttendance) throws ParseException {
-        // sort lsAttendance
-        Collections.sort(lsAttendance, new Comparator<Attendance>() {
-            @Override
-            public int compare(Attendance o1, Attendance o2) {
-                return o1.getDate().compareTo(o2.getDate());
-            }
-        });
+    void calculateWeeklyHoursWorked() throws ParseException {
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         int i = 0;
         int eidcounter = 0;
         // Hours Worked Breakdown
-        // Increment one of this variable once, if the attendance date matches to week of month
-        int
-            total_hours_worked = 0,
-            weekOne = 0,
-            weekTwo = 0,
-            weekThree = 0,
-            weekFour = 0,
-            weekFive = 0,
-            weekSix = 0;
-        while (i < lsAttendance.size()) {
+        // Increment one of this variable name week once and total hours worked , if the attendance date matches to week of month
 
-            if (eid == (lsAttendance.get(i).getEmployee_number())) {
+        while (i < Attendance.records.size()) {
+
+            if (eid == (Attendance.records.get(i).getEmployee_number())) {
                 // mm,dd,yy
-                String [] arrDateAttendance = lsAttendance.get(i).getDate().split("/");
+                String [] arrDateAttendance = Attendance.records.get(i).getDate().split("/");
 
                 /**
                  * Not all attendance records from csv/tsv have four digits( ex: [2022 = 22]
@@ -66,15 +102,16 @@ public class Salary {
                         ? Integer.parseInt(arrDateAttendance[2])
                         : Integer.parseInt(arrDateAttendance[2]) + 2000;
 
-                calendar.setTime(sdf.parse(lsAttendance.get(i).getDate()));
+                calendar.setTime(sdf.parse(Attendance.records.get(i).getDate()));
                 int final_week_year = calendar.getWeekYear() > 2000 ? calendar.getWeekYear() : calendar.getWeekYear() + 2000;
                 // check if month and year from datasource is the same with params
-                if (Integer.parseInt(arrDateAttendance[0]) == (numMonth)
-                        && getArrYear == final_week_year) {
-                    System.out.println("@final week year = " + final_week_year);
+                if (Integer.parseInt(arrDateAttendance[0]) == (num_month)
+                        && year == final_week_year
+//                        && this.year == getArrYear
+                ) {
 
-                    String startTimeString = lsAttendance.get(i).getTimeIn();
-                    String endTimeString = lsAttendance.get(i).getTimeOut();
+                    String startTimeString = Attendance.records.get(i).getTimeIn();
+                    String endTimeString = Attendance.records.get(i).getTimeOut();
 
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
 
@@ -83,55 +120,57 @@ public class Salary {
 
                     Duration duration = Duration.between(startTime, endTime);
 
-                    long totalHours = duration.toHours();
+                    int totalHours = (int) duration.toHours();
 
 
-                    System.out.println("Total hours worked: " + totalHours);
                     if (calendar.get(Calendar.WEEK_OF_MONTH) == 1) {
-                        weekOne += ((int) totalHours);
-                        total_hours_worked += ((int) totalHours);
+                        this.weekly_hours_worked[0] += totalHours;
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 2) {
-                        weekTwo += ((int) totalHours);
-                        total_hours_worked += ((int) totalHours);
+                        this.weekly_hours_worked[1] += totalHours;
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 3) {
-                        weekThree += ((int) totalHours);
-                        total_hours_worked += ((int) totalHours);
+                        this.weekly_hours_worked[2] += totalHours;
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 4) {
-                        weekFour += ((int) totalHours);
-                        total_hours_worked += ((int) totalHours);
+                        this.weekly_hours_worked[3] += totalHours;
+
                     }
                     else if (calendar.get(Calendar.WEEK_OF_MONTH) == 5) {
-                        weekFive += ((int) totalHours);
-                        total_hours_worked += ((int) totalHours);
+                        this.weekly_hours_worked[4] += totalHours;
                     }
                     else {
-                        weekSix += ((int) totalHours);
-                        total_hours_worked += ((int) totalHours);
+                        this.weekly_hours_worked[5] += totalHours;
                     }
                     eidcounter++;
-                    System.out.println(eidcounter+"."+"Date Attendance = " + lsAttendance.get(i).getDate() + " Week " + calendar.getWeeksInWeekYear() + "Week of the month " + calendar.get(Calendar.WEEK_OF_MONTH));
+                    System.out.println(eidcounter+"."+"Date Attendance = " + Attendance.records.get(i).getDate() + " Week " + calendar.getWeeksInWeekYear() + "Week of the month " + calendar.get(Calendar.WEEK_OF_MONTH));
                 }
             }
             i++;
         }
-        System.out.println("Hours Worked Breakdown month "+ numMonth +" for Employee number = " + eid + " and he/she called " + eidcounter + " times.");
-        System.out.println("Week 1: " + weekOne);
-        System.out.println("Week 2: " + weekTwo);
-        System.out.println("Week 3: " + weekThree);
-        System.out.println("Week 4: " + weekFour);
-        System.out.println("Week 5: " + weekFive);
-        System.out.println("Week 6: " + weekSix);
-        System.out.println("Total Hours Worked = " + total_hours_worked);
-        return new int[] {};
+        // sum total hours worked
+        System.out.println("Hours Worked Breakdown month "+ num_month +" for Employee number = " + eid + " and he/she called " + eidcounter + " times.");
+        System.out.println("Week 1: " + weekly_hours_worked[0]);
+        System.out.println("Week 2: " + weekly_hours_worked[1]);
+        System.out.println("Week 3: " + weekly_hours_worked[2]);
+        System.out.println("Week 4: " + weekly_hours_worked[3]);
+        System.out.println("Week 5: " + weekly_hours_worked[4]);
+        System.out.println("Week 6: " + weekly_hours_worked[5]);
+        System.out.println("Total Hours Worked = " + getMonthly_hours_worked());
     }
 
     public static void main(String[] args) throws ParseException {
         Attendance.addAllAttendanceRecord();
-        calculateWeeklyHoursWorked(10001,1,2022,Attendance.records);
-
-        System.out.println(Attendance.records.size());
+        Salary salary = new Salary(10001,1,2022);
+        System.out.println("Compensation = " + salary.getMonthly_gross_salary());
+        System.out.println("Net sal      = " + salary.net_salary);
+//        System.out.println("Hours worked Breakdown");
+//        Arrays.stream(salary.weekly_hours_worked).forEach(System.out::println);
+//        System.out.println("sum hours worked : " + salary.getMonthly_hours_worked());
+//        System.out.println("Gross salary Breakdown");
+//        System.out.println("sum gross salary : " + salary.getMonthly_gross_salary());
+//        Arrays.stream(salary.weekly_gross_salary).forEach(System.out::println);
+//        System.out.println("\n\n\nMonthly Gross Salary is equal to " + salary.getMonthly_gross_salary());
+//        System.out.println("\n\n\nMonthly Net Salary is equal to " + salary.getMonthly_net_salary());
     }
 }

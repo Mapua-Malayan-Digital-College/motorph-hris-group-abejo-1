@@ -4,6 +4,7 @@ public class Deduction {
 
     private float basic_salary;
     private float compensation;
+    private float taxable_income;
 
     public float getBasic_salary() {
         return basic_salary;
