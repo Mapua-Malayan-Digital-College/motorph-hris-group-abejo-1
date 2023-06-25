@@ -19,15 +19,18 @@ public class Deduction {
     }
 
     public float deductPhilHealth() {
-        return (this.basic_salary * 0.03f) / 2;
+        float premium_rate = 0.03f, employee_share = 2;
+        if (basic_salary <= 10_000) return 300 / employee_share;
+        else if (basic_salary > 10_000 && basic_salary < 60_000) return (basic_salary * premium_rate) / employee_share;
+        else return 1_800;
     }
 
     public float deductPagIbig() {
 
-        float contribution = this.basic_salary >= 1_500
-            ? this.basic_salary * 0.02f
-            : (this.basic_salary >= 1_000)
-                ? this.basic_salary * 0.01f
+        float contribution = basic_salary >= 1_500
+            ? basic_salary * 0.02f
+            : (basic_salary >= 1_000)
+                ? basic_salary * 0.01f
                 : 0.00f;
 
         return (contribution>=100) ? 100 : contribution;
@@ -35,7 +38,7 @@ public class Deduction {
 
     public float deductSSS() {
 
-        if (this.compensation <= 3_250) return 135.00f;
+        if (this.compensation < 3_250) return 135.00f;
 
         if (this.compensation >= 24_750) return 1_125.00f;
 
@@ -88,7 +91,7 @@ public class Deduction {
         for (int i = 0; i < compensationRange.length; i += 3) {
             float min_salary_limit = compensationRange[i]; //minimum col
             float max_salary_limit = compensationRange[i + 1]; //maximum col
-            if (min_salary_limit < this.compensation && max_salary_limit > this.compensation) {
+            if (compensation >= min_salary_limit && compensation < max_salary_limit) {
                 return compensationRange[i + 2];
             }
         }
@@ -96,7 +99,11 @@ public class Deduction {
     }
 
 
-    public float TotalDeduction() {
+    private float TotalDeduction() {
+        System.out.println("Total Deduction Breakdown:");
+        System.out.println("Pagibig   = " + deductPagIbig());
+        System.out.println("SSS   = " + deductSSS());
+        System.out.println("Philhealth= " + deductPhilHealth());
         return deductPagIbig() + deductSSS() + deductPhilHealth();
     }
 
@@ -108,7 +115,7 @@ public class Deduction {
         else if (taxable_income <  33_333) return (taxable_income - 20_833) * 0.2f;
         else if (taxable_income <  66_667) return ((taxable_income - 33_333) * 0.25f) + 2_500;
         else if (taxable_income <  166_667) return ((taxable_income - 66_667) * 0.3f) + 10_833;
-        else if (taxable_income <= 666_667) return ((taxable_income - 166_667) * 0.32f) + 40_833.33f;
+        else if (taxable_income < 666_667) return ((taxable_income - 166_667) * 0.32f) + 40_833.33f;
         else return ((taxable_income - 666_667) * 0.35f) + 200_833.33f;
     }
 }
