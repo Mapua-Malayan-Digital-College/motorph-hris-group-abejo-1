@@ -517,6 +517,10 @@ public class EmployeeController implements Runnable {
     }
 
     public void onPaySlipClicked(ActionEvent actionEvent) {
-        // inprogress
+        try {
+            SceneController.salaryScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

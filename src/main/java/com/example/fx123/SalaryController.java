@@ -1,5 +1,7 @@
 package com.example.fx123;
 
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,8 +12,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 
-public class SalaryController {
+public class SalaryController implements Runnable {
 
     @FXML
     private Button btn_attendance;
@@ -29,10 +33,10 @@ public class SalaryController {
     private Button btn_payslips;
 
     @FXML
-    private ComboBox<?> cb_select_MM;
+    private ComboBox<String> cb_select_MM;
 
     @FXML
-    private ComboBox<?> cb_select_YY;
+    private TextField txtField_select_YY;
 
     @FXML
     private Label lbl_basic_salary;
@@ -153,4 +157,142 @@ public class SalaryController {
         System.out.println("Salary Clicked");
     }
 
+    @Override
+    public void run() {
+        System.out.println("Salary view running...");
+        /**
+         * Add combo box items for months
+         */
+        cb_select_MM.getItems().addAll(
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December");
+    }
+
+    public void initialize() {
+        run();
+    }
+
+    private int monthWordToInt() {
+        int searched_month = 0;
+        switch (cb_select_MM.getValue()) {
+            case "January":
+                searched_month = 1;
+                break;
+            case "February":
+                searched_month = 2;
+                break;
+            case "March":
+                searched_month = 3;
+                break;
+            case "April":
+                searched_month = 4;
+                break;
+            case "May":
+                searched_month = 5;
+                break;
+            case "June":
+                searched_month = 6;
+                break;
+            case "July":
+                searched_month = 7;
+                break;
+            case "August":
+                searched_month = 8;
+                break;
+            case "September":
+                searched_month = 9;
+                break;
+            case "October":
+                searched_month = 10;
+                break;
+            case "November":
+                searched_month = 11;
+                break;
+            case "December":
+                searched_month = 12;
+                break;
+        }
+        return searched_month;
+    }
+    public void search_employee(ActionEvent actionEvent) throws ParseException {
+        System.out.println("Starting ... Attendance Record Size = " + Attendance.records.size());
+        int employee_number = Integer.parseInt(txtField_eid.getText());
+        int search_year = Integer.parseInt(txtField_select_YY.getText());
+
+
+        /**
+         * Compute Salary
+         */
+
+        Salary getSalary = new Salary(employee_number,monthWordToInt(),search_year);
+
+        /**
+         * Set Employee Details
+         */
+        lbl_fullname.setText(Employees.records.get(employee_number - 10001).getF_name() +" " + Employees.records.get(employee_number - 10001).getL_name());
+        lbl_hourly_rate.setText(String.valueOf(Employees.records.get(employee_number - 10001).getHourly_rate()));
+        lbl_basic_salary.setText(String.valueOf(Employees.records.get(employee_number - 10001).getBasic_salary()));
+
+
+        /**
+         * Set Hours Worked Breakdown
+         */
+        lbl_w1_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(0)));
+        lbl_w2_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(1)));
+        lbl_w3_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(2)));
+        lbl_w4_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(3)));
+        lbl_w5_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(4)));
+        lbl_w6_hours_worked.setText(String.valueOf(getSalary.getWeekly_hours_worked(5)));
+
+
+        /**
+         * Set Gross Salary Breakdown
+         */
+        lbl_w1_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(0)));
+        lbl_w2_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(1)));
+        lbl_w3_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(2)));
+        lbl_w4_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(3)));
+        lbl_w5_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(4)));
+        lbl_w6_gross_salary.setText(String.valueOf(getSalary.getWeekly_gross_salary(5)));
+
+
+        /**
+         * Set total hours worked and gross salary
+         */
+        lbl_total_hours_worked.setText(String.valueOf(getSalary.getMonthly_hours_worked()));
+        lbl_total_gross_salary.setText(String.valueOf(getSalary.getMonthly_gross_salary()));
+        lbl_total_gross_salary1.setText(String.valueOf(getSalary.getMonthly_gross_salary()));
+        float gross_salary = getSalary.getMonthly_hours_worked() * Float.parseFloat(lbl_hourly_rate.getText());
+        Deduction getDeduction = new Deduction(Integer.parseInt(lbl_basic_salary.getText()), gross_salary);
+        /**
+         * Set Deduction Breakdown
+         */
+        lbl_sss.setText(String.valueOf(getDeduction.deductSSS()));
+        lbl_pagibig.setText(String.valueOf(getDeduction.deductPagIbig()));
+        lbl_philhealth.setText(String.valueOf(getDeduction.deductPhilHealth()));
+        lbl_witholding_tax.setText(String.valueOf(getDeduction.getWithholdingTax()));
+        /**
+         * Set Net Salary
+         */
+        lbl_net_salary.setText(String.valueOf(getSalary.getMonthly_net_salary()));
+        System.out.println("Finishing ... Attendance Record Size = " + Attendance.records.size());
+    }
+
+    public void onGenerateClicked(ActionEvent actionEvent) {
+        try {
+            search_employee(actionEvent);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -13,6 +13,7 @@ public class Salary {
     private int num_month;
     private int year;
     private float net_salary;
+    private float sss, philhealth, pagibig, withholding_tax;
     private int [] weekly_gross_salary = new int[6];
     private int [] weekly_hours_worked = new int[6];
 
@@ -27,20 +28,28 @@ public class Salary {
         return Arrays.stream(weekly_hours_worked).sum();
     }
 
-    public int[] getWeekly_gross_salary(int week) {
-        return weekly_gross_salary;
+    public int getWeekly_gross_salary(int week) {
+        return weekly_gross_salary[week];
     }
 
-    public int[] getWeekly_hours_worked(int week) {
-        return weekly_hours_worked;
+    public int getWeekly_hours_worked(int week) {
+        return weekly_hours_worked[week];
     }
 
     public Salary(int eid, int month, int year) throws ParseException {
+
+        if (Employees.records.isEmpty()) Employees.addAllEmployees();
+        if (Attendance.records.isEmpty()) Attendance.addAllAttendanceRecord();
+
         this.eid = eid;
         this.num_month = month;
         this.year = year;
         calculateWeeklySalary();
         Deduction deduction = new Deduction(Employees.records.get(eid - 10001).getBasic_salary(),getMonthly_gross_salary());
+        this.sss = deduction.deductSSS();
+        this.philhealth = deduction.deductPhilHealth();
+        this.pagibig = deduction.deductPagIbig();
+        this.withholding_tax = deduction.getWithholdingTax();
         this.net_salary = getMonthly_gross_salary() - deduction.getWithholdingTax();
     }
 
@@ -48,8 +57,6 @@ public class Salary {
       void calculateWeeklySalary() throws ParseException {
         calculateWeeklyHoursWorked();
 
-        if (Employees.records.isEmpty()) Employees.addAllEmployees();
-        if (Attendance.records.isEmpty()) Attendance.addAllAttendanceRecord();
 
         /** [0] total gross salary
          *  [1] week 1 gross salary

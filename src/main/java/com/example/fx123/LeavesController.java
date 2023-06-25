@@ -286,7 +286,6 @@ public class LeavesController implements Runnable
                             // for higher leave
                             if (leave.MAX_EMERGENCY_LEAVES >= sum_day_leave)
                             {
-                            System.out.println ("❌❌❌");
                                 TsvUtils.updateByLineNumber (
                                         MainApp.LEAVE_TSV,
                                         getTableViewSelectedLineNumber () + 2, updatedData);
@@ -296,18 +295,12 @@ public class LeavesController implements Runnable
                                 refreshLeaveTbl();
                             }
 
-                            /**
-                             * Emergency Spent      = 5
-                             * Total Days new leave = 10
-                             *
-                             */
                             else if (diff_day_leave <= leave.MAX_EMERGENCY_LEAVES
                                     && total_days_new_leave
                                     <= leave.MAX_EMERGENCY_LEAVES
                                     &&
                                     ((total_days_new_leave) <= (leave.MAX_EMERGENCY_LEAVES - emergency_spent)))
                             {
-                            System.out.println ("❌❌");
                             System.out.println(diff_day_leave);
                             System.out.println(total_days_new_leave);
                                 TsvUtils.updateByLineNumber (
@@ -320,7 +313,6 @@ public class LeavesController implements Runnable
                             }
                             else
                             {
-                                System.out.println ("❌");
                                 alert.setTitle ("Emergency Leave Limit Exceeded");
                                 alert.setContentText (
                                         "Emergency Spent = " + emergency_spent + "\n"
@@ -452,7 +444,6 @@ public class LeavesController implements Runnable
     void
     onClickedSetNewLeave (ActionEvent event)
     {
-//        onClickedCancel (event);
         tf_employee_number.requestFocus ();
         btn_save_update.setText ("Save");
         btn_cancel.setDisable (false);
@@ -574,11 +565,6 @@ public class LeavesController implements Runnable
                 new PropertyValueFactory<EmployeeLeave, String> ("leave_end"));
     }
 
-    public void
-    onClickedPayslip (ActionEvent actionEvent)
-    {
-        // inprogress
-    }
 
     public void
     addComboBoxItems ()
@@ -651,4 +637,11 @@ public class LeavesController implements Runnable
         return false;
     }
 
+    public void onClickedSalary(ActionEvent actionEvent) {
+        try {
+            SceneController.salaryScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

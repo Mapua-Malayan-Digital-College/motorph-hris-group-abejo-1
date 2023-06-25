@@ -409,7 +409,11 @@ public class AttendanceController implements Runnable {
         }
     }
 
-    public void onClickedPayslip(ActionEvent actionEvent) {
-        // In progress
+    public void onClickedSalary(ActionEvent actionEvent) {
+        try {
+            SceneController.salaryScene(actionEvent);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

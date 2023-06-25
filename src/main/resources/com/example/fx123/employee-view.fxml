@@ -140,7 +140,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                               </Button>
-                        <Button fx:id="btn_payslips" mnemonicParsing="false" onAction="#onPaySlipClicked" text="Payslip">
+                        <Button fx:id="btn_payslips" mnemonicParsing="false" onAction="#onSalaryClicked" text="Salary">
                            <font>
                               <Font size="15.0" />
                            </font>
