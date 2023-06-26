@@ -1,118 +1,66 @@
 package com.example.fx123;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 public class SalaryController implements Runnable {
+    @FXML private ComboBox<String> cb_select_MM;
 
-    @FXML
-    private Button btn_attendance;
+    @FXML private TextField txtField_select_YY;
 
-    @FXML
-    private Button btn_employee;
+    @FXML private Label lbl_basic_salary;
 
-    @FXML
-    private Button btn_generate;
+    @FXML private Label lbl_fullname;
 
-    @FXML
-    private Button btn_leaves;
+    @FXML private Label lbl_hourly_rate;
 
-    @FXML
-    private Button btn_payslips;
+    @FXML private Label lbl_net_salary;
 
-    @FXML
-    private ComboBox<String> cb_select_MM;
+    @FXML private Label lbl_pagibig;
 
-    @FXML
-    private TextField txtField_select_YY;
+    @FXML private Label lbl_philhealth;
 
-    @FXML
-    private Label lbl_basic_salary;
+    @FXML private Label lbl_sss;
 
-    @FXML
-    private Label lbl_fullname;
+    @FXML private Label lbl_total_gross_salary;
 
-    @FXML
-    private Label lbl_hourly_rate;
+    @FXML private Label lbl_total_gross_salary1;
 
-    @FXML
-    private Label lbl_net_salary;
+    @FXML private Label lbl_total_hours_worked;
 
-    @FXML
-    private Label lbl_pagibig;
+    @FXML private Label lbl_w1_gross_salary;
 
-    @FXML
-    private Label lbl_philhealth;
+    @FXML private Label lbl_w1_hours_worked;
 
-    @FXML
-    private Label lbl_sss;
+    @FXML private Label lbl_w2_gross_salary;
 
-    @FXML
-    private Label lbl_total_gross_salary;
+    @FXML private Label lbl_w2_hours_worked;
 
-    @FXML
-    private Label lbl_total_gross_salary1;
+    @FXML private Label lbl_w3_gross_salary;
 
-    @FXML
-    private Label lbl_total_hours_worked;
+    @FXML private Label lbl_w3_hours_worked;
 
-    @FXML
-    private Label lbl_w1_gross_salary;
+    @FXML private Label lbl_w4_gross_salary;
 
-    @FXML
-    private Label lbl_w1_hours_worked;
+    @FXML private Label lbl_w4_hours_worked;
 
-    @FXML
-    private Label lbl_w2_gross_salary;
+    @FXML private Label lbl_w5_gross_salary;
 
-    @FXML
-    private Label lbl_w2_hours_worked;
+    @FXML private Label lbl_w5_hours_worked;
 
-    @FXML
-    private Label lbl_w3_gross_salary;
+    @FXML private Label lbl_w6_gross_salary;
 
-    @FXML
-    private Label lbl_w3_hours_worked;
+    @FXML private Label lbl_w6_hours_worked;
 
-    @FXML
-    private Label lbl_w4_gross_salary;
+    @FXML private Label lbl_witholding_tax;
 
-    @FXML
-    private Label lbl_w4_hours_worked;
-
-    @FXML
-    private Label lbl_w5_gross_salary;
-
-    @FXML
-    private Label lbl_w5_hours_worked;
-
-    @FXML
-    private Label lbl_w6_gross_salary;
-
-    @FXML
-    private Label lbl_w6_hours_worked;
-
-    @FXML
-    private Label lbl_witholding_tax;
-
-    @FXML
-    private TextField txtField_eid;
-
-    @FXML
-    private Font x3;
-
-    @FXML
-    private Color x4;
+    @FXML private TextField txtField_eid;
 
     @FXML
     void onAttendanceClicked(ActionEvent event) {
@@ -161,18 +109,8 @@ public class SalaryController implements Runnable {
         /**
          * Add combo box items for months
          */
-        cb_select_MM.getItems().addAll(
-                "January",
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "July",
-                "August",
-                "September",
-                "October",
-                "November",
+        cb_select_MM.getItems().addAll("January", "February", "March", "April",
+                "May", "June", "July", "August", "September", "October", "November",
                 "December");
     }
 
@@ -223,7 +161,8 @@ public class SalaryController implements Runnable {
         return searched_month;
     }
     public void search_employee(ActionEvent actionEvent) throws ParseException {
-        System.out.println("Starting ... Attendance Record Size = " + Attendance.records.size());
+        System.out.println(
+                "Starting ... Attendance Record Size = " + Attendance.records.size());
         int employee_number = Integer.parseInt(txtField_eid.getText());
         int search_year = Integer.parseInt(txtField_select_YY.getText());
 
@@ -236,61 +175,88 @@ public class SalaryController implements Runnable {
          * Compute Salary
          */
 
-        Salary getSalary = new Salary(employee_number,monthWordToInt(),search_year);
+        Salary getSalary =
+                new Salary(employee_number, monthWordToInt(), search_year);
 
         /**
          * Set Employee Details
          */
-        lbl_fullname.setText(Employees.records.get(employee_number - 10001).getF_name() +" " + Employees.records.get(employee_number - 10001).getL_name());
-        lbl_hourly_rate.setText(String.valueOf(Employees.records.get(employee_number - 10001).getHourly_rate()));
-        lbl_basic_salary.setText(String.valueOf(Employees.records.get(employee_number - 10001).getBasic_salary()));
-
+        lbl_fullname.setText(
+                Employees.records.get(employee_number - 10001).getF_name() + " "
+                        + Employees.records.get(employee_number - 10001).getL_name());
+        lbl_hourly_rate.setText(String.valueOf(
+                Employees.records.get(employee_number - 10001).getHourly_rate()));
+        lbl_basic_salary.setText(String.valueOf(
+                Employees.records.get(employee_number - 10001).getBasic_salary()));
 
         /**
          * Set Hours Worked Breakdown
          */
-        lbl_w1_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(0))));
-        lbl_w2_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(1))));
-        lbl_w3_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(2))));
-        lbl_w4_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(3))));
-        lbl_w5_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(4))));
-        lbl_w6_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_hours_worked(5))));
-
+        lbl_w1_hours_worked.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(0))));
+        lbl_w2_hours_worked.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(1))));
+        lbl_w3_hours_worked.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(2))));
+        lbl_w4_hours_worked.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(3))));
+        lbl_w5_hours_worked.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(4))));
+        lbl_w6_hours_worked.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(5))));
 
         /**
          * Set Gross Salary Breakdown
          */
-        lbl_w1_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(0))));
-        lbl_w2_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(1))));
-        lbl_w3_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(2))));
-        lbl_w4_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(3))));
-        lbl_w5_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(4))));
-        lbl_w6_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getWeekly_gross_salary(5))));
-
+        lbl_w1_gross_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(0))));
+        lbl_w2_gross_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(1))));
+        lbl_w3_gross_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(2))));
+        lbl_w4_gross_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(3))));
+        lbl_w5_gross_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(4))));
+        lbl_w6_gross_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(5))));
 
         /**
          * Set total hours worked and gross salary
          */
-        lbl_total_hours_worked.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_hours_worked())));
-        lbl_total_gross_salary.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_gross_salary())));
-        lbl_total_gross_salary1.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_gross_salary())));
-        double gross_salary = getSalary.getMonthly_hours_worked() * Float.parseFloat(lbl_hourly_rate.getText());
-        System.out.println("Get basic salary   = " + Integer.parseInt(lbl_basic_salary.getText()));
+        lbl_total_hours_worked.setText(String.valueOf(
+                decimalFormat.format(getSalary.getMonthly_hours_worked())));
+        lbl_total_gross_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getMonthly_gross_salary())));
+        lbl_total_gross_salary1.setText(String.valueOf(
+                decimalFormat.format(getSalary.getMonthly_gross_salary())));
+        double gross_salary = getSalary.getMonthly_hours_worked()
+                * Float.parseFloat(lbl_hourly_rate.getText());
+        System.out.println(
+                "Get basic salary   = " + Integer.parseInt(lbl_basic_salary.getText()));
         System.out.println("Get gross salary   = " + gross_salary);
-        Deduction getDeduction = new Deduction(Integer.parseInt(lbl_basic_salary.getText()), gross_salary);
-        System.out.println("Get ded Philhealth = " + getDeduction.deductPhilHealth());
+        Deduction getDeduction = new Deduction(
+                Integer.parseInt(lbl_basic_salary.getText()), gross_salary);
+        System.out.println(
+                "Get ded Philhealth = " + getDeduction.deductPhilHealth());
         /**
          * Set Deduction Breakdown
          */
-        lbl_sss.setText(String.valueOf(decimalFormat.format(getDeduction.deductSSS())));
-        lbl_pagibig.setText(String.valueOf(decimalFormat.format(getDeduction.deductPagIbig())));
-        lbl_philhealth.setText(String.valueOf(decimalFormat.format(getDeduction.deductPhilHealth())));
-        lbl_witholding_tax.setText(String.valueOf(decimalFormat.format(getDeduction.getWithholdingTax())));
+        lbl_sss.setText(
+                String.valueOf(decimalFormat.format(getDeduction.deductSSS())));
+        lbl_pagibig.setText(
+                String.valueOf(decimalFormat.format(getDeduction.deductPagIbig())));
+        lbl_philhealth.setText(
+                String.valueOf(decimalFormat.format(getDeduction.deductPhilHealth())));
+        lbl_witholding_tax.setText(
+                String.valueOf(decimalFormat.format(getDeduction.getWithholdingTax())));
         /**
          * Set Net Salary
          */
-        lbl_net_salary.setText(String.valueOf(decimalFormat.format(getSalary.getMonthly_net_salary())));
-        System.out.println("Finishing ... Attendance Record Size = " + Attendance.records.size());
+        lbl_net_salary.setText(String.valueOf(
+                decimalFormat.format(getSalary.getMonthly_net_salary())));
+        System.out.println(
+                "Finishing ... Attendance Record Size = " + Attendance.records.size());
         /**
          * Check net salary precision
          *

@@ -8,21 +8,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class EmployeeLeave {
-
     private int eid;
     private String last_name, first_name, leave_type;
     private Date leave_start, leave_end;
 
-    public final int
-            MAX_SICK_LEAVES = 5,
-            MAX_VACATION_LEAVES = 10,
+    public final int MAX_SICK_LEAVES = 5, MAX_VACATION_LEAVES = 10,
             MAX_EMERGENCY_LEAVES = 5;
 
     public static List<EmployeeLeave> RECORDS = new ArrayList<>();
-
 
     public int getEid() {
         return eid;
@@ -48,7 +47,8 @@ public class EmployeeLeave {
         return leave_end;
     }
 
-    public EmployeeLeave(int employeeNumber, String lname, String fname, String leaveType, Date leaveStart, Date leaveEnd) {
+    public EmployeeLeave(int employeeNumber, String lname, String fname,
+                         String leaveType, Date leaveStart, Date leaveEnd) {
         this.eid = employeeNumber;
         this.last_name = lname;
         this.first_name = fname;
@@ -64,8 +64,7 @@ public class EmployeeLeave {
             String line;
 
             while ((line = br.readLine()) != null) {
-
-                String [] arr = line.split("\t");
+                String[] arr = line.split("\t");
 
                 // skip headers
                 if (headers) {
@@ -73,13 +72,13 @@ public class EmployeeLeave {
                     continue;
                 }
 
-
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 try {
                     Date startDateFormatter = sdf.parse(arr[4]);
                     Date endDateFormatter = sdf.parse(arr[5]);
 
-                    EmployeeLeave sl = new EmployeeLeave(Integer.valueOf(arr[0]),arr[1],arr[2],arr[3],startDateFormatter,endDateFormatter);
+                    EmployeeLeave sl = new EmployeeLeave(Integer.valueOf(arr[0]), arr[1],
+                            arr[2], arr[3], startDateFormatter, endDateFormatter);
                     RECORDS.add(sl);
 
                 } catch (ParseException e) {
@@ -93,50 +92,53 @@ public class EmployeeLeave {
         }
     }
 
-
-
     public void createEmployeeLeave() {
         if (isAllowedToCreateLeave()) {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.LEAVE_TSV, true));
+                BufferedWriter writer =
+                        new BufferedWriter(new FileWriter(MainApp.LEAVE_TSV, true));
                 writer.write(toTabString());
                 writer.newLine();
                 writer.close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }
-        else {
+        } else {
             System.err.println("Employee exceeds credit limit");
         }
     }
 
     private boolean isAllowedToCreateLeave() {
-
         if (isEmployeeNumberExist()) {
             System.out.println("Total Days = " + totalDaysLeave());
 
             String[] remaining_leaves = getConsumedCredits().split("\t");
             int consumedEmergencyCredits = Integer.parseInt(remaining_leaves[0]),
-                consumedSickCredits = Integer.parseInt(remaining_leaves[1]),
-                consumedVacationCredits = Integer.parseInt(remaining_leaves[2]);
+                    consumedSickCredits = Integer.parseInt(remaining_leaves[1]),
+                    consumedVacationCredits = Integer.parseInt(remaining_leaves[2]);
 
-            if (leave_start.equals(leave_end)) return false;
+            if (leave_start.equals(leave_end))
+                return false;
 
-            else if (getLeaveType().equals("Emergency") &&
-                    (totalDaysLeave() + consumedEmergencyCredits) <= MAX_EMERGENCY_LEAVES) return true;
+            else if (getLeaveType().equals("Emergency")
+                    && (totalDaysLeave() + consumedEmergencyCredits)
+                    <= MAX_EMERGENCY_LEAVES)
+                return true;
 
-            else if (getLeaveType().equals("Sick") &&
-                    (totalDaysLeave() + consumedSickCredits) <= MAX_SICK_LEAVES) return true;
+            else if (getLeaveType().equals("Sick")
+                    && (totalDaysLeave() + consumedSickCredits) <= MAX_SICK_LEAVES)
+                return true;
 
-            else return getLeaveType().equals("Vacation") &&
-                        (totalDaysLeave() + consumedVacationCredits) <= MAX_VACATION_LEAVES;
+            else
+                return getLeaveType().equals("Vacation")
+                        && (totalDaysLeave() + consumedVacationCredits)
+                        <= MAX_VACATION_LEAVES;
         }
         return false;
     }
 
     public boolean isEmployeeNumberExist() {
-        for (int i = 0; i < Employees.records.size() ; i++) {
+        for (int i = 0; i < Employees.records.size(); i++) {
             if (Employees.records.get(i).getId().equals(String.valueOf(eid))) {
                 return true;
             }
@@ -162,78 +164,58 @@ public class EmployeeLeave {
 
     public String getLeaveType() {
         switch (leave_type.toLowerCase()) {
-            case "emergency" :
+            case "emergency":
                 return "Emergency";
-            case "sick" :
+            case "sick":
                 return "Sick";
-            case "acation" :
+            case "acation":
                 return "Vacation";
         }
         return "leave type doesn't exist";
     }
 
-
     @Override
     public String toString() {
-        return "SetLeave{" +
-                "eid=" + eid +
-                ", last_name='" + last_name + '\'' +
-                ", first_name='" + first_name + '\'' +
-                ", leave_type='" + leave_type + '\'' +
-                ", leave_start=" + leave_start +
-                ", leave_end=" + leave_end +
-                '}';
+        return "SetLeave{"
+                + "eid=" + eid + ", last_name='" + last_name + '\'' + ", first_name='"
+                + first_name + '\'' + ", leave_type='" + leave_type + '\''
+                + ", leave_start=" + leave_start + ", leave_end=" + leave_end + '}';
     }
 
     public String toTabString() {
-
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String start_date = sdf.format(leave_start);
         String end_date = sdf.format(leave_end);
 
-        return eid  +  "\t" +
-            last_name + "\t" +
-            first_name + "\t" +
-            leave_type  + "\t" +
-            start_date  + "\t" +
-            end_date     + "\t";
+        return eid + "\t" + last_name + "\t" + first_name + "\t" + leave_type + "\t"
+                + start_date + "\t" + end_date + "\t";
     }
 
     public String getConsumedCredits() {
         int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
 
-            for (int i = 0; i < RECORDS.size(); i++) {
-                if (eid == RECORDS.get(i).eid) {
-                    Calendar start_calendar = Calendar.getInstance();
-                    Calendar end_calendar = Calendar.getInstance();
+        for (EmployeeLeave record : RECORDS) {
+            if (eid == record.eid) {
+                Calendar start_calendar = Calendar.getInstance();
+                Calendar end_calendar = Calendar.getInstance();
 
-                    start_calendar.setTime(RECORDS.get(i).leave_start);
-                    end_calendar.setTime(RECORDS.get(i).leave_end);
+                start_calendar.setTime(record.leave_start);
+                end_calendar.setTime(record.leave_end);
 
-                    int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
-                    int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
+                int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
+                int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
 
-                    int differenceDayOfYear = end_dayOfYear - start_dayOfYear;
-                    switch (RECORDS.get(i).leave_type.toLowerCase()) {
-                        case "sick":
-                            sick_counter += differenceDayOfYear;
-                            break;
-                        case "vacation":
-                            vacation_counter += differenceDayOfYear;
-                            break;
-                        case "emergency":
-                            emergency_counter += differenceDayOfYear;
-                            break;
-                    }
+                int differenceDayOfYear = end_dayOfYear - start_dayOfYear;
+                switch (record.leave_type.toLowerCase()) {
+                    case "sick" -> sick_counter += differenceDayOfYear;
+                    case "vacation" -> vacation_counter += differenceDayOfYear;
+                    case "emergency" -> emergency_counter += differenceDayOfYear;
                 }
             }
+        }
         System.out.println("emergency = "+emergency_counter);
         System.out.println("sick = "+sick_counter);
         System.out.println("vacation = "+vacation_counter);
         return emergency_counter+"\t"+sick_counter+"\t"+vacation_counter;
-    }
-
-    public static void clearRecords() {
-        RECORDS.clear();
     }
 }

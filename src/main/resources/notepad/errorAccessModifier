@@ -1,2 +1,0 @@
-WARNING: Can not retrieve property 'id' in PropertyValueFactory: javafx.scene.control.cell.PropertyValueFactory@356eba45 with provided class type: class com.example.fx123.Employees
-java.lang.RuntimeException: java.lang.IllegalAccessException: class com.sun.javafx.reflect.Trampoline cannot access a member of class com.example.fx123.Employees (in module com.example.fx123) with modifiers "public"

@@ -6,21 +6,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-public class MainApp  extends Application {
-    public static final String EMPLOYEE_TSV = "src/main/resources/tsv/MotorPH Employee Data - Employee Details.tsv";
-    public static final String ATTENDANCE_TSV = "src/main/resources/tsv/MotorPH Employee Data - Attendance Record.tsv";
-    public static final String LEAVE_TSV = "src/main/resources/tsv/MotorPH Employee Data - Leaves.tsv";
+public class MainApp extends Application {
+    public static final String EMPLOYEE_TSV =
+            "src/main/resources/tsv/MotorPH Employee Data - Employee Details.tsv";
+    public static final String ATTENDANCE_TSV =
+            "src/main/resources/tsv/MotorPH Employee Data - Attendance Record.tsv";
+    public static final String LEAVE_TSV =
+            "src/main/resources/tsv/MotorPH Employee Data - Leaves.tsv";
     @Override
     public void start(Stage stage) {
         try {
-
-            Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+            Parent root =
+                    FXMLLoader.load(LoginController.class.getResource("login.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Login");
             stage.show();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
