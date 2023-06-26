@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -270,8 +271,47 @@ public class SalaryController implements Runnable {
     }
 
     public void onGenerateClicked(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         try {
-            search_employee(actionEvent);
+            //  check if textfields employee_number and year only contains numbers.
+            if (txtField_eid.getText().matches("\\d*") && txtField_select_YY.getText().matches("\\d*")) {
+                boolean is_employee_found = false;
+                // check if employee number exists
+                for (int i = 0; i < Employees.records.size(); i++) {
+                    // continue generating employee salary
+                    if (Employees.records.get(i).getId().equals(txtField_eid.getText())) {
+                        is_employee_found = true;
+                        System.out.println(Employees.records.get(i).getId().equals(txtField_eid.getText()));
+                        search_employee(actionEvent);
+                        // check if the net salary is negative, if true, the employee is expected to have blank attendance record.
+                        if (Double.parseDouble(lbl_net_salary.getText()) < 0) {
+                            // update labels to zero since the employee doesn't have any attendance record
+                            lbl_philhealth.setText("0");
+                            lbl_pagibig.setText("0");
+                            lbl_sss.setText("0");
+                            lbl_witholding_tax.setText("0");
+                            lbl_net_salary.setText("No attendance record");
+                            alert.setTitle("Employee "+ txtField_eid.getText()+" doesn't have any attendance");
+                            alert.setContentText("Blank attendance record for month " + cb_select_MM.getValue()+ " year " + txtField_select_YY.getText());
+                            alert.showAndWait();
+                            txtField_select_YY.requestFocus();
+                            break;
+                        }
+                        break;
+                    }
+                }
+                if (!is_employee_found) {
+                    alert.setTitle("Employee number not found");
+                    alert.setContentText("Employee number " + txtField_eid.getText() + " not found.");
+                    alert.showAndWait();
+                    txtField_eid.requestFocus();
+                }
+            }
+            else {
+                alert.setTitle("Invalid value text field");
+                alert.setContentText("Please check your text field, it might have invalid characters");
+                alert.showAndWait();
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
