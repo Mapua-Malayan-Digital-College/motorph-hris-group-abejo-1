@@ -13,6 +13,14 @@ public class MainApp extends Application {
             "src/main/resources/tsv/MotorPH Employee Data - Attendance Record.tsv";
     public static final String LEAVE_TSV =
             "src/main/resources/tsv/MotorPH Employee Data - Leaves.tsv";
+    public static final String CREDENTIALS_CSV =
+            "src\\main\\resources\\csv\\MotorPH Employee Data - Credetials.csv";
+    public static final String EMPLOYEE_CSV =
+            "src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv";
+    public static final String ATTENDANCE_CSV =
+            "src\\main\\resources\\csv\\MotorPH Employee Data - Attendance Record.csv";
+    public static final String LEAVE_CSV =
+            "src\\main\\resources\\csv\\MotorPH Employee Data - Leaves.csv";
     @Override
     public void start(Stage stage) {
         try {
