@@ -217,12 +217,25 @@ public class EmployeeController implements Runnable {
                         ? "0"
                         : tf_hourlyRate.getText();
 
-        return employee_number + "\t" + lName + "\t" + fName + "\t" + birthday
-                + "\t" + address + "\t" + phone + "\t" + sss + "\t" + philhealth + "\t"
-                + tin + "\t" + pagibig + "\t" + status + "\t" + position + "\t"
-                + immediateSupervisor + "\t" + basicSalary + "\t" + riceSubsidy + "\t"
-                + phoneAllowance + "\t" + clothingAllowance + "\t"
-                + grossSemiMonthlyRate + "\t" + hourlyRate;
+        // we add double quotes to the first index of string
+        return employee_number + "," + CsvUtils.addDoubleQuotesIfStringHasComma(lName) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(fName) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(birthday) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(address) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(phone) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(sss) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(philhealth) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(tin) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(pagibig) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(status) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(position) + ","  +
+                CsvUtils.addDoubleQuotesIfStringHasComma(immediateSupervisor) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(basicSalary)) + "," +
+            CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(riceSubsidy)) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(phoneAllowance)) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(clothingAllowance)) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalForFloatStr(grossSemiMonthlyRate)) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalForFloatStr(hourlyRate));
     }
 
     public void resetDetailsTextField(ActionEvent actionEvent) {
