@@ -136,32 +136,7 @@ public class Employees {
     }
 
     public static void addAllEmployees() {
-        try {
-            String path = MainApp.EMPLOYEE_TSV;
-            BufferedReader tsvReader = new BufferedReader(new FileReader(path));
-            String line;
-
-            boolean headers = true;
-            while ((line = tsvReader.readLine()) != null) {
-                if (headers) {
-                    headers = false;
-                    continue;
-                }
-
-                String[] arr = line.split("\t");
-                Employees employee = new Employees(arr[0], arr[1], arr[2], arr[3],
-                        arr[4], arr[5], arr[6], arr[7], arr[8], arr[9], arr[10], arr[11],
-                        arr[12], Integer.parseInt(arr[13].replace(",", "")),
-                        Integer.parseInt(arr[14].replace(",", "")),
-                        Integer.parseInt(arr[15].replace(",", "")),
-                        Integer.parseInt(arr[16].replace(",", "")),
-                        Integer.parseInt(arr[17].replace(",", "")),
-                        Float.parseFloat(arr[18].replace(",", "")));
-                Employees.records.add(employee);
-            }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        CsvUtils.addAllEmployee();
     }
 
     @Override

@@ -80,19 +80,19 @@ public class CsvUtils {
                 String HourlyRate = (String.valueOf(processedColumn.get(18)).replaceAll("\"", ""));
 
                 Employees employees = new Employees(
-                        String.valueOf(processedColumn.get(0)),
-                        String.valueOf(processedColumn.get(1)),
-                        String.valueOf(processedColumn.get(2)),
-                        String.valueOf(processedColumn.get(3)),
-                        String.valueOf(processedColumn.get(4)),
-                        String.valueOf(processedColumn.get(5)),
-                        String.valueOf(processedColumn.get(6)),
-                        String.valueOf(processedColumn.get(7)),
-                        String.valueOf(processedColumn.get(8)),
-                        String.valueOf(processedColumn.get(9)),
-                        String.valueOf(processedColumn.get(10)),
-                        String.valueOf(processedColumn.get(11)),
-                        String.valueOf(processedColumn.get(12)),
+                        String.valueOf(processedColumn.get(0)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(1)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(2)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(3)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(4)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(5)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(6)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(7)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(8)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(9)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(10)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(11)).replaceAll("\"",""),
+                        String.valueOf(processedColumn.get(12)).replaceAll("\"",""),
                         Integer.parseInt((BasicSalary).replace(",", "")), // remove comma
                         Integer.parseInt((RiceSubsidy).replace(",", "")), // remove comma
                         Integer.parseInt((PhoneAllowance).replace(",", "")), // remove comma
