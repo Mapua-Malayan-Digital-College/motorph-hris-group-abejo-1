@@ -222,7 +222,6 @@ public class CsvUtils {
 
     public static void deleteEmployeeRecordByLineNumber(String filepath, int lineNumber) {
         List<String> lines = new ArrayList<>();
-        int lineCounter = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
             String line;
             int currentLine = 0;
@@ -230,21 +229,16 @@ public class CsvUtils {
                 currentLine++;
                 if (currentLine != lineNumber) { // increment lineNumber to pass over headers
                     lines.add(line);
-                    lineCounter++;
                 }
             }
         } catch (IOException e) {
             System.out.println("An error occurred while reading the file: " + e.getMessage());
         }
-        System.out.println("lineCounter = " + lineCounter);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
             int add_new_line_counter = 0;
             for (String line : lines) {
                 writer.write(line);
-                if (add_new_line_counter < lineCounter) {
-                    writer.newLine();
-                    System.out.println("Added new line total line = " + add_new_line_counter);
-                }
+                writer.newLine();
                 add_new_line_counter++;
             }
             System.out.println("i = " + add_new_line_counter);
