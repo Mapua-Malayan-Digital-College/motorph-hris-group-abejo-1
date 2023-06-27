@@ -3,7 +3,6 @@ package com.example.fx123;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CsvUtils {
     public static void addAllEmployee() {
@@ -131,5 +130,18 @@ public class CsvUtils {
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+    }
+    public static String addDoubleQuotesIfStringHasComma(String str) {
+        return str.contains(",") ? "\""+str+"\"" : str;
+    }
+
+    public static String addCommaToStrInt(String num) {
+        DecimalFormat df = new DecimalFormat("#,###");
+        return df.format(Double.valueOf(num));
+    }
+
+    public static String addCommaAndTwoDecimalsForFloatStr(String num) {
+        DecimalFormat df = new DecimalFormat("#,###.##");
+        return df.format(Double.valueOf(num));
     }
 }

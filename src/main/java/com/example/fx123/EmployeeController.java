@@ -234,8 +234,8 @@ public class EmployeeController implements Runnable {
             CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(riceSubsidy)) + "," +
                 CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(phoneAllowance)) + "," +
                 CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(clothingAllowance)) + "," +
-                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalForFloatStr(grossSemiMonthlyRate)) + "," +
-                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalForFloatStr(hourlyRate));
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalsForFloatStr(grossSemiMonthlyRate)) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalsForFloatStr(hourlyRate));
     }
 
     public void resetDetailsTextField(ActionEvent actionEvent) {
