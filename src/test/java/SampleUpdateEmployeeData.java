@@ -33,7 +33,7 @@ public class SampleUpdateEmployeeData {
         CsvUtils.updateByLineNumber(
                 "src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv",
                 CsvUtils.findLineNumberByEmployeeNumber("src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv",
-                        "10001") + 1, // add one to pass over headers
+                        "10020"),
                 newData);
     }
 }

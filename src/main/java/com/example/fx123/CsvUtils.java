@@ -149,13 +149,12 @@ public class CsvUtils {
     public static void updateByLineNumber(String filePath, int lineNumber, String[] newData) {
         List<String> updatedLines = new ArrayList<>();
 
+        int currentLineNumber = 0; // pass over headers
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            int currentLineNumber = 0;
-
+        String line;
+        int exclude_header_line = lineNumber - 1;
             while ((line = reader.readLine()) != null) {
-                currentLineNumber++;
-                if (currentLineNumber == lineNumber) {
+                if (currentLineNumber == exclude_header_line) {
                     StringBuilder updatedLineBuilder = new StringBuilder();
                     for (String data : newData) {
                         updatedLineBuilder.append(data).append(",");
@@ -165,6 +164,7 @@ public class CsvUtils {
                 } else {
                     updatedLines.add(line);
                 }
+                currentLineNumber++;
             }
         } catch (IOException e) {
             System.out.println("An error occurred while reading the file: " + e.getMessage());
@@ -185,8 +185,9 @@ public class CsvUtils {
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
             String line;
-            int lineNumber = 0;
+            int lineNumber = 1;
             if (filepath.contains("Attendance Record")) {
+                if (Attendance.records.isEmpty()) Attendance.addAllAttendanceRecord();
                 while ((line = reader.readLine()) != null) {
                     lineNumber++;
 
@@ -204,18 +205,53 @@ public class CsvUtils {
                 int [] employeesNumber = Employees.employeeNumbers();
                 System.out.println("employees number length = " + employeesNumber.length);
                 if (Employees.records.isEmpty()) addAllEmployee();
-                    for (int i = 0; i < employeesNumber.length; i++) {
-                        lineNumber++;
-                        if (Integer.parseInt(employeeNumber) == employeesNumber[i]) {
-                            System.out.println("Employee number found at line " + lineNumber);
-                            reader.close();
-                            return lineNumber; // found
-                        }
+                for (int i = 0; i < employeesNumber.length; i++) {
+                    lineNumber++;
+                    if (Integer.parseInt(employeeNumber) == employeesNumber[i]) {
+                        System.out.println("Employee number found at line " + lineNumber);
+                        reader.close();
+                        return lineNumber; // found
                     }
+                }
             }
             return 0; // not found
             }   catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public static void deleteEmployeeRecordByLineNumber(String filepath, int lineNumber) {
+        List<String> lines = new ArrayList<>();
+        int lineCounter = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+            String line;
+            int currentLine = 0;
+            while ((line = reader.readLine()) != null) {
+                currentLine++;
+                if (currentLine != lineNumber) { // increment lineNumber to pass over headers
+                    lines.add(line);
+                    lineCounter++;
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the file: " + e.getMessage());
+        }
+        System.out.println("lineCounter = " + lineCounter);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+            int add_new_line_counter = 0;
+            for (String line : lines) {
+                writer.write(line);
+                if (add_new_line_counter < lineCounter) {
+                    writer.newLine();
+                    System.out.println("Added new line total line = " + add_new_line_counter);
+                }
+                add_new_line_counter++;
+            }
+            System.out.println("i = " + add_new_line_counter);
+            System.out.println("Line deleted successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while deleting the line: " + e.getMessage());
+        }
+    }
+
 }
