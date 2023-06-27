@@ -1,9 +1,7 @@
 package com.example.fx123;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Employees {
     public static ArrayList<Employees> records = new ArrayList<>();
@@ -153,5 +151,12 @@ public class Employees {
                 + ", phone_alw=" + phone_alw + ", clothing_alw=" + clothing_alw
                 + ", gross_semi_rate=" + gross_semi_monthly_rate
                 + ", hourly_rate=" + hourly_rate + '}';
+    }
+
+    public static int[] employeeNumbers() {
+        int [] arr_employee_numbers = new int[records.size()];
+        for (int c = 0; c < arr_employee_numbers.length; c++)
+            arr_employee_numbers[c] = Integer.valueOf(records.get(c).getId());
+        return arr_employee_numbers;
     }
 }

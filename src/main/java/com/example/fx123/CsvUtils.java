@@ -3,6 +3,7 @@ package com.example.fx123;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CsvUtils {
     public static void addAllEmployee() {
@@ -143,5 +144,78 @@ public class CsvUtils {
     public static String addCommaAndTwoDecimalsForFloatStr(String num) {
         DecimalFormat df = new DecimalFormat("#,###.##");
         return df.format(Double.valueOf(num));
+    }
+
+    public static void updateByLineNumber(String filePath, int lineNumber, String[] newData) {
+        List<String> updatedLines = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            int currentLineNumber = 0;
+
+            while ((line = reader.readLine()) != null) {
+                currentLineNumber++;
+                if (currentLineNumber == lineNumber) {
+                    StringBuilder updatedLineBuilder = new StringBuilder();
+                    for (String data : newData) {
+                        updatedLineBuilder.append(data).append(",");
+                    }
+                    String updatedLine = updatedLineBuilder.toString().trim(); // Trim trailing tab
+                    updatedLines.add(updatedLine);
+                } else {
+                    updatedLines.add(line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading the file: " + e.getMessage());
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String line : updatedLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("File updated successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while updating the file: " + e.getMessage());
+        }
+    }
+
+    public static int findLineNumberByEmployeeNumber(String filepath, String employeeNumber) {
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+            String line;
+            int lineNumber = 0;
+            if (filepath.contains("Attendance Record")) {
+                while ((line = reader.readLine()) != null) {
+                    lineNumber++;
+
+                    String[] columns = line.split("\t");
+
+                    if (columns.length > 0 && columns[0].equals(employeeNumber)) {
+                        System.out.println("Employee number found at line " + lineNumber);
+                        reader.close();
+                        return lineNumber; // found
+                    }
+                }
+            }
+            else if (filepath.contains("Employee Details")) {
+                if (Employees.records.isEmpty()) Employees.addAllEmployees();
+                int [] employeesNumber = Employees.employeeNumbers();
+                System.out.println("employees number length = " + employeesNumber.length);
+                if (Employees.records.isEmpty()) addAllEmployee();
+                    for (int i = 0; i < employeesNumber.length; i++) {
+                        lineNumber++;
+                        if (Integer.parseInt(employeeNumber) == employeesNumber[i]) {
+                            System.out.println("Employee number found at line " + lineNumber);
+                            reader.close();
+                            return lineNumber; // found
+                        }
+                    }
+            }
+            return 0; // not found
+            }   catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
