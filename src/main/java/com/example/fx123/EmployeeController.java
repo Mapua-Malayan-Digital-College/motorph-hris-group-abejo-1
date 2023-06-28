@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
@@ -99,7 +98,7 @@ public class EmployeeController implements Runnable {
 
     @FXML private TextField tf_philhealth;
 
-    @FXML private TextField tf_phone;
+    @FXML private TextField tf_phone_number;
 
     @FXML private TextField tf_phoneAllowance;
 
@@ -186,7 +185,7 @@ public class EmployeeController implements Runnable {
                 birthday = dp_birthday.getValue().format(formatter),
                 address =
                         tf_address.getText().isEmpty() ? "N/A" : tf_address.getText(),
-                phone = tf_phone.getText().isEmpty() ? "N/A" : tf_phone.getText(),
+                phone = tf_phone_number.getText().isEmpty() ? "N/A" : tf_phone_number.getText(),
                 sss = tf_sss.getText().isEmpty() ? "N/A" : tf_sss.getText(),
                 philhealth = tf_philhealth.getText().isEmpty()
                         ? "N/A"
@@ -251,7 +250,7 @@ public class EmployeeController implements Runnable {
                 birthday = dp_birthday.getValue().format(formatter),
                 address =
                         tf_address.getText().isEmpty() ? "N/A" : tf_address.getText(),
-                phone = tf_phone.getText().isEmpty() ? "N/A" : tf_phone.getText(),
+                phone = tf_phone_number.getText().isEmpty() ? "N/A" : tf_phone_number.getText(),
                 sss = tf_sss.getText().isEmpty() ? "N/A" : tf_sss.getText(),
                 philhealth = tf_philhealth.getText().isEmpty()
                         ? "N/A"
@@ -301,17 +300,15 @@ public class EmployeeController implements Runnable {
                 CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(riceSubsidy)) + "\t" +
                 CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(phoneAllowance)) + "\t" +
                 CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaToStrInt(clothingAllowance)) + "\t" +
-                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalsForFloatStr(grossSemiMonthlyRate)) + "," +
+                CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalsForFloatStr(grossSemiMonthlyRate)) + "\t" +
                 CsvUtils.addDoubleQuotesIfStringHasComma(CsvUtils.addCommaAndTwoDecimalsForFloatStr(hourlyRate));
     }
 
     public void resetDetailsTextField(ActionEvent actionEvent) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
-        LocalDate localDate = LocalDate.parse("November 28, 2001", formatter);
         tf_employee_number.setText("");
         tf_address.setText("");
         tf_basicSalary.setText("");
-        dp_birthday.setValue(localDate);
+        dp_birthday.setValue(null);
         tin_num.setText("");
         tf_fName.setText("");
         tf_lName.setText("");
@@ -327,7 +324,7 @@ public class EmployeeController implements Runnable {
         tf_pagibig.setText("");
         tf_immediateSupervisor.setText("");
         tf_hourlyRate.setText("");
-        tf_phone.setText("");
+        tf_phone_number.setText("");
 
         btn_cancel.setDisable(true);
         isAddNewEmployee = false;
@@ -377,7 +374,7 @@ public class EmployeeController implements Runnable {
                         tf_pagibig.setText(String.valueOf(employee.getPagibig_num()));
                         tf_immediateSupervisor.setText(employee.getImmediate_supervisor());
                         tf_hourlyRate.setText(String.valueOf(employee.getHourly_rate()));
-                        tf_phone.setText(String.valueOf(employee.getPhone_num()));
+                        tf_phone_number.setText(String.valueOf(employee.getPhone_num()));
 
                         /**
                          * Set save and cancel button to enabled because we have now
@@ -430,69 +427,69 @@ public class EmployeeController implements Runnable {
         System.out.println(actionEvent.getTarget());
         System.out.println(actionEvent.getClass());
         try {
-            System.out.println("isAddNewEmployee TRUE ? " + isAddNewEmployee);
-            if (checkFieldsThatContainsNumbers()) {
-                System.out.println("inner " + isAddNewEmployee);
-                if (isAddNewEmployee) {
-                    System.out.println("Start creating employee here...");
-                    BufferedWriter writer =
-                            new BufferedWriter(new FileWriter(MainApp.EMPLOYEE_CSV, true));
-                    // 'true' flag is used to append data to the existing file.
-                    System.out.println("employeeDetailsTextFieldToString");
-                    // Write the new employee details to the file
-                    writer.write(
-                            employeeDetailsTextFieldToCsvString()); // Assuming you have a
-                    // method to convert an
-                    // employee object to a
-                    // string
+            if (isEmployeeProfileFieldsNotEmpty()) {
+                if (checkFieldsThatContainsNumbers()) {
+                    {
+                        if (isAddNewEmployee) {
+                            BufferedWriter writer =
+                                    new BufferedWriter(new FileWriter(MainApp.EMPLOYEE_CSV, true));
+                            // 'true' flag is used to append data to the existing file.
+                            // Write the new employee details to the file
+                            writer.write(
+                                    employeeDetailsTextFieldToCsvString()); // Assuming you have a
+                            // method to convert an
+                            // employee object to a
+                            // string
 
-                    // Add a new line after writing the employee details
-                    writer.newLine();
+                            // Add a new line after writing the employee details
+                            writer.newLine();
 
-                    // Close the writer
-                    writer.close();
+                            // Close the writer
+                            writer.close();
 
-                    // Refresh Employee Records
-                    refreshEmployeeScene(actionEvent);
-                    // Refresh Table View Items
-                    run();
-                    // Reset TextFields
-                    resetDetailsTextField(actionEvent);
-                    // Go back to employee btn focus
-                    btn_employee.requestFocus();
-                    // Disable the save and cancel btn
-                    btn_saveOrUpdate.setDisable(true);
-                    btn_cancel.setDisable(true);
-                    // Reset attribute
-                    isAddNewEmployee = false;
-                    btn_saveOrUpdate.setText("Save");
-                }
-                else {
-                    System.out.println("Im at else statement line 473");
-                    if (checkFieldsThatContainsNumbers()) {
-                        System.out.println("CheckFieldsThatContainsNumbers has been accessed at line 475");
-                        String[] newValues = employeeDetailsTextFieldToTabularSeparatedValue().split("\t");
-                        CsvUtils.updateByLineNumber(MainApp.EMPLOYEE_CSV,
-                                CsvUtils.findLineNumberByEmployeeNumber(
-                                        MainApp.EMPLOYEE_CSV, tf_employee_number.getText()),
-                                newValues);
-                        resetDetailsTextField(actionEvent);
+                            // Refresh Employee Records
+                            refreshEmployeeScene(actionEvent);
+                            // Refresh Table View Items
+                            run();
+                            // Reset TextFields
+                            resetDetailsTextField(actionEvent);
+                            // Go back to employee btn focus
+                            btn_employee.requestFocus();
+                            // Disable the save and cancel btn
+                            btn_saveOrUpdate.setDisable(true);
+                            btn_cancel.setDisable(true);
+                            // Reset attribute
+                            isAddNewEmployee = false;
+                            btn_saveOrUpdate.setText("Save");
+                        }
+                        else {
+                            System.out.println("Im at else statement line 473");
+                            if (checkFieldsThatContainsNumbers()) {
+                                System.out.println("CheckFieldsThatContainsNumbers has been accessed at line 475");
+                                String[] newValues = employeeDetailsTextFieldToTabularSeparatedValue().split("\t");
+                                CsvUtils.updateByLineNumber(MainApp.EMPLOYEE_CSV,
+                                        CsvUtils.findLineNumberByEmployeeNumber(
+                                                MainApp.EMPLOYEE_CSV, tf_employee_number.getText()),
+                                        newValues);
+                                resetDetailsTextField(actionEvent);
 
 
-                        // Refresh Employee Records
-                        refreshEmployeeScene(actionEvent);
-                        // Refresh Table View Items
-                        run();
-                        // Reset TextFields
-                        resetDetailsTextField(actionEvent);
-                        // Go back to employee btn focus
-                        btn_employee.requestFocus();
-                        // Disable the save and cancel btn
-                        btn_saveOrUpdate.setDisable(true);
-                        btn_cancel.setDisable(true);
-                        // Reset attribute
-                        isAddNewEmployee = false;
-                        btn_saveOrUpdate.setText("Save");
+                                // Refresh Employee Records
+                                refreshEmployeeScene(actionEvent);
+                                // Refresh Table View Items
+                                run();
+                                // Reset TextFields
+                                resetDetailsTextField(actionEvent);
+                                // Go back to employee btn focus
+                                btn_employee.requestFocus();
+                                // Disable the save and cancel btn
+                                btn_saveOrUpdate.setDisable(true);
+                                btn_cancel.setDisable(true);
+                                // Reset attribute
+                                isAddNewEmployee = false;
+                                btn_saveOrUpdate.setText("Save");
+                            }
+                        }
                     }
                 }
             }
@@ -605,6 +602,58 @@ public class EmployeeController implements Runnable {
                         + " = " + arrTextField[i].getText().replace(",", ""));
                 alert.show();
                 arrTextField[i].requestFocus();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isEmployeeProfileFieldsNotEmpty() {
+        if (dp_birthday.getValue() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Blank birthday");
+            alert.setContentText("There is a blank date. Please select the calendar icon and select birthday month.");
+            alert.show();
+            dp_birthday.requestFocus();
+            return false;
+        }
+        TextField [] textField = {
+                tf_employee_number,
+                tf_fName,
+                tf_lName,
+                tf_address,
+                tf_phone_number,
+                tf_sss,
+                tf_philhealth,
+                tf_tin,
+                tf_pagibig,
+                tf_status,
+                tf_position,
+                tf_immediateSupervisor,
+        };
+
+        String [] str_textField_name = {
+                "Employee number",
+                "First name",
+                "Last name",
+                "Address",
+                "Phone number",
+                "SSS number",
+                "Philhealth number",
+                "Tin number",
+                "Pagibig number",
+                "Status",
+                "Position",
+                "Immediate Supervisor"
+        };
+
+        for (int i =  0; i < textField.length; i++) {
+            if (textField[i].getText().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Blank textfield");
+                alert.setContentText("There is a blank textfield. Please enter " + str_textField_name[i]);
+                alert.show();
+                textField[i].requestFocus();
                 return false;
             }
         }
