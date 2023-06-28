@@ -1,6 +1,8 @@
+package com.example.test.fx123;
+
 import com.example.fx123.Employees;
 
-public class TestPopulatingEmployeesRecord {
+public class SamplePopulatingEmployeesRecord {
     public static void main(String[] args) {
         // Add all employees
         Employees.addAllEmployees();

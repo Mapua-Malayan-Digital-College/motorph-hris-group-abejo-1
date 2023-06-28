@@ -1,4 +1,4 @@
-import javafx.scene.control.TextField;
+package com.example.test.fx123;
 
 public class SampleCheckFieldsThatContainsNumbers {
     public static boolean checkFieldsThatContainsNumbers() {

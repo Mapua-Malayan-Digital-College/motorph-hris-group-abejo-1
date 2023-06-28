@@ -1,10 +1,12 @@
+package com.example.test.fx123;
+
 import com.example.fx123.Employees;
 import com.example.fx123.EmployeeLeave;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class TestSetLeave {
+public class SampleSetLeave {
     public static void main(String[] args) {
         Employees.addAllEmployees();
         EmployeeLeave.addAllLeaves();
