@@ -46,7 +46,7 @@ public class TestDeduction {
         System.out.println(copyOfWitholdingTaxSample.getCompensation()+"\t=\t"+copyOfWitholdingTaxSample.getWithholdingTax());
 
 
-        Deduction deduction = new Deduction(10_071,10_071);
-        System.out.println(deduction.deductPhilHealth());
+        Deduction deduction = new Deduction(21749,21749);
+        System.out.println(deduction.deductSSS());
     }
 }

@@ -137,7 +137,6 @@ public class Salary {
                         this.weekly_hours_worked[2] += totalHours;
                     } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 4) {
                         this.weekly_hours_worked[3] += totalHours;
-
                     } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 5) {
                         this.weekly_hours_worked[4] += totalHours;
                     } else {
