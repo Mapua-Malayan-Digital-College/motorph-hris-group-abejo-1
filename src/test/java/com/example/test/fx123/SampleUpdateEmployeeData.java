@@ -35,7 +35,7 @@ public class SampleUpdateEmployeeData {
         CsvUtils.updateByLineNumber(
                 "src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv",
                 CsvUtils.findLineNumberByEmployeeNumber("src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv",
-                        "10020"),
+                        "10001"),
                 newData);
     }
 }

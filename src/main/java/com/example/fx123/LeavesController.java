@@ -103,10 +103,13 @@ public class LeavesController implements Runnable {
 
     @FXML
     void onClickedDeleteLeave(ActionEvent event) {
-        TsvUtils.deleteEmployeeRecordByLineNumber(
-                MainApp.LEAVE_TSV, getTableViewSelectedLineNumber() + 2);
+        CsvUtils.deleteEmployeeRecordByLineNumber(
+                MainApp.LEAVE_CSV, getTableViewSelectedLineNumber() + 2);
         EmployeeLeave.RECORDS.clear();
         run();
+        lbl_num_emergency_result.setText("0");
+        lbl_num_sick_result.setText("0");
+        lbl_num_vacation_result.setText("0");
         btn_cancel.setDisable(true);
         btn_delete.setDisable(true);
         btn_save_update.setDisable(true);
@@ -236,8 +239,8 @@ public class LeavesController implements Runnable {
 
                             // for higher leave
                             if (leave.MAX_EMERGENCY_LEAVES >= sum_day_leave) {
-                                TsvUtils.updateByLineNumber(
-                                        MainApp.LEAVE_TSV,
+                                CsvUtils.updateByLineNumber(
+                                        MainApp.LEAVE_CSV,
                                         getTableViewSelectedLineNumber() + 2, updatedData);
                                 alert.setAlertType(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Emergency Updating for higher days");
@@ -250,8 +253,8 @@ public class LeavesController implements Runnable {
                                     ((total_days_new_leave) <= (leave.MAX_EMERGENCY_LEAVES - emergency_spent))) {
                                 System.out.println(diff_day_leave);
                                 System.out.println(total_days_new_leave);
-                                TsvUtils.updateByLineNumber(
-                                        MainApp.LEAVE_TSV,
+                                CsvUtils.updateByLineNumber(
+                                        MainApp.LEAVE_CSV,
                                         getTableViewSelectedLineNumber() + 2, updatedData);
                                 alert.setAlertType(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Emergency Updating for lower days");
@@ -272,8 +275,8 @@ public class LeavesController implements Runnable {
                                     = Math.abs(total_days_new_leave - sick_spent);
                             // for higher leave
                             if (leave.MAX_SICK_LEAVES >= sum_day_leave) {
-                                TsvUtils.updateByLineNumber(
-                                        MainApp.LEAVE_TSV,
+                                CsvUtils.updateByLineNumber(
+                                        MainApp.LEAVE_CSV,
                                         getTableViewSelectedLineNumber() + 2, updatedData);
                                 alert.setAlertType(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Sick Updating for higher days");
@@ -283,8 +286,8 @@ public class LeavesController implements Runnable {
                                     && total_days_new_leave <= leave.MAX_SICK_LEAVES
                                     &&
                                     ((total_days_new_leave) <= (leave.MAX_SICK_LEAVES - sick_spent))) {
-                                TsvUtils.updateByLineNumber(
-                                        MainApp.LEAVE_TSV,
+                                CsvUtils.updateByLineNumber(
+                                        MainApp.LEAVE_CSV,
                                         getTableViewSelectedLineNumber() + 2, updatedData);
                                 alert.setAlertType(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Sick Updating for lower days");
@@ -305,8 +308,8 @@ public class LeavesController implements Runnable {
                                     = Math.abs(total_days_new_leave - vacation_spent);
                             // for higher leave
                             if (leave.MAX_VACATION_LEAVES >= sum_day_leave) {
-                                TsvUtils.updateByLineNumber(
-                                        MainApp.LEAVE_TSV,
+                                CsvUtils.updateByLineNumber(
+                                        MainApp.LEAVE_CSV,
                                         getTableViewSelectedLineNumber() + 2, updatedData);
                                 alert.setAlertType(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Vacation Updating for higher days");
@@ -315,8 +318,8 @@ public class LeavesController implements Runnable {
                             } else if (diff_day_leave <= leave.MAX_VACATION_LEAVES
                                     && total_days_new_leave <= leave.MAX_VACATION_LEAVES
                                     && ((total_days_new_leave) <= (leave.MAX_VACATION_LEAVES - vacation_spent))) {
-                                TsvUtils.updateByLineNumber(
-                                        MainApp.LEAVE_TSV,
+                                CsvUtils.updateByLineNumber(
+                                        MainApp.LEAVE_CSV,
                                         getTableViewSelectedLineNumber() + 2, updatedData);
                                 alert.setAlertType(Alert.AlertType.INFORMATION);
                                 alert.setTitle("Vacation Updating for lower days");
@@ -377,6 +380,8 @@ public class LeavesController implements Runnable {
     void
     onClickedSetNewLeave (ActionEvent event)
     {
+        enableFields();
+
         tf_employee_number.requestFocus ();
         btn_save_update.setText ("Save");
         btn_cancel.setDisable (false);
@@ -468,9 +473,19 @@ public class LeavesController implements Runnable {
         leavesTableView.setItems (list);
         addComboBoxItems ();
 
+
         btn_delete.setDisable (true);
         btn_cancel.setDisable (true);
         btn_save_update.setDisable (true);
+    }
+
+    public void enableFields() {
+        tf_employee_number.setDisable(false);
+        tf_fName.setDisable(false);
+        tf_lName.setDisable(false);
+        dp_start_date.setDisable(false);
+        comboBox_selected_request.setDisable(false);
+        dp_end_date.setDisable(false);
     }
 
     public void
@@ -510,12 +525,12 @@ public class LeavesController implements Runnable {
     {
         try
         {
-            BufferedReader br = new BufferedReader (new FileReader (MainApp.LEAVE_TSV));
+            BufferedReader br = new BufferedReader (new FileReader (MainApp.LEAVE_CSV));
             String[] line;
             while (br.readLine () != null)
             {
                 try {
-                    line = br.readLine ().split ("\t");
+                    line = br.readLine ().split (",");
                     if (eid.equals (line[0]))
                     {
                         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");

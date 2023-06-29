@@ -8,10 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class EmployeeLeave {
     private int eid;
@@ -59,13 +56,14 @@ public class EmployeeLeave {
 
     public static void addAllLeaves() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(MainApp.LEAVE_TSV));
+            BufferedReader br = new BufferedReader(new FileReader(MainApp.LEAVE_CSV));
             boolean headers = true;
             String line;
 
             while ((line = br.readLine()) != null) {
-                String[] arr = line.split("\t");
+                String[] arr = line.split(",");
 
+                Arrays.stream(arr).forEach(System.out::println);
                 // skip headers
                 if (headers) {
                     headers = false;
@@ -96,8 +94,8 @@ public class EmployeeLeave {
         if (isAllowedToCreateLeave()) {
             try {
                 BufferedWriter writer =
-                        new BufferedWriter(new FileWriter(MainApp.LEAVE_TSV, true));
-                writer.write(toTabString());
+                        new BufferedWriter(new FileWriter(MainApp.LEAVE_CSV, true));
+                writer.write(toCommaString());
                 writer.newLine();
                 writer.close();
             } catch (IOException e) {
@@ -182,13 +180,13 @@ public class EmployeeLeave {
                 + ", leave_start=" + leave_start + ", leave_end=" + leave_end + '}';
     }
 
-    public String toTabString() {
+    public String toCommaString() {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         String start_date = sdf.format(leave_start);
         String end_date = sdf.format(leave_end);
 
-        return eid + "\t" + last_name + "\t" + first_name + "\t" + leave_type + "\t"
-                + start_date + "\t" + end_date + "\t";
+        return eid + "," + last_name + "," + first_name + "," + leave_type + ","
+                + start_date + "," + end_date + ",";
     }
 
     public String getConsumedCredits() {

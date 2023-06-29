@@ -3,13 +3,14 @@ package com.example.fx123;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CsvUtils {
     public static void addAllEmployee() {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv"));
+            br = new BufferedReader(new FileReader(MainApp.EMPLOYEE_CSV));
             String line;
             boolean is_header = true;
             while ((line = br.readLine()) != null) {
@@ -42,20 +43,20 @@ public class CsvUtils {
                     } else if (splitted_data[i].charAt(lastIndex) == '\"') {
                         concatStr += (" " + splitted_data[i].trim());
                         if (concatStr.charAt(concatStr.length() - 1) == '\"') {
-                            String addCommaToStrNumber = concatStr.replace(" ", "");
-                            processedColumn.add(addCommaToStrNumber);
+                            String removeWhiteSpace = concatStr.replace(" ", "");
+                            processedColumn.add(removeWhiteSpace);
                             concatStr = "";
                         }
                     } else {
                         if (splitted_data[i].charAt(0) == '\"' && splitted_data[i].charAt(lastIndex) == '\"') {
-                            String convertTwoWhiteSpaceIntoComma = concatStr.replace("  ", ", ");
-                            processedColumn.add(convertTwoWhiteSpaceIntoComma);
+                            String convertTwoWhiteSpaceIntoCommaWithWhitespace = concatStr.replace("  ", ", ");
+                            processedColumn.add(convertTwoWhiteSpaceIntoCommaWithWhitespace);
                             concatStr = "";
                         } else if (!concatStr.isEmpty()) {
                             lastIndex = concatStr.length() - 1;
                             if (concatStr.charAt(0) == '\"' && (concatStr.charAt(lastIndex) == '\"')) {
-                                String convertTwoWhiteSpaceIntoComma = concatStr.replace("  ", ", ");
-                                processedColumn.add(convertTwoWhiteSpaceIntoComma.replace("\"\"", ""));
+                                String convertTwoWhiteSpaceIntoCommaWithWhiteSpace = concatStr.replace("  ", ", ");
+                                processedColumn.add(convertTwoWhiteSpaceIntoCommaWithWhiteSpace.replace("\"\"", ""));
                                 concatStr = "";
                                 i--; // helloworld
                             } else if (concatStr.charAt(0) == '\"' && (concatStr.charAt(lastIndex) == ' ')) {
@@ -107,7 +108,7 @@ public class CsvUtils {
     }
     public static void addAllAttendanceRecord() {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("src\\main\\resources\\csv\\MotorPH Employee Data - Attendance Record.csv"));
+            BufferedReader br = new BufferedReader(new FileReader(MainApp.ATTENDANCE_CSV));
             String line;
             boolean is_header = true;
             while ((line = br.readLine()) != null) {
@@ -117,9 +118,7 @@ public class CsvUtils {
                 }
                 String[] splitted_data = line.split(",");
                 ArrayList < String > processedColumn = new ArrayList < String > ();
-                for (int i = 0; i < splitted_data.length; i++) {
-                    processedColumn.add(splitted_data[i]);
-                }
+                Collections.addAll(processedColumn, splitted_data);
                 Attendance attendance = new Attendance(Integer.parseInt(String.valueOf(processedColumn.get(0))),
                         String.valueOf(processedColumn.get(1)),
                         String.valueOf(processedColumn.get(2)),
