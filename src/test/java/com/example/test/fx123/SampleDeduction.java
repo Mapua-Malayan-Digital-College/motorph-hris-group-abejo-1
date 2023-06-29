@@ -1,7 +1,8 @@
-import com.example.fx123.Deduction;
-import com.example.fx123.Salary;
+package com.example.test.fx123;
 
-public class TestDeduction {
+import com.example.fx123.Deduction;
+
+public class SampleDeduction {
     public static void main(String[] args) {
         float hoursWorked = 150;
         Deduction deductionJose     = new Deduction(62_670,(hoursWorked * 373.04f));
@@ -46,7 +47,7 @@ public class TestDeduction {
         System.out.println(copyOfWitholdingTaxSample.getCompensation()+"\t=\t"+copyOfWitholdingTaxSample.getWithholdingTax());
 
 
-        Deduction deduction = new Deduction(10_071,10_071);
-        System.out.println(deduction.deductPhilHealth());
+        Deduction deduction = new Deduction(21749,21749);
+        System.out.println(deduction.deductSSS());
     }
 }

@@ -3,6 +3,7 @@ package com.example.fx123;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
@@ -83,8 +84,8 @@ public class AttendanceController implements Runnable {
     @FXML
     void handleDeleteAttendanceClick(ActionEvent event) {
         try {
-            TsvUtils.deleteEmployeeRecordByLineNumber(
-                    MainApp.ATTENDANCE_TSV, tableViewSelectedLineNumber + 2);
+            CsvUtils.deleteEmployeeRecordByLineNumber(
+                    MainApp.ATTENDANCE_CSV, tableViewSelectedLineNumber + 2);
             isCreateNewAttendance = false;
             refreshAttendanceList(event);
             run();
@@ -152,12 +153,20 @@ public class AttendanceController implements Runnable {
     }
 
     public void handleCreateNewAttendanceClick(ActionEvent actionEvent) {
+        System.out.println("Calling handleCreateNewAttendanceClick");
         tf_employee_number.requestFocus();
         btn_cancel.setDisable(false);
         btn_save.setDisable(false);
         isCreateNewAttendance = true;
         // Enable TextFields
         enableTextFields();
+        // set fields to blank
+        tf_employee_number.setText("");
+        tf_lName.setText("");
+        tf_fName.setText("");
+        datePicker.setValue(null);
+        tf_timeIN.setText("");
+        tf_timeOUT.setText("");
         tf_employee_number.requestFocus();
     }
 
@@ -172,13 +181,13 @@ public class AttendanceController implements Runnable {
     }
 
     public void handleSaveClick(ActionEvent actionEvent) throws IOException {
-        if (isAllowedToCreateAttendance() && isCreateNewAttendance) {
+        if (isAttendanceError() && isCreateNewAttendance) {
             BufferedWriter writer =
-                    new BufferedWriter(new FileWriter(MainApp.ATTENDANCE_TSV, true));
+                    new BufferedWriter(new FileWriter(MainApp.ATTENDANCE_CSV, true));
             // 'true' flag is used to append data to the existing file.
             // Write the new employee details to the file
             writer.write(
-                    attendanceDetailsTextFieldToTabString()); // Assuming you have a
+                    attendanceDetailsTextFieldToCSVString()); // Assuming you have a
             // method to convert an
             // employee object to a
             // string
@@ -193,19 +202,16 @@ public class AttendanceController implements Runnable {
         } else {
             if (isEmployeeNumberExist((tf_employee_number.getText()))) {
                 try {
-                    String[] newValues =
-                            attendanceDetailsTextFieldToTabString().split("\t");
-                    TsvUtils.updateByLineNumber(MainApp.ATTENDANCE_TSV,
-                            tableViewSelectedLineNumber + 2, newValues);
-                    clearTextField(actionEvent);
-                    afterCreateOrUpdateAttendance(actionEvent);
+                   if (isAttendanceError()) {
+                       String[] newValues =
+                               attendanceDetailsTextFieldToCSVString().split(",");
+                       CsvUtils.updateByLineNumber(MainApp.ATTENDANCE_CSV,
+                               tableViewSelectedLineNumber + 2, newValues);
+                       clearTextField(actionEvent);
+                       afterCreateOrUpdateAttendance(actionEvent);
+                   }
                 } catch (Exception e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("There is no date on your field.");
-                    alert.setHeaderText(null);
-                    alert.setContentText(
-                            "You can use datepicker to select date or you can input mm/dd/yy on the datefield");
-                    alert.showAndWait();
+                   e.getMessage();
                 }
             }
         }
@@ -224,23 +230,23 @@ public class AttendanceController implements Runnable {
         btn_save.setText("Save");
     }
 
-    private String attendanceDetailsTextFieldToTabString() {
+    private String attendanceDetailsTextFieldToCSVString() {
         try {
             return (tf_employee_number.getText().isEmpty()
                     ? "Unknown"
-                    : tf_employee_number.getText())
-                    + "\t"
-                    + (tf_lName.getText().isEmpty() ? "Unknown" : tf_lName.getText())
-                    + "\t"
-                    + (tf_fName.getText().isEmpty() ? "Unknown" : tf_fName.getText())
-                    + "\t"
+                    : tf_employee_number.getText().substring(0,1).toUpperCase())
+                    + ","
+                    + (tf_lName.getText().isEmpty() ? "Unknown" : tf_lName.getText().substring(0,1).toUpperCase())
+                    + ","
+                    + (tf_fName.getText().isEmpty() ? "Unknown" : tf_fName.getText().substring(0,1).toUpperCase())
+                    + ","
                     + (datePicker.getValue().format(
                     DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-                    + "\t"
+                    + ","
                     + (tf_timeIN.getText().isEmpty() ? "0:00" : tf_timeIN.getText())
-                    + "\t"
+                    + ","
                     + (tf_timeOUT.getText().isEmpty() ? "0:00" : tf_timeOUT.getText())
-                    + "\t");
+                    + ",");
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("No selected date");
@@ -318,43 +324,79 @@ public class AttendanceController implements Runnable {
         Attendance.clearAttendanceRecord();
     }
 
-    public boolean isAllowedToCreateAttendance() {
-        TextField[] arrTextFields = {
-                tf_employee_number,
-                tf_lName,
-                tf_fName,
-                tf_timeIN,
-                tf_timeOUT,
-        };
-        for (TextField textField : arrTextFields) {
-            if (textField.getText().isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Blank Input Value");
-                alert.setHeaderText(null);
-                alert.setContentText("Please enter a value in the text field.");
-                alert.showAndWait();
-                textField.requestFocus();
-                return false;
-            }
-        }
-        if (datePicker.getValue() == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Blank date value");
-            alert.setHeaderText(null);
-            alert.setContentText("Please select a value in the datepicker.");
+    public boolean isAttendanceError() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        if(datePicker == null) {
+            alert.setTitle("Blank attendance date");
+            alert.setContentText("Please select the calendar icon and choose attendance date.");
             alert.showAndWait();
+            datePicker.requestFocus();
             return false;
         }
 
-        else if (!isEmployeeNumberExist(tf_employee_number.getText())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid Employee Number");
-            alert.setHeaderText(null);
+
+        TextField[] textFields = {
+                tf_employee_number,
+                tf_fName,
+                tf_lName,
+                tf_timeIN,
+                tf_timeOUT,
+        };
+        String [] strTextFieldsName = {
+                "Employee number",
+                "First name",
+                "Last name",
+                "Time in",
+                "Time out"
+        };
+        for (int i = 0; i < textFields.length; i++) {
+            if (textFields[i].getText().isEmpty()) {
+                alert.setTitle("Blank Input Value");
+                alert.setContentText(strTextFieldsName[i] + " textfield needs a value to be entered.");
+                alert.showAndWait();
+                textFields[i].requestFocus();
+                return false;
+            }
+        }
+
+        String pattern = "\\d";
+
+        if (!isEmployeeNumberExist(tf_employee_number.getText())) {
+            if (!tf_employee_number.getText().matches(pattern)) {
+                alert.setTitle("Invalid Employee Number");
+                alert.setContentText("Employee number entered invalid :" + employee_number.getText());
+                alert.showAndWait();
+                tf_employee_number.requestFocus();
+                return false;
+            }
+            alert.setTitle("Employee Number " + tf_employee_number.getText() + " not found");
             alert.setContentText("Employee number doesn't exist...");
             alert.showAndWait();
             tf_employee_number.requestFocus();
             return false;
         }
+
+        System.out.println("\uD83D\uDC4B\uD83D\uDC4B\uD83D\uDC4B");
+        System.out.println(tf_timeIN.getText().replace(":",""));
+        System.out.println(tf_timeIN.getText().replace(":","").length());
+        if (!(tf_timeIN.getText().replace(":","").matches(pattern))) {
+            alert.setTitle("Invalid time in input");
+            alert.setHeaderText("Your Time in input = " + tf_timeIN.getText());
+            alert.setContentText("Please follow the format: hh:mm ");
+            alert.showAndWait();
+            tf_timeIN.requestFocus();
+            return false;
+        }
+        if (!tf_timeOUT.getText().replace(":","").matches(pattern)) {
+            alert.setTitle("Invalid time out input");
+            alert.setHeaderText("Your Time in input = " + tf_timeOUT.getText());
+            alert.setContentText("Please follow the format: hh:mm ");
+            alert.showAndWait();
+            tf_timeOUT.requestFocus();
+            return false;
+        }
+
         System.out.println("Goodbye isAllowedToCreateAttendance()");
         return true;
     }

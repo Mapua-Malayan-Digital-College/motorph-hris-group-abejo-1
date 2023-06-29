@@ -294,17 +294,18 @@
                         <AnchorPane minWidth="175.0">
                            <children>
                               <Label fx:id="lbl_employee_number" layoutX="10.0" layoutY="16.0" minWidth="25.0" prefWidth="130.0" text="Employee #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <TextField fx:id="tf_employee_number" layoutX="10.0" layoutY="69.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
+                              <TextField disable="true" fx:id="tf_employee_number" layoutX="10.0" layoutY="69.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
                               <Label fx:id="lbl_fName" layoutX="10.0" layoutY="63.0" minWidth="25.0" prefWidth="130.0" text="First Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <TextField fx:id="tf_fName" layoutX="10.0" layoutY="82.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <TextField disable="true" fx:id="tf_fName" layoutX="10.0" layoutY="82.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
                               <Label fx:id="lbl_lName" layoutX="10.0" layoutY="110.0" minWidth="25.0" prefWidth="130.0" text="Last Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <TextField fx:id="tf_lName" layoutX="10.0" layoutY="129.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <TextField disable="true" fx:id="tf_lName" layoutX="10.0" layoutY="129.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
                               <Label fx:id="lbl_birthday" layoutX="9.0" layoutY="211.0" minWidth="25.0" prefWidth="130.0" text="Start Date" />
                               <Label fx:id="lbl_address" layoutX="10.0" layoutY="258.0" minWidth="25.0" prefWidth="130.0" text="End Date" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <DatePicker fx:id="dp_start_date" layoutX="10.0" layoutY="230.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-                              <ComboBox fx:id="comboBox_selected_request" layoutX="10.0" layoutY="181.0" prefHeight="25.0" prefWidth="166.0" promptText="Select request -" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <DatePicker disable="true" fx:id="dp_start_date" layoutX="10.0" layoutY="230.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <ComboBox disable="true" fx:id="comboBox_selected_request" layoutX="10.0" layoutY="181.0" prefHeight="25.0" prefWidth="166.0" promptText="Select request -" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
                               <Label fx:id="lbl_lName1" layoutX="13.0" layoutY="161.0" minWidth="25.0" prefWidth="130.0" text="Leave Request" />
-                              <DatePicker fx:id="dp_end_date" layoutX="10.0" layoutY="275.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+                              <DatePicker disable="true" fx:id="dp_end_date" layoutX="10.0" layoutY="275.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
+
                            </children>
                            <padding>
                               <Insets bottom="20.0" />

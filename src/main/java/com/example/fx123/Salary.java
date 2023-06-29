@@ -57,13 +57,12 @@ public class Salary {
         calculateWeeklyHoursWorked();
 
         /**
-         * [0] total gross salary
-         *  [1] week 1 gross salary
-         *  [2] week 2 gross salary
-         *  [3] week 3 gross salary
-         *  [4] week 4 gross salary
-         *  [5] week 5 gross salary
-         *  [6] week 6 gross salary
+         *  [0]  week 1 gross salary
+         *  [1] week 2 gross salary
+         *  [2] week 3 gross salary
+         *  [3] week 4 gross salary
+         *  [4] week 5 gross salary
+         *  [5] week 6 gross salary
          */
         double hourly_rate = Employees.records.get(eid - 10_001).getHourly_rate();
         weekly_gross_salary[0] = weekly_hours_worked[0] * hourly_rate;
@@ -79,14 +78,7 @@ public class Salary {
                 + "Total Hours Worked = " + getMonthly_hours_worked());
     }
 
-    /**
-     *
-     * @return Array of integer that includes [total hours worked, week 1 hours
-     *     worked, week 2 hours worked ,
-     *                                          week 3 hours worked, week 4 hours
-     * worked, week 5 hours worked, week 6 hours worked];
-     * @throws ParseException
-     */
+
     void calculateWeeklyHoursWorked() throws ParseException {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -112,10 +104,9 @@ public class Salary {
                 int final_week_year = calendar.getWeekYear() > 2000
                         ? calendar.getWeekYear()
                         : calendar.getWeekYear() + 2000;
-                // check if month and year from datasource is the same with params
+
                 if (Integer.parseInt(arrDateAttendance[0]) == (num_month)
                         && year == final_week_year
-                    //                        && this.year == getArrYear
                 ) {
                     String startTimeString = Attendance.records.get(i).getTimeIn();
                     String endTimeString = Attendance.records.get(i).getTimeOut();
@@ -128,7 +119,6 @@ public class Salary {
                     Duration duration = Duration.between(startTime, endTime);
 
                     int totalHours = (int) duration.toHours();
-
                     if (calendar.get(Calendar.WEEK_OF_MONTH) == 1) {
                         this.weekly_hours_worked[0] += totalHours;
                     } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 2) {
@@ -137,7 +127,6 @@ public class Salary {
                         this.weekly_hours_worked[2] += totalHours;
                     } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 4) {
                         this.weekly_hours_worked[3] += totalHours;
-
                     } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 5) {
                         this.weekly_hours_worked[4] += totalHours;
                     } else {

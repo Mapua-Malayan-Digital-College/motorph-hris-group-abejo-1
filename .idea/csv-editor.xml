@@ -10,10 +10,24 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\main\resources\csv\MotorPH Employee Data - Credetials.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\main\resources\csv\MotorPH Employee Data - Employee Details.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\src\main\resources\csv\MotorPH Employee Data - Leaves.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
             </Attribute>
           </value>
         </entry>

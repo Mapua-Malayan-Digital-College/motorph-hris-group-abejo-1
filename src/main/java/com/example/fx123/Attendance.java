@@ -61,30 +61,7 @@ public class Attendance {
     }
 
     public static void addAllAttendanceRecord() {
-        try {
-            String path = MainApp.ATTENDANCE_TSV;
-            BufferedReader tsvReader = new BufferedReader(new FileReader(path));
-            String line;
-
-            int i = 0;
-            while ((line = tsvReader.readLine()) != null) {
-                if (i == 0) {
-                    i++;
-                    continue;
-                }
-                String[] arr = line.split("\t");
-                if (arr.length == 5) {
-                    Arrays.stream(arr).forEach(System.out::println);
-                    System.out.println("arr length = " + arr.length);
-                }
-
-                Attendance attendance = new Attendance(
-                        Integer.valueOf(arr[0]), arr[1], arr[2], arr[3], arr[4], arr[5]);
-                Attendance.records.add(attendance);
-            }
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
+        CsvUtils.addAllAttendanceRecord();
     }
 
     public static void clearAttendanceRecord() {

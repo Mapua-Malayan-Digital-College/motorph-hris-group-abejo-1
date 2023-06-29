@@ -1,5 +1,7 @@
+package com.example.test.fx123;
+
 import com.example.fx123.Attendance;
-public class TestPopulatingAttendanceRecord {
+public class SamplePopulatingAttendanceRecord {
     public static void main(String[] args) {
         // Call the method to add all attendance records
         Attendance.addAllAttendanceRecord();
