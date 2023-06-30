@@ -13,7 +13,7 @@ public class SampleSetLeave {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         EmployeeLeave manageLeaves = null;
         try {
-            manageLeaves = new EmployeeLeave(10001,"Crisostomo", "Jose","Vacation",sdf.parse("06/01/2022"),sdf.parse("06/06/2022"));
+            manageLeaves = new EmployeeLeave(10001,"Crisostomo", "Jose","Vacation",("6/1/2022"));
             manageLeaves.createEmployeeLeave();
         } catch (ParseException e) {
             throw new RuntimeException(e);

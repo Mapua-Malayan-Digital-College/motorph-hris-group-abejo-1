@@ -8,17 +8,22 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class EmployeeLeave {
     private int eid;
     private String last_name, first_name, leave_type;
-    private Date leave_start, leave_end;
+    private String leave_date;
 
-    public final int MAX_SICK_LEAVES = 5, MAX_VACATION_LEAVES = 10,
+    public static final int MAX_SICK_LEAVES = 5, MAX_VACATION_LEAVES = 10,
             MAX_EMERGENCY_LEAVES = 5;
 
     public static List<EmployeeLeave> RECORDS = new ArrayList<>();
+    public static SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
     public int getEid() {
         return eid;
@@ -36,22 +41,17 @@ public class EmployeeLeave {
         return leave_type;
     }
 
-    public Date getLeave_start() {
-        return leave_start;
-    }
-
-    public Date getLeave_end() {
-        return leave_end;
+    public String getLeave_date() {
+        return leave_date;
     }
 
     public EmployeeLeave(int employeeNumber, String lname, String fname,
-                         String leaveType, Date leaveStart, Date leaveEnd) {
+                         String leaveType, String leaveDate) {
         this.eid = employeeNumber;
         this.last_name = lname;
         this.first_name = fname;
         this.leave_type = leaveType;
-        this.leave_start = leaveStart;
-        this.leave_end = leaveEnd;
+        this.leave_date = leaveDate;
     }
 
     public static void addAllLeaves() {
@@ -63,7 +63,6 @@ public class EmployeeLeave {
             while ((line = br.readLine()) != null) {
                 String[] arr = line.split(",");
 
-                Arrays.stream(arr).forEach(System.out::println);
                 // skip headers
                 if (headers) {
                     headers = false;
@@ -71,17 +70,11 @@ public class EmployeeLeave {
                 }
 
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                try {
-                    Date startDateFormatter = sdf.parse(arr[4]);
-                    Date endDateFormatter = sdf.parse(arr[5]);
 
-                    EmployeeLeave sl = new EmployeeLeave(Integer.valueOf(arr[0]), arr[1],
-                            arr[2], arr[3], startDateFormatter, endDateFormatter);
-                    RECORDS.add(sl);
+                EmployeeLeave sl = new EmployeeLeave(Integer.valueOf(arr[0]), arr[1],
+                        arr[2], arr[3], arr[4]);
+                RECORDS.add(sl);
 
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -90,8 +83,8 @@ public class EmployeeLeave {
         }
     }
 
-    public void createEmployeeLeave() {
-        if (isAllowedToCreateLeave()) {
+    public void createEmployeeLeave() throws ParseException {
+        if (true) {
             try {
                 BufferedWriter writer =
                         new BufferedWriter(new FileWriter(MainApp.LEAVE_CSV, true));
@@ -106,34 +99,6 @@ public class EmployeeLeave {
         }
     }
 
-    private boolean isAllowedToCreateLeave() {
-        if (isEmployeeNumberExist()) {
-            System.out.println("Total Days = " + totalDaysLeave());
-
-            String[] remaining_leaves = getConsumedCredits().split("\t");
-            int consumedEmergencyCredits = Integer.parseInt(remaining_leaves[0]),
-                    consumedSickCredits = Integer.parseInt(remaining_leaves[1]),
-                    consumedVacationCredits = Integer.parseInt(remaining_leaves[2]);
-
-            if (leave_start.equals(leave_end))
-                return false;
-
-            else if (getLeaveType().equals("Emergency")
-                    && (totalDaysLeave() + consumedEmergencyCredits)
-                    <= MAX_EMERGENCY_LEAVES)
-                return true;
-
-            else if (getLeaveType().equals("Sick")
-                    && (totalDaysLeave() + consumedSickCredits) <= MAX_SICK_LEAVES)
-                return true;
-
-            else
-                return getLeaveType().equals("Vacation")
-                        && (totalDaysLeave() + consumedVacationCredits)
-                        <= MAX_VACATION_LEAVES;
-        }
-        return false;
-    }
 
     public boolean isEmployeeNumberExist() {
         for (int i = 0; i < Employees.records.size(); i++) {
@@ -144,21 +109,6 @@ public class EmployeeLeave {
         return false;
     }
 
-    public int totalDaysLeave() {
-        Calendar start_calendar = Calendar.getInstance();
-        Calendar end_calendar = Calendar.getInstance();
-
-        start_calendar.setTime(leave_start);
-        end_calendar.setTime(leave_end);
-
-        int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
-        int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
-
-        System.out.println("start_dayOfYear = " + start_dayOfYear);
-        System.out.println("end_dayOfYear = " + end_dayOfYear);
-
-        return end_dayOfYear - start_dayOfYear;
-    }
 
     public String getLeaveType() {
         switch (leave_type.toLowerCase()) {
@@ -175,39 +125,33 @@ public class EmployeeLeave {
     @Override
     public String toString() {
         return "SetLeave{"
-                + "eid=" + eid + ", last_name='" + last_name + '\'' + ", first_name='"
-                + first_name + '\'' + ", leave_type='" + leave_type + '\''
-                + ", leave_start=" + leave_start + ", leave_end=" + leave_end + '}';
+                + "eid=" + eid + ", last_name='" + last_name + ',' + ", first_name='"
+                + first_name + ',' + ", leave_type='" + leave_type + ','
+                + ", leave_start=" + leave_date +'}';
     }
 
     public String toCommaString() {
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        String start_date = sdf.format(leave_start);
-        String end_date = sdf.format(leave_end);
+        String leave_date = (this.leave_date);
 
         return eid + "," + last_name + "," + first_name + "," + leave_type + ","
-                + start_date + "," + end_date + ",";
+                + leave_date;
     }
 
-    public String getConsumedCredits() {
+    public String getConsumedCredits() throws ParseException {
         int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
 
-        for (EmployeeLeave record : RECORDS) {
-            if (eid == record.eid) {
-                Calendar start_calendar = Calendar.getInstance();
-                Calendar end_calendar = Calendar.getInstance();
+        for (int i = 0 ; i < EmployeeLeave.RECORDS.size(); i++) {
+            if (eid == EmployeeLeave.RECORDS.get(i).getEid()) {
+                Calendar leave_date = Calendar.getInstance();
+                Date date_leave = sdf.parse(EmployeeLeave.RECORDS.get(i).getLeave_date());
+                leave_date.setTime(date_leave);
+                String dateString = EmployeeLeave.RECORDS.get(i).leave_date;
 
-                start_calendar.setTime(record.leave_start);
-                end_calendar.setTime(record.leave_end);
-
-                int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
-                int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
-
-                int differenceDayOfYear = end_dayOfYear - start_dayOfYear;
-                switch (record.leave_type.toLowerCase()) {
-                    case "sick" -> sick_counter += differenceDayOfYear;
-                    case "vacation" -> vacation_counter += differenceDayOfYear;
-                    case "emergency" -> emergency_counter += differenceDayOfYear;
+                switch (EmployeeLeave.RECORDS.get(i).leave_type.toLowerCase()) {
+                    case "sick" -> sick_counter++;
+                    case "vacation" -> vacation_counter++;
+                    case "emergency" -> emergency_counter++;
                 }
             }
         }

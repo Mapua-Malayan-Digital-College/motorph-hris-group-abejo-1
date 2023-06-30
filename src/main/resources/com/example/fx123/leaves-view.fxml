@@ -281,31 +281,28 @@
                             <TableColumn fx:id="last_name" prefWidth="75.0" text="Last Name" />
                             <TableColumn fx:id="first_name" prefWidth="75.0" text="First Name" />
                             <TableColumn fx:id="leave_type" prefWidth="75.0" text="Request" />
-                            <TableColumn fx:id="leave_start" prefWidth="75.0" text="Start Leave" />
-                            <TableColumn fx:id="leave_end" prefWidth="75.0" text="End Leave" />
+                            <TableColumn fx:id="leave_date" prefWidth="75.0" text="Leave Date" />
                         </columns>
                     </TableView>
                 <AnchorPane maxWidth="200.0" minWidth="200.0">
                     <children>
-                        <Button fx:id="btn_save_update" disable="true" layoutX="10.0" layoutY="33.0" mnemonicParsing="false" onAction="#onSaveLeaveClicked" text="Save" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                        <Button fx:id="btn_cancel" disable="true" layoutX="20.0" layoutY="43.0" mnemonicParsing="false" onAction="#onClickedCancel" text="Cancel" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                        <Button fx:id="btn_save_right" disable="true" layoutX="10.0" layoutY="33.0" mnemonicParsing="false" onAction="#onSaveLeaveClicked" text="Save" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Button fx:id="btn_cancel" disable="true" layoutX="20.0" layoutY="43.0" mnemonicParsing="false" onAction="#onClickedCancel" text="Clear" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
                   <ScrollPane layoutX="33.0" layoutY="75.0" prefHeight="516.6666666666666" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="65.0">
                      <content>
                         <AnchorPane minWidth="175.0">
                            <children>
                               <Label fx:id="lbl_employee_number" layoutX="10.0" layoutY="16.0" minWidth="25.0" prefWidth="130.0" text="Employee #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <TextField disable="true" fx:id="tf_employee_number" onAction="#onActionEmployeeNUmberTF" layoutX="10.0" layoutY="69.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
-                              <Label fx:id="lbl_fName" layoutX="10.0" layoutY="63.0" minWidth="25.0" prefWidth="130.0" text="First Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <TextField disable="true" fx:id="tf_fName" layoutX="10.0" layoutY="82.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-                              <Label fx:id="lbl_lName" layoutX="10.0" layoutY="110.0" minWidth="25.0" prefWidth="130.0" text="Last Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <TextField disable="true" fx:id="tf_lName" layoutX="10.0" layoutY="129.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-                              <Label fx:id="lbl_birthday" layoutX="9.0" layoutY="211.0" minWidth="25.0" prefWidth="130.0" text="Start Date" />
-                              <Label fx:id="lbl_address" layoutX="10.0" layoutY="258.0" minWidth="25.0" prefWidth="130.0" text="End Date" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <DatePicker disable="true" fx:id="dp_start_date" layoutX="10.0" layoutY="230.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-                              <ComboBox disable="true" fx:id="comboBox_selected_request" layoutX="10.0" layoutY="181.0" prefHeight="25.0" prefWidth="166.0" promptText="Select request -" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-                              <Label fx:id="lbl_lName1" layoutX="13.0" layoutY="161.0" minWidth="25.0" prefWidth="130.0" text="Leave Request" />
-                              <DatePicker disable="true" fx:id="dp_end_date" layoutX="10.0" layoutY="275.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
-
+                              <TextField fx:id="tf_employee_number" disable="true" layoutX="10.0" layoutY="69.0" minWidth="25.0" onAction="#onActionEmployeeNUmberTF" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
+                              <Label fx:id="lbl_fName" layoutX="12.0" layoutY="98.0" minWidth="25.0" prefWidth="130.0" text="First Name" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="8.0" />
+                              <TextField fx:id="tf_fName" disable="true" layoutX="12.0" layoutY="117.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
+                              <Label fx:id="lbl_lName" layoutX="12.0" layoutY="145.0" minWidth="25.0" prefWidth="130.0" text="Last Name" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="8.0" />
+                              <TextField fx:id="tf_lName" disable="true" layoutX="12.0" layoutY="164.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
+                              <Label fx:id="lbl_birthday" layoutX="11.0" layoutY="246.0" minWidth="25.0" prefWidth="130.0" text="Leave Date" />
+                              <DatePicker fx:id="dp_leave_date" disable="true" layoutX="12.0" layoutY="265.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
+                              <ComboBox fx:id="comboBox_selected_request" disable="true" layoutX="12.0" layoutY="216.0" prefHeight="25.0" prefWidth="166.0" promptText="Select request -" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
+                              <Label fx:id="lbl_lName1" layoutX="15.0" layoutY="196.0" minWidth="25.0" prefWidth="130.0" text="Leave Request" />
+                              <Button fx:id="btn_spent_credits" disable="true" layoutX="9.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickedSpentCredits" prefHeight="25.0" prefWidth="167.0" text="Check Spent Credits" />
                            </children>
                            <padding>
                               <Insets bottom="20.0" />
