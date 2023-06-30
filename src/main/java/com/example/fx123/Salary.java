@@ -118,19 +118,33 @@ public class Salary {
 
                     Duration duration = Duration.between(startTime, endTime);
 
-                    int totalHours = (int) duration.toHours();
-                    if (calendar.get(Calendar.WEEK_OF_MONTH) == 1) {
-                        this.weekly_hours_worked[0] += totalHours;
-                    } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 2) {
-                        this.weekly_hours_worked[1] += totalHours;
-                    } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 3) {
-                        this.weekly_hours_worked[2] += totalHours;
-                    } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 4) {
-                        this.weekly_hours_worked[3] += totalHours;
-                    } else if (calendar.get(Calendar.WEEK_OF_MONTH) == 5) {
-                        this.weekly_hours_worked[4] += totalHours;
-                    } else {
-                        this.weekly_hours_worked[5] += totalHours;
+                    int hours_worked_daily = (int) duration.toHours();
+
+                    /**
+                     * Increment weekly hours worked according to it's attendance record
+                     * ex attendance record:
+                     *      January 2,  2022 is week 2
+                     *      January 9,  2022 is week 3
+                     *      January 16, 2022 is week 4
+                     *      January 23, 2022 is week 5
+                     *      January 30, 2022 is week 6
+                     *  supposedly totalHours will increment our array.
+                     *  weekly_hours_worked[0] = Week 1
+                     *             ||
+                     *            ||
+                     *           ||
+                     *          ||
+                     *  weekly_hours_worked[5] = Week 6
+                     */
+
+                    switch (calendar.get(Calendar.WEEK_OF_MONTH)) {
+                        // used arrow to remove break statement
+                        case 1 -> this.weekly_hours_worked[0] += hours_worked_daily;
+                        case 2 -> this.weekly_hours_worked[1] += hours_worked_daily;
+                        case 3 -> this.weekly_hours_worked[2] += hours_worked_daily;
+                        case 4 -> this.weekly_hours_worked[3] += hours_worked_daily;
+                        case 5 -> this.weekly_hours_worked[4] += hours_worked_daily;
+                        case 6 -> this.weekly_hours_worked[5] += hours_worked_daily;
                     }
                     eidcounter++;
                     System.out.println(eidcounter + "."

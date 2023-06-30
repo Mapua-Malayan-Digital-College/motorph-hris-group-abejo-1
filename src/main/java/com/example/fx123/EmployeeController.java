@@ -431,10 +431,12 @@ public class EmployeeController implements Runnable {
                 if (checkFieldsThatContainsNumbers()) {
                     {
                         if (isAddNewEmployee) {
+                            System.out.println(employeeDetailsTextFieldToCsvString());
                             BufferedWriter writer =
-                                    new BufferedWriter(new FileWriter(MainApp.EMPLOYEE_CSV, true));
+                                    new BufferedWriter(new FileWriter(MainApp.EMPLOYEE_DETAILS_CSV, true));
                             // 'true' flag is used to append data to the existing file.
                             // Write the new employee details to the file
+
                             writer.write(
                                     employeeDetailsTextFieldToCsvString()); // Assuming you have a
                             // method to convert an
@@ -467,9 +469,9 @@ public class EmployeeController implements Runnable {
                             if (checkFieldsThatContainsNumbers()) {
                                 System.out.println("CheckFieldsThatContainsNumbers has been accessed at line 475");
                                 String[] newValues = employeeDetailsTextFieldToTabularSeparatedValue().split("\t");
-                                CsvUtils.updateByLineNumber(MainApp.EMPLOYEE_CSV,
+                                CsvUtils.updateByLineNumber(MainApp.EMPLOYEE_DETAILS_CSV,
                                         CsvUtils.findLineNumberByEmployeeNumber(
-                                                MainApp.EMPLOYEE_CSV, tf_employee_number.getText()),
+                                                MainApp.EMPLOYEE_DETAILS_CSV, tf_employee_number.getText()),
                                         newValues);
                                 resetDetailsTextField(actionEvent);
 
@@ -517,9 +519,9 @@ public class EmployeeController implements Runnable {
 
     public void onDeleteEmployeeClicked(ActionEvent actionEvent) {
         System.out.println("Start deleting employee here...");
-        CsvUtils.deleteEmployeeRecordByLineNumber(MainApp.EMPLOYEE_CSV,
+        CsvUtils.deleteEmployeeRecordByLineNumber(MainApp.EMPLOYEE_DETAILS_CSV,
                 CsvUtils.findLineNumberByEmployeeNumber(
-                        MainApp.EMPLOYEE_CSV, tableViewSelectedEmployeeNumber));
+                        MainApp.EMPLOYEE_DETAILS_CSV, tableViewSelectedEmployeeNumber));
         refreshEmployeeScene(actionEvent);
 
         // Refresh Employee Records
@@ -612,7 +614,7 @@ public class EmployeeController implements Runnable {
         if (dp_birthday.getValue() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Blank birthday");
-            alert.setContentText("There is a blank date. Please select the calendar icon and select birthday month.");
+            alert.setContentText("There is a blank date. Please select the calendar icon and select birthday.");
             alert.show();
             dp_birthday.requestFocus();
             return false;

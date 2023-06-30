@@ -10,7 +10,7 @@ public class CsvUtils {
     public static void addAllEmployee() {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader(MainApp.EMPLOYEE_CSV));
+            br = new BufferedReader(new FileReader(MainApp.EMPLOYEE_DETAILS_CSV));
             String line;
             boolean is_header = true;
             while ((line = br.readLine()) != null) {
@@ -137,12 +137,12 @@ public class CsvUtils {
 
     public static String addCommaToStrInt(String num) {
         DecimalFormat df = new DecimalFormat("#,###");
-        return df.format(Double.valueOf(num));
+        return df.format(Double.valueOf(String.valueOf(num).replace(",","")));
     }
 
     public static String addCommaAndTwoDecimalsForFloatStr(String num) {
         DecimalFormat df = new DecimalFormat("#,###.##");
-        return df.format(Double.valueOf(num));
+        return df.format(Double.valueOf(String.valueOf(num).replace(",","")));
     }
 
     public static void updateByLineNumber(String filePath, int lineNumber, String[] newData) {
@@ -246,5 +246,4 @@ public class CsvUtils {
             System.out.println("An error occurred while deleting the line: " + e.getMessage());
         }
     }
-
 }

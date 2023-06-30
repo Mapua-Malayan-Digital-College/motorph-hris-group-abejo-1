@@ -181,7 +181,7 @@
                             <Color red="0.625" green="0.625" blue="0.625" fx:id="x41" />
                         </textFill>
                     </Label>
-                    <TextField fx:id="tf_search" onAction="#filterTableData" prefHeight="25.0" prefWidth="206.0" />
+                    <TextField fx:id="tf_search" onAction="#filterTableData" prefHeight="25.0" prefWidth="206.0" promptText="ex: 10001"/>
             </children>
             <padding>
                 <Insets bottom="20.0" left="3.0" right="3.0" top="10.0" />

@@ -14,7 +14,7 @@ public class SceneController {
 
     public static void loginScene(ActionEvent event) throws IOException {
         FXMLLoader loader =
-                new FXMLLoader(LoginController.class.getResource("login.fxml"));
+                new FXMLLoader(LoginController.class.getResource("login-view.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

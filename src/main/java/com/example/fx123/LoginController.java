@@ -15,7 +15,10 @@ public class LoginController {
     @FXML private PasswordField pwField_password;
 
     private boolean verifyUser(String username, String password) {
-        return username.equals("10001") && password.equals("");
+        // debug mode
+        return username.equals("") && password.equals("");
+        // original
+        // return username.equals("user") && password.equals("admin1234");
     }
     public void loginAction(ActionEvent event) throws IOException {
         if (verifyUser(

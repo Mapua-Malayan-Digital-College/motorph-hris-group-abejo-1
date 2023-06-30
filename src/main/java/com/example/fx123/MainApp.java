@@ -11,17 +11,17 @@ public class MainApp extends Application {
             "src/main/resources/tsv/MotorPH Employee Data - Leaves.tsv";
     public static final String CREDENTIALS_CSV =
             "src\\main\\resources\\csv\\MotorPH Employee Data - Credetials.csv";
-    public static final String EMPLOYEE_CSV =
+    public static final String EMPLOYEE_DETAILS_CSV =
             "src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv";
     public static final String ATTENDANCE_CSV =
             "src\\main\\resources\\csv\\MotorPH Employee Data - Attendance Record.csv";
     public static final String LEAVE_CSV =
-            "F:\\motorph-hris-group-abejo-1\\src\\main\\resources\\csv\\MotorPH Employee Data - Leaves.csv";
+            "src\\main\\resources\\csv\\MotorPH Employee Data - Leaves.csv";
     @Override
     public void start(Stage stage) {
         try {
             Parent root =
-                    FXMLLoader.load(LoginController.class.getResource("login.fxml"));
+                    FXMLLoader.load(LoginController.class.getResource("login-view.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Login");

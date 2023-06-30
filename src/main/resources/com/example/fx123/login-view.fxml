@@ -43,7 +43,7 @@
          <items>
           <AnchorPane minHeight="600.0" minWidth="400.0">
             <children>
-                  <Label fx:id="lbl_employeeNumber" layoutX="50.0" layoutY="289.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Employee #" textFill="#00000081" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+                  <Label fx:id="lbl_employeeNumber" layoutX="50.0" layoutY="289.0" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Username" textFill="#00000081" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
                      <font>
                         <Font name="Arial Bold" size="24.0" />
                      </font>
