@@ -2,27 +2,27 @@ package com.example.fx123;
 
 public class Deduction {
     private double basic_salary;
-    private double compensation;
+    private double gross_salary;
 
     public double getBasic_salary() {
         return basic_salary;
     }
 
-    public double getCompensation() {
-        return compensation;
+    public double getGross_salary() {
+        return gross_salary;
     }
 
-    public Deduction(double basicSalary, double compensation) {
+    public Deduction(double basicSalary, double grossSalary) {
         this.basic_salary = basicSalary;
-        this.compensation = compensation;
+        this.gross_salary = grossSalary;
     }
 
     public double deductPhilHealth() {
         double premium_rate = 0.03f, employee_share = 2;
-        if (compensation <= 10_000)
+        if (gross_salary <= 10_000)
             return 300 / employee_share;
-        else if (compensation > 10_000 && compensation < 60_000)
-            return (compensation * premium_rate) / employee_share;
+        else if (gross_salary > 10_000 && gross_salary < 60_000)
+            return (gross_salary * premium_rate) / employee_share;
         else
             return 1_800 / employee_share;
     }
@@ -36,10 +36,10 @@ public class Deduction {
     }
 
     public double deductSSS() {
-        if (compensation < 3_250)
+        if (gross_salary < 3_250)
             return 135.00f;
 
-        else if (compensation >= 24_750)
+        else if (gross_salary >= 24_750)
             return 1_125.00f;
 
         else {
@@ -47,7 +47,7 @@ public class Deduction {
                 maximum_salary_limit = 3_750;
             float contribution = 157.50f;
             while (contribution < 1125){
-                if (compensation >= minimum_salary_limit && compensation < maximum_salary_limit) {
+                if (gross_salary >= minimum_salary_limit && gross_salary < maximum_salary_limit) {
                     return contribution;
                 }
                 else {
@@ -69,7 +69,7 @@ public class Deduction {
     }
 
     public double getWithholdingTax() {
-        double taxable_income = compensation - TotalContribution();
+        double taxable_income = gross_salary - TotalContribution();
 
         if (taxable_income <= 20_832)
             return 0;
