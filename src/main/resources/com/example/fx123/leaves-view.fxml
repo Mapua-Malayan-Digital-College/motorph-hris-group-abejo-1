@@ -294,7 +294,7 @@
                         <AnchorPane minWidth="175.0">
                            <children>
                               <Label fx:id="lbl_employee_number" layoutX="10.0" layoutY="16.0" minWidth="25.0" prefWidth="130.0" text="Employee #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
-                              <TextField disable="true" fx:id="tf_employee_number" layoutX="10.0" layoutY="69.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
+                              <TextField disable="true" fx:id="tf_employee_number" onAction="#onActionEmployeeNUmberTF" layoutX="10.0" layoutY="69.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
                               <Label fx:id="lbl_fName" layoutX="10.0" layoutY="63.0" minWidth="25.0" prefWidth="130.0" text="First Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                               <TextField disable="true" fx:id="tf_fName" layoutX="10.0" layoutY="82.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" />
                               <Label fx:id="lbl_lName" layoutX="10.0" layoutY="110.0" minWidth="25.0" prefWidth="130.0" text="Last Name" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />

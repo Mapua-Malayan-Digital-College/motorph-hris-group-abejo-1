@@ -34,48 +34,69 @@ public class LeavesController implements Runnable {
         this.tableViewSelectedLineNumber = tableViewSelectedLineNumber;
     }
 
-    @FXML private Button btn_cancel;
-
-    @FXML private Button btn_delete;
-
-    @FXML private Button btn_leaves;
-
-    @FXML private Button btn_save_update;
-
-    @FXML private ComboBox<String> comboBox_selected_request;
-
-    @FXML private DatePicker dp_end_date;
-
-    @FXML private DatePicker dp_start_date;
-
-    @FXML private TableColumn<EmployeeLeave, Integer> eid;
-
-    @FXML private TableView<EmployeeLeave> leavesTableView;
-
-    @FXML private TableColumn<EmployeeLeave, String> first_name;
-
-    @FXML private TableColumn<EmployeeLeave, String> last_name;
-
-    @FXML private TableColumn<EmployeeLeave, String> leave_end;
-
-    @FXML private TableColumn<EmployeeLeave, String> leave_start;
-
-    @FXML private TableColumn<EmployeeLeave, String> leave_type;
-
-    @FXML private TextField tf_employee_number;
-
-    @FXML private TextField tf_fName;
-
-    @FXML private TextField tf_lName;
-
-    @FXML private Label lbl_num_emergency_result;
-
-    @FXML private Label lbl_num_sick_result;
-
-    @FXML private Label lbl_num_vacation_result;
+    @FXML
+    private Button btn_cancel;
 
     @FXML
-    void filterTableData(ActionEvent event) {}
+    private Button btn_delete;
+
+    @FXML
+    private Button btn_leaves;
+
+    @FXML
+    private Button btn_save_update;
+
+    @FXML
+    private ComboBox<String> comboBox_selected_request;
+
+    @FXML
+    private DatePicker dp_end_date;
+
+    @FXML
+    private DatePicker dp_start_date;
+
+    @FXML
+    private TableColumn<EmployeeLeave, Integer> eid;
+
+    @FXML
+    private TableView<EmployeeLeave> leavesTableView;
+
+    @FXML
+    private TableColumn<EmployeeLeave, String> first_name;
+
+    @FXML
+    private TableColumn<EmployeeLeave, String> last_name;
+
+    @FXML
+    private TableColumn<EmployeeLeave, String> leave_end;
+
+    @FXML
+    private TableColumn<EmployeeLeave, String> leave_start;
+
+    @FXML
+    private TableColumn<EmployeeLeave, String> leave_type;
+
+    @FXML
+    private TextField tf_employee_number;
+
+    @FXML
+    private TextField tf_fName;
+
+    @FXML
+    private TextField tf_lName;
+
+    @FXML
+    private Label lbl_num_emergency_result;
+
+    @FXML
+    private Label lbl_num_sick_result;
+
+    @FXML
+    private Label lbl_num_vacation_result;
+
+    @FXML
+    void filterTableData(ActionEvent event) {
+    }
 
     @FXML
     void onClckedEmployee(ActionEvent event) {
@@ -192,42 +213,38 @@ public class LeavesController implements Runnable {
                             }
                         }
                     }
-                }
-                else
-                {
-                    Alert alert_save = new Alert (Alert.AlertType.ERROR);
-                    alert_save.setTitle ("Leave Occupied");
-                    alert_save.setContentText (
+                } else {
+                    Alert alert_save = new Alert(Alert.AlertType.ERROR);
+                    alert_save.setTitle("Leave Occupied");
+                    alert_save.setContentText(
                             "Leave is already occupied, please try other dates");
-                    alert_save.showAndWait ();
+                    alert_save.showAndWait();
                 }
             }
 
 
-            if (btn_save_update.getText ().equalsIgnoreCase ("update"))
-            {
-                System.out.println (
+            if (btn_save_update.getText().equalsIgnoreCase("update")) {
+                System.out.println(
                         "IS SET LEAVE OCCUPIED = "
-                                + isLeaveOccupied (tf_employee_number.getText (),
-                                sdf.format (startLeaveDate),
-                                sdf.format (endLeaveDate)));
-                if (!isLeaveOccupied (tf_employee_number.getText (),
-                        sdf.format (startLeaveDate),
-                        sdf.format (endLeaveDate)))
-                {
-                    String[] arr_credits_spent = leave.getConsumedCredits ().split ("\t");
-                    int emergency_spent = Integer.parseInt (arr_credits_spent[0]),
-                            sick_spent = Integer.parseInt (arr_credits_spent[1]),
-                            vacation_spent = Integer.parseInt (arr_credits_spent[2]),
-                            total_days_new_leave = leave.totalDaysLeave ();
+                                + isLeaveOccupied(tf_employee_number.getText(),
+                                sdf.format(startLeaveDate),
+                                sdf.format(endLeaveDate)));
+                if (!isLeaveOccupied(tf_employee_number.getText(),
+                        sdf.format(startLeaveDate),
+                        sdf.format(endLeaveDate))) {
+                    String[] arr_credits_spent = leave.getConsumedCredits().split("\t");
+                    int emergency_spent = Integer.parseInt(arr_credits_spent[0]),
+                            sick_spent = Integer.parseInt(arr_credits_spent[1]),
+                            vacation_spent = Integer.parseInt(arr_credits_spent[2]),
+                            total_days_new_leave = leave.totalDaysLeave();
 
-                    Alert alert = new Alert (Alert.AlertType.ERROR);
-                    String[] updatedData = { String.valueOf (leave.getEid ()),
-                            leave.getLast_name (),
-                            leave.getFirst_name (),
-                            leave.getLeaveType (),
-                            sdf.format (leave.getLeave_start ()),
-                            sdf.format (leave.getLeave_end ()) };
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    String[] updatedData = {String.valueOf(leave.getEid()),
+                            leave.getLast_name(),
+                            leave.getFirst_name(),
+                            leave.getLeaveType(),
+                            sdf.format(leave.getLeave_start()),
+                            sdf.format(leave.getLeave_end())};
 
                     int sum_day_leave, diff_day_leave;
 
@@ -264,7 +281,7 @@ public class LeavesController implements Runnable {
                                 alert.setTitle("Emergency Leave Limit Exceeded");
                                 alert.setContentText(
                                         "Emergency Spent = " + emergency_spent + "\n"
-                                                + "Total Days New  = " + total_days_new_leave + "\n"
+                                                + "Total Days New Leave = " + total_days_new_leave + "\n"
                                                 + "Emergency MAX = 5");
                                 alert.showAndWait();
                             }
@@ -297,7 +314,7 @@ public class LeavesController implements Runnable {
                                 alert.setTitle("Sick Leave Limit Exceeded");
                                 alert.setContentText(
                                         "Sick Spent = " + emergency_spent + "\n"
-                                                + "Total Days New  = " + total_days_new_leave + "\n"
+                                                + "Total Days New  Leave = " + total_days_new_leave + "\n"
                                                 + "Sick MAX = 5");
                                 alert.showAndWait();
                             }
@@ -329,154 +346,149 @@ public class LeavesController implements Runnable {
                                 alert.setTitle("Vacation Leave Limit Exceeded");
                                 alert.setContentText(
                                         "Vacation Spent = " + emergency_spent + "\n"
-                                                + "Total Days New  = " + total_days_new_leave + "\n"
+                                                + "Total Days New Leave = " + total_days_new_leave + "\n"
                                                 + "Vacation MAX = 5");
                                 alert.showAndWait();
                             }
                         }
                     }
-                }
-                else
-                {
-                    Alert alert_update = new Alert (Alert.AlertType.ERROR);
-                    alert_update.setTitle ("Leave Occupied");
-                    alert_update.setContentText (
+                } else {
+                    Alert alert_update = new Alert(Alert.AlertType.ERROR);
+                    alert_update.setTitle("Leave Occupied");
+                    alert_update.setContentText(
                             "Leave is already occupied, please try other dates");
-                    alert_update.showAndWait ();
+                    alert_update.showAndWait();
                 }
             }
-        }
-        catch (ParseException ex)
-        {
-            throw new RuntimeException (ex);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
         }
     }
+
     void refreshLeaveTbl() {
-        btn_save_update.setText ("Save");
-        EmployeeLeave.RECORDS.clear ();
-        run ();
+        btn_save_update.setText("Save");
+        EmployeeLeave.RECORDS.clear();
+        run();
     }
+
     @FXML
     void
-    onClickedCancel (ActionEvent event)
-    {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("MMMM d, yyyy");
-        LocalDate localDate = LocalDate.parse ("January 1, 2022", formatter);
-        tf_employee_number.setText ("");
-        tf_fName.setText ("");
-        tf_lName.setText ("");
-        comboBox_selected_request.setValue ("Select request -");
-        dp_start_date.setValue (localDate);
-        dp_end_date.setValue (localDate);
-        btn_save_update.setText ("Save");
-        lbl_num_emergency_result.setText ("0");
-        lbl_num_sick_result.setText ("0");
-        lbl_num_vacation_result.setText ("0");
-        btn_leaves.requestFocus ();
+    onClickedCancel(ActionEvent event) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+        LocalDate localDate = LocalDate.parse("January 1, 2022", formatter);
+        tf_employee_number.setText("");
+        tf_fName.setText("");
+        tf_lName.setText("");
+        comboBox_selected_request.setValue("Select request -");
+        dp_start_date.setValue(localDate);
+        dp_end_date.setValue(localDate);
+        btn_save_update.setText("Save");
+        lbl_num_emergency_result.setText("0");
+        lbl_num_sick_result.setText("0");
+        lbl_num_vacation_result.setText("0");
+        disableFields();
+        btn_leaves.requestFocus();
         //        onClickedLeaves(event);
     }
 
     @FXML
     void
-    onClickedSetNewLeave (ActionEvent event)
-    {
+    onClickedSetNewLeave(ActionEvent event) {
         enableFields();
 
-        tf_employee_number.requestFocus ();
-        btn_save_update.setText ("Save");
-        btn_cancel.setDisable (false);
-        btn_save_update.setDisable (false);
+        tf_employee_number.requestFocus();
+        btn_save_update.setText("Save");
+        btn_cancel.setDisable(false);
+        btn_save_update.setDisable(false);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern ("MMMM d, yyyy");
-        LocalDate localDateStart = LocalDate.parse ("January 1, 2022", formatter);
-        LocalDate localDateEnd = LocalDate.parse ("January 2, 2022", formatter);
-        tf_employee_number.setText ("");
-        tf_fName.setText ("");
-        tf_lName.setText ("");
-        comboBox_selected_request.setValue ("Select request -");
-        dp_start_date.setValue (localDateStart);
-        dp_end_date.setValue (localDateEnd);
-        btn_save_update.setText ("Save");
-        tf_employee_number.requestFocus ();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+        LocalDate localDateStart = LocalDate.parse("January 1, 2022", formatter);
+        LocalDate localDateEnd = LocalDate.parse("January 2, 2022", formatter);
+        tf_employee_number.setText("");
+        tf_fName.setText("");
+        tf_lName.setText("");
+        comboBox_selected_request.setValue("Select request -");
+        dp_start_date.setValue(localDateStart);
+        dp_end_date.setValue(localDateEnd);
+        btn_save_update.setText("Save");
+        tf_employee_number.requestFocus();
     }
 
     public void
-    tableViewSelectedItemListener ()
-    {
-        leavesTableView.getSelectionModel ().selectedItemProperty ().addListener (
+    tableViewSelectedItemListener() {
+        leavesTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, leave) -> {
-                    if (leave != null)
-                    {
-                        System.out.println ("Selected Line Number = "
+                    if (leave != null) {
+                        enableFields();
+                        System.out.println("Selected Line Number = "
                                 + tableViewSelectedLineNumber);
-                        setTableViewSelectedLineNumber (
-                                leavesTableView.getSelectionModel ().getSelectedIndex ());
+                        setTableViewSelectedLineNumber(
+                                leavesTableView.getSelectionModel().getSelectedIndex());
 
                         /**
                          * Update the textfields if there is an selected item on tableview
                          * textfields
                          */
 
-                        SimpleDateFormat sdf = new SimpleDateFormat ("MM/dd/yyyy");
+                        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                         DateTimeFormatter dtf
-                                = DateTimeFormatter.ofPattern ("MM/dd/yyyy");
+                                = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
                         // Convert Date into LocalDate to store to datepicker
 
-                        String str_start_leave = sdf.format (leave.getLeave_start ());
-                        String str_end_leave = sdf.format (leave.getLeave_end ());
+                        String str_start_leave = sdf.format(leave.getLeave_start());
+                        String str_end_leave = sdf.format(leave.getLeave_end());
 
                         LocalDate local_date_start_leave
-                                = LocalDate.parse (str_start_leave, dtf);
+                                = LocalDate.parse(str_start_leave, dtf);
                         LocalDate local_date_end_leave
-                                = LocalDate.parse (str_end_leave, dtf);
+                                = LocalDate.parse(str_end_leave, dtf);
 
-                        tf_employee_number.setText (String.valueOf (leave.getEid ()));
-                        tf_lName.setText (leave.getLast_name ());
-                        tf_fName.setText (leave.getFirst_name ());
-                        comboBox_selected_request.setValue (leave.getLeave_type ());
-                        dp_start_date.setValue (local_date_start_leave);
-                        dp_end_date.setValue (local_date_end_leave);
+                        tf_employee_number.setText(String.valueOf(leave.getEid()));
+                        tf_lName.setText(leave.getLast_name());
+                        tf_fName.setText(leave.getFirst_name());
+                        comboBox_selected_request.setValue(leave.getLeave_type());
+                        dp_start_date.setValue(local_date_start_leave);
+                        dp_end_date.setValue(local_date_end_leave);
                         /**
                          * Set save and cancel button to enabled because we have now
                          * selected item, we can update it via save button and cancel to
                          * terminate the update.
                          */
-                        btn_save_update.setText ("Update");
-                        btn_delete.setDisable (false);
-                        btn_cancel.setDisable (false);
-                        btn_save_update.setDisable (false);
-                        System.out.println ("Already set to false");
-                        System.out.println (
+                        btn_save_update.setText("Update");
+                        btn_delete.setDisable(false);
+                        btn_cancel.setDisable(false);
+                        btn_save_update.setDisable(false);
+                        System.out.println("Already set to false");
+                        System.out.println(
                                 "btn_delete.setDisable(false);\n"
                                         + "                btn_cancel.setDisable(false);\n"
                                         + "                btn_saveOrUpdate.setDisable(false);");
 
-                        String[] creditsleave = leave.getConsumedCredits ().split ("\t");
-                        lbl_num_emergency_result.setText (creditsleave[0]);
-                        lbl_num_sick_result.setText (creditsleave[1]);
-                        lbl_num_vacation_result.setText (creditsleave[2]);
+                        String[] creditsleave = leave.getConsumedCredits().split("\t");
+                        lbl_num_emergency_result.setText(creditsleave[0]);
+                        lbl_num_sick_result.setText(creditsleave[1]);
+                        lbl_num_vacation_result.setText(creditsleave[2]);
                     }
                 });
     }
 
     @Override
     public void
-    run ()
-    {
-        if (EmployeeLeave.RECORDS.isEmpty ())
-            EmployeeLeave.addAllLeaves ();
-        setCellValueFactoryTableColumns ();
-        tableViewSelectedItemListener ();
+    run() {
+        if (EmployeeLeave.RECORDS.isEmpty())
+            EmployeeLeave.addAllLeaves();
+        setCellValueFactoryTableColumns();
+        tableViewSelectedItemListener();
         ObservableList<EmployeeLeave> list
-                = FXCollections.observableArrayList (EmployeeLeave.RECORDS);
-        leavesTableView.setItems (list);
-        addComboBoxItems ();
+                = FXCollections.observableArrayList(EmployeeLeave.RECORDS);
+        leavesTableView.setItems(list);
+        addComboBoxItems();
 
 
-        btn_delete.setDisable (true);
-        btn_cancel.setDisable (true);
-        btn_save_update.setDisable (true);
+        btn_delete.setDisable(true);
+        btn_cancel.setDisable(true);
+        btn_save_update.setDisable(true);
     }
 
     public void enableFields() {
@@ -488,51 +500,56 @@ public class LeavesController implements Runnable {
         dp_end_date.setDisable(false);
     }
 
+    public void disableFields() {
+        tf_employee_number.setDisable(true);
+        tf_fName.setDisable(true);
+        tf_lName.setDisable(true);
+        dp_start_date.setDisable(true);
+        comboBox_selected_request.setDisable(true);
+        dp_end_date.setDisable(true);
+        btn_cancel.setDisable(true);
+        btn_save_update.setDisable(true);
+        btn_delete.setDisable(true);
+    }
+
     public void
-    initialize ()
-    {
-        run ();
+    initialize() {
+        run();
     }
 
     private void
-    setCellValueFactoryTableColumns ()
-    {
-        eid.setCellValueFactory (
+    setCellValueFactoryTableColumns() {
+        eid.setCellValueFactory(
                 new PropertyValueFactory<>("eid"));
-        last_name.setCellValueFactory (
+        last_name.setCellValueFactory(
                 new PropertyValueFactory<>("last_name"));
-        first_name.setCellValueFactory (
+        first_name.setCellValueFactory(
                 new PropertyValueFactory<>("first_name"));
-        leave_type.setCellValueFactory (
+        leave_type.setCellValueFactory(
                 new PropertyValueFactory<>("leave_type"));
-        leave_start.setCellValueFactory (
+        leave_start.setCellValueFactory(
                 new PropertyValueFactory<>("leave_start"));
-        leave_end.setCellValueFactory (
+        leave_end.setCellValueFactory(
                 new PropertyValueFactory<>("leave_end"));
     }
 
 
     public void
-    addComboBoxItems ()
-    {
+    addComboBoxItems() {
         ObservableList<String> items
-                = FXCollections.observableArrayList ("Emergency", "Sick", "Vacation");
-        comboBox_selected_request.setItems (items);
+                = FXCollections.observableArrayList("Emergency", "Sick", "Vacation");
+        comboBox_selected_request.setItems(items);
     }
 
     boolean
-    isLeaveOccupied (String eid, String estart_leave, String eend_leave)
-    {
-        try
-        {
-            BufferedReader br = new BufferedReader (new FileReader (MainApp.LEAVE_CSV));
+    isLeaveOccupied(String eid, String estart_leave, String eend_leave) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(MainApp.LEAVE_CSV));
             String[] line;
-            while (br.readLine () != null)
-            {
+            while (br.readLine() != null) {
                 try {
-                    line = br.readLine ().split (",");
-                    if (eid.equals (line[0]))
-                    {
+                    line = br.readLine().split(",");
+                    if (eid.equals(line[0])) {
                         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                         // convert the string from tsv to Date
                         Date date_start = sdf.parse(line[4]);
@@ -560,25 +577,20 @@ public class LeavesController implements Runnable {
                         System.out.println("🗓️tsv_end_dayOfYear  = " + tsv_end_dayOfYear);
                         System.out.println("🗓️input_start_dayOfYear  = " + input_start_dayOfYear);
                         System.out.println("🗓️input_end_dayOfYear  = " + input_end_dayOfYear);
-                        if (estart_leave.equals (line[4]) && eend_leave.equals (line[5]))
-                        {
+                        if (estart_leave.equals(line[4]) && eend_leave.equals(line[5])) {
                             return true;
                         }
-                        if (input_start_dayOfYear <= tsv_start_dayOfYear && input_end_dayOfYear >= tsv_end_dayOfYear)
-                        {
+                        if (input_start_dayOfYear <= tsv_start_dayOfYear && input_end_dayOfYear >= tsv_end_dayOfYear) {
                             return true;
                         }
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     // br.readline is null
                     return false;
                 }
             }
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException (e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return false;
     }
@@ -588,6 +600,42 @@ public class LeavesController implements Runnable {
             SceneController.salaryScene(actionEvent);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void onActionEmployeeNUmberTF(ActionEvent actionEvent) {
+        int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
+
+        for (int i = 0; i < EmployeeLeave.RECORDS.size(); i++) {
+            if (Integer.parseInt(tf_employee_number.getText()) == EmployeeLeave.RECORDS.get(i).getEid()) {
+                Calendar start_calendar = Calendar.getInstance();
+                Calendar end_calendar = Calendar.getInstance();
+
+                start_calendar.setTime(EmployeeLeave.RECORDS.get(i).getLeave_start());
+                end_calendar.setTime(EmployeeLeave.RECORDS.get(i).getLeave_end());
+
+                int start_dayOfYear = start_calendar.get(Calendar.DAY_OF_YEAR);
+                int end_dayOfYear = end_calendar.get(Calendar.DAY_OF_YEAR);
+
+                int differenceDayOfYear = end_dayOfYear - start_dayOfYear;
+                switch (EmployeeLeave.RECORDS.get(i).getLeave_type().toLowerCase()) {
+                    case "sick": {
+                        sick_counter += differenceDayOfYear;
+                        break;
+                    }
+                    case "vacation": {
+                        vacation_counter += differenceDayOfYear;
+                        break;
+                    }
+                    case "emergency" : {
+                        emergency_counter += differenceDayOfYear;
+                        break;
+                    }
+                }
+            }
+            lbl_num_emergency_result.setText(String.valueOf(emergency_counter));
+            lbl_num_vacation_result.setText(String.valueOf(vacation_counter));
+            lbl_num_sick_result.setText(String.valueOf(sick_counter));
         }
     }
 }
