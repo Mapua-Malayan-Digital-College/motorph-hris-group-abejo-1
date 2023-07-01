@@ -58,6 +58,8 @@ public class AttendanceController implements Runnable {
 
     @FXML private Label lbl_attendance_size;
 
+    // This will be use to check the search bar if it has values
+    private boolean isSearch;
     private boolean isCreateNewAttendance;
     private int tableViewSelectedLineNumber;
     @FXML
@@ -179,7 +181,6 @@ public class AttendanceController implements Runnable {
         btn_delete.setDisable(true);
         disableTextFields();
     }
-
     public void handleSaveClick(ActionEvent actionEvent) throws IOException {
 
 
@@ -205,6 +206,7 @@ public class AttendanceController implements Runnable {
             writer.close();
             afterCreateOrUpdateAttendance(actionEvent);
             lbl_attendance_size.setText(String.valueOf(Attendance.records.size()));
+
         }
         /**
          * Update Attendace
@@ -276,6 +278,7 @@ public class AttendanceController implements Runnable {
     public void tableViewSelectedItemListener() {
         attendanceTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, attendance) -> {
+
                     if (attendance != null) {
                         tableViewSelectedLineNumber =
                                 attendanceTableView.getSelectionModel().getSelectedIndex();

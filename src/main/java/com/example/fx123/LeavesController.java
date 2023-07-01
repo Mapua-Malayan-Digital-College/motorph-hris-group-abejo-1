@@ -164,7 +164,7 @@ public class LeavesController implements Runnable {
                     System.out.println("Create Leave Outer Core");
                     if (hasCreditsLeft()) { // check if employee has credits left for their choosen leave request
                         System.out.println("Create Leave Inner Core");
-                        EmployeeLeave employeeLeave = new EmployeeLeave(Integer.parseInt(tf_employee_number.getText()),tf_fName.getText(),tf_lName.getText(),comboBox_selected_request.getValue(),dp_leave_date.getValue().format(DateTimeFormatter.ofPattern("M/d/yyyy")));
+                        EmployeeLeave employeeLeave = new EmployeeLeave(Integer.parseInt(tf_employee_number.getText()),tf_lName.getText(),tf_fName.getText(),comboBox_selected_request.getValue(),dp_leave_date.getValue().format(DateTimeFormatter.ofPattern("M/d/yyyy")));
                         createEmployeeLeave(employeeLeave,event);
                         refreshLeaveTbl();
                     }
@@ -249,7 +249,7 @@ public class LeavesController implements Runnable {
             }
         }
 
-        else if (comboBox_selected_request.getValue().equals("Sick")) {
+        else if (comboBox_selected_request.getValue().equals("Vacation")) {
             if (arrOfCreditsLeft[2] < EmployeeLeave.MAX_VACATION_LEAVES) {
                 return true;
             }
