@@ -430,7 +430,7 @@
             </HBox>
             <HBox layoutX="10.0" layoutY="120.0">
                <children>
-                  <Label text="Week 6">
+                  <Label fx:id="finalweek6lbl" text="Week 6">
                      <padding>
                         <Insets left="75.0" right="125.0" />
                      </padding>

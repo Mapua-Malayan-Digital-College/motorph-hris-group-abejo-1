@@ -3,6 +3,11 @@ package com.example.fx123;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -62,6 +67,8 @@ public class SalaryController implements Runnable {
     @FXML private Label lbl_witholding_tax;
 
     @FXML private TextField txtField_eid;
+
+    @FXML private Label finalweek6lbl;
 
     @FXML
     void onAttendanceClicked(ActionEvent event) {
@@ -267,6 +274,17 @@ public class SalaryController implements Runnable {
         System.out.println(getDeduction.getWithholdingTax());
         System.out.println("⬇️⬇️⬇️This is the net salary");
         System.out.println(getSalary.getMonthly_net_salary());
+
+        if (hasWeekSix()) {
+            finalweek6lbl.setVisible(true);
+            lbl_w6_gross_salary.setVisible(true);
+            lbl_w6_hours_worked.setVisible(true);
+        }
+        else {
+            finalweek6lbl.setVisible(false);
+            lbl_w6_gross_salary.setVisible(false);
+            lbl_w6_hours_worked.setVisible(false);
+        }
     }
 
     public void onGenerateClicked(ActionEvent actionEvent) {
@@ -329,6 +347,43 @@ public class SalaryController implements Runnable {
             alert.setContentText(e.getMessage());
             alert.show();
         }
+    }
+
+    /**
+     * Check month and year if the month has week six
+     */
+    public boolean hasWeekSix() throws ParseException {
+
+        int assumed_day = 1;
+        String dateString = String.valueOf(monthWordToInt())+"/"+assumed_day+"/"+String.valueOf(txtField_select_YY.getText());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("M/d/yyyy");
+        System.out.println(dateString);
+
+        try {
+            Date date = dateFormat.parse(dateString);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            int innermonth = calendar.get(Calendar.MONTH);
+            int inneryear = calendar.get(Calendar.YEAR);
+
+            calendar.set(Calendar.YEAR, inneryear);
+            calendar.set(Calendar.MONTH, innermonth);
+            calendar.set(Calendar.DAY_OF_MONTH, 5);
+
+            int lastDayOfMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            System.out.println(lastDayOfMonth);
+            calendar.set(Calendar.DAY_OF_MONTH, lastDayOfMonth);
+
+            int maxWeeksOfMonth = calendar.get(Calendar.WEEK_OF_MONTH);
+
+            System.out.println("The maximum number of weeks in the month is: " + maxWeeksOfMonth);
+
+            return maxWeeksOfMonth >= 6;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
 
