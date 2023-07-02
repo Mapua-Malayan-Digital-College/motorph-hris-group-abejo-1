@@ -183,7 +183,7 @@ public class AttendanceController implements Runnable {
         /**
          * Create Attendance
          */
-        if (isNotAttendanceError() && btn_save.getText().equals("Save")) {
+        if (isAttendanceFieldsBlank() && btn_save.getText().equals("Save")) {
             System.out.println(attendanceDetailsTextFieldToCSVString());
             BufferedWriter writer =
                     new BufferedWriter(new FileWriter(MainApp.ATTENDANCE_CSV, true));
@@ -207,11 +207,11 @@ public class AttendanceController implements Runnable {
         /**
          * Update Attendace
          */
-        if (isNotAttendanceError() && btn_save.getText().equals("Update")) {
+        if (btn_save.getText().equals("Update")) {
             if (isEmployeeNumberExist((tf_employee_number.getText()))) {
                System.out.println(getTableSelectedItemString);
                try {
-                   CsvUtils.updateAttendanceRecordByStringArray(getTableSelectedItemString, attendanceDetailsTextFieldToCSVString());
+                   CsvUtils.updateAttendanceCSVViaOldStringtoNewString(getTableSelectedItemString, attendanceDetailsTextFieldToCSVString());
                    afterCreateOrUpdateAttendance(actionEvent);
                } catch (IOException e) {
                        e.printStackTrace();
@@ -328,7 +328,7 @@ public class AttendanceController implements Runnable {
         Attendance.addAllAttendanceRecord();
     }
 
-    public boolean isNotAttendanceError() {
+    public boolean isAttendanceFieldsBlank() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         if(datePicker == null) {
             alert.setTitle("Blank attendance date");

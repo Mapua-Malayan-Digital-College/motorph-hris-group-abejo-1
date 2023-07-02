@@ -246,7 +246,7 @@ public class CsvUtils {
             System.out.println("An error occurred while deleting the line: " + e.getMessage());
         }
     }
-    public static void updateAttendanceRecordByStringArray(String oldSring, String newString) throws IOException {
+    public static void updateAttendanceCSVViaOldStringtoNewString(String oldString, String newString) throws IOException {
         List<String> updatedLines = new ArrayList<>();
         BufferedReader br = new BufferedReader(new FileReader(MainApp.ATTENDANCE_CSV));
         String line;
@@ -255,9 +255,8 @@ public class CsvUtils {
             if (isHeader) {
                 isHeader = false;
                 updatedLines.add("Employee #,Last Name,First Name,Date,Time-in,Time-out");
-                continue;
             }
-            else if (line.equals(oldSring)) {
+            else if (line.equals(oldString)) {
                 StringBuilder updatedLineBuilder = new StringBuilder();
                 for (String data : newString.split(",")) {
                     updatedLineBuilder.append(data).append(",");

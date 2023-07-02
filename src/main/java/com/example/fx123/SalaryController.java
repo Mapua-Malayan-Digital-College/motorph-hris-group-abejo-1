@@ -162,8 +162,7 @@ public class SalaryController implements Runnable {
         return searched_month;
     }
     public void search_employee(ActionEvent actionEvent) throws ParseException {
-        System.out.println(
-                "Starting ... Attendance Record Size = " + Attendance.records.size());
+
         int employee_number = Integer.parseInt(txtField_eid.getText());
         int search_year = Integer.parseInt(txtField_select_YY.getText());
 
@@ -318,8 +317,18 @@ public class SalaryController implements Runnable {
                         "Please check your text field, it might have invalid characters");
                 alert.showAndWait();
             }
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        }
+
+        catch (NumberFormatException numberFormatException) {
+                alert.setTitle("NumberFormatException");
+                alert.setContentText(numberFormatException.getMessage());
+                alert.show();
+                txtField_select_YY.requestFocus();
+            } catch (ParseException e) {
+            alert.setTitle("ParseException");
+            alert.setContentText(e.getMessage());
+            alert.show();
         }
     }
 }
+
