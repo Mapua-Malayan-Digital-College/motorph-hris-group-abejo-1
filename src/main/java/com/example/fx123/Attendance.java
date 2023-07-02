@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -70,5 +71,19 @@ public class Attendance {
 
     public String getFullName() {
         return f_name + " " + l_name;
+    }
+
+    public String toCommaSeparatedValueString () {
+        return (String.valueOf(employee_number)
+                + ","
+                + l_name
+                + ","
+                + f_name
+                + ","
+                + date
+                + ","
+                + timeIn
+                + ","
+                + timeOut);
     }
 }

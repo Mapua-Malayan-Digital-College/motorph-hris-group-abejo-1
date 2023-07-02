@@ -149,11 +149,11 @@ public class CsvUtils {
         List<String> updatedLines = new ArrayList<>();
 
         int currentLineNumber = 0; // pass over headers
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
         String line;
-        int exclude_header_line = lineNumber - 1;
-            while ((line = reader.readLine()) != null) {
-                if (currentLineNumber == exclude_header_line) {
+        int row = lineNumber - 1;
+            while ((line = br.readLine()) != null) {
+                if (currentLineNumber == row) {
                     StringBuilder updatedLineBuilder = new StringBuilder();
                     for (String data : newData) {
                         updatedLineBuilder.append(data).append(",");
@@ -244,6 +244,42 @@ public class CsvUtils {
             System.out.println("Line deleted successfully.");
         } catch (IOException e) {
             System.out.println("An error occurred while deleting the line: " + e.getMessage());
+        }
+    }
+    public static void updateAttendanceRecordByStringArray(String oldSring, String newString) throws IOException {
+        List<String> updatedLines = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new FileReader(MainApp.ATTENDANCE_CSV));
+        String line;
+        boolean isHeader = true;
+        while ((line = br.readLine()) != null) {
+            if (isHeader) {
+                isHeader = false;
+                updatedLines.add("Employee #,Last Name,First Name,Date,Time-in,Time-out");
+                continue;
+            }
+            else if (line.equals(oldSring)) {
+                StringBuilder updatedLineBuilder = new StringBuilder();
+                for (String data : newString.split(",")) {
+                    updatedLineBuilder.append(data).append(",");
+                }
+                String updatedLine = updatedLineBuilder.toString().trim(); // Trim trailing tab
+                int lastCommaIndex = updatedLine.lastIndexOf(",");
+                // remove the last comma
+                String output = updatedLine.substring(0, lastCommaIndex) + updatedLine.substring(lastCommaIndex + 1);
+                updatedLines.add(output);
+            }
+            else {
+                updatedLines.add(line);
+            }
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MainApp.ATTENDANCE_CSV))) {
+            for (String writeLine : updatedLines) {
+                writer.write(writeLine);
+                writer.newLine();
+            }
+            System.out.println("File updated successfully.");
+        } catch (IOException e) {
+            System.out.println("An error occurred while updating the file: " + e.getMessage());
         }
     }
 }

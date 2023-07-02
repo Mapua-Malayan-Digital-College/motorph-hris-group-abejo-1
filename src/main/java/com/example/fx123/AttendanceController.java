@@ -3,7 +3,6 @@ package com.example.fx123;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
@@ -20,6 +19,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class AttendanceController implements Runnable {
+    private String getTableSelectedItemString;
+
     @FXML private TableView<Attendance> attendanceTableView;
 
     @FXML private Button btn_attendance;
@@ -59,8 +60,6 @@ public class AttendanceController implements Runnable {
     @FXML private Label lbl_attendance_size;
 
     // This will be use to check the search bar if it has values
-    private boolean isSearch;
-    private boolean isCreateNewAttendance;
     private int tableViewSelectedLineNumber;
     @FXML
     void filterTableData(ActionEvent event) {
@@ -88,7 +87,6 @@ public class AttendanceController implements Runnable {
         try {
             CsvUtils.deleteEmployeeRecordByLineNumber(
                     MainApp.ATTENDANCE_CSV, tableViewSelectedLineNumber + 2);
-            isCreateNewAttendance = false;
             refreshAttendanceList(event);
             run();
             clearTextField(event);
@@ -96,7 +94,6 @@ public class AttendanceController implements Runnable {
             btn_save.setDisable(true);
             btn_cancel.setDisable(true);
             // Reset attribute
-            isCreateNewAttendance = false;
             btn_save.setText("Save");
             System.out.println(Attendance.records.size());
         } catch (Exception e) {
@@ -159,7 +156,6 @@ public class AttendanceController implements Runnable {
         tf_employee_number.requestFocus();
         btn_cancel.setDisable(false);
         btn_save.setDisable(false);
-        isCreateNewAttendance = true;
         // Enable TextFields
         enableTextFields();
         // set fields to blank
@@ -187,7 +183,7 @@ public class AttendanceController implements Runnable {
         /**
          * Create Attendance
          */
-        if (isNotAttendanceError() && isCreateNewAttendance) {
+        if (isNotAttendanceError() && btn_save.getText().equals("Save")) {
             System.out.println(attendanceDetailsTextFieldToCSVString());
             BufferedWriter writer =
                     new BufferedWriter(new FileWriter(MainApp.ATTENDANCE_CSV, true));
@@ -211,26 +207,21 @@ public class AttendanceController implements Runnable {
         /**
          * Update Attendace
          */
-        else {
+        if (isNotAttendanceError() && btn_save.getText().equals("Update")) {
             if (isEmployeeNumberExist((tf_employee_number.getText()))) {
-                try {
-                   if (isNotAttendanceError()) {
-                       String[] newValues =
-                               attendanceDetailsTextFieldToCSVString().split(",");
-                       CsvUtils.updateByLineNumber(MainApp.ATTENDANCE_CSV,
-                               tableViewSelectedLineNumber + 2, newValues);
-                       clearTextField(actionEvent);
-                       afterCreateOrUpdateAttendance(actionEvent);
-                   }
-                } catch (Exception e) {
-                   e.getMessage();
+               System.out.println(getTableSelectedItemString);
+               try {
+                   CsvUtils.updateAttendanceRecordByStringArray(getTableSelectedItemString, attendanceDetailsTextFieldToCSVString());
+                   afterCreateOrUpdateAttendance(actionEvent);
+               } catch (IOException e) {
+                       e.printStackTrace();
+                       throw new RuntimeException(e);
+                    };
                 }
             }
         }
-    }
 
     public void afterCreateOrUpdateAttendance(ActionEvent actionEvent) {
-        isCreateNewAttendance = false;
         refreshAttendanceList(actionEvent);
         run();
         clearTextField(actionEvent);
@@ -274,16 +265,16 @@ public class AttendanceController implements Runnable {
         tf_timeOUT.setText("");
         datePicker.setValue(null);
     }
-
     public void tableViewSelectedItemListener() {
         attendanceTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, attendance) -> {
-
                     if (attendance != null) {
+
+                        this.getTableSelectedItemString = attendance.toCommaSeparatedValueString();
                         tableViewSelectedLineNumber =
                                 attendanceTableView.getSelectionModel().getSelectedIndex();
                         // update the value via save button
-                        isCreateNewAttendance = false;
+                        btn_save.setText("Update");
 
                         // print employee data via console.
                         System.out.println(attendance.toString());
@@ -331,8 +322,10 @@ public class AttendanceController implements Runnable {
     }
 
     public void refreshAttendanceList(ActionEvent actionEvent) {
-        // Clear Employees Record
+        // Clear Attenance Record
         Attendance.clearAttendanceRecord();
+        // aDD All attendance
+        Attendance.addAllAttendanceRecord();
     }
 
     public boolean isNotAttendanceError() {
@@ -361,7 +354,7 @@ public class AttendanceController implements Runnable {
                 "Time out"
         };
         for (int i = 0; i < textFields.length; i++) {
-            if (textFields[i].getText().isEmpty()) {
+            if (textFields[i].getText().equals("")) {
                 alert.setTitle("Blank Input Value");
                 alert.setContentText(strTextFieldsName[i] + " textfield needs a value to be entered.");
                 alert.show();
