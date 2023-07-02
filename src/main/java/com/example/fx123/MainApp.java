@@ -7,10 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MainApp extends Application {
-    public static final String LEAVE_TSV =
-            "src/main/resources/tsv/MotorPH Employee Data - Leaves.tsv";
-    public static final String CREDENTIALS_CSV =
-            "src\\main\\resources\\csv\\MotorPH Employee Data - Credetials.csv";
+    public static final String EMPLOYEE_CREDENTIALS_CSV =
+            "src\\main\\resources\\csv\\MotorPH Employee Data - Credentials.csv";
     public static final String EMPLOYEE_DETAILS_CSV =
             "src\\main\\resources\\csv\\MotorPH Employee Data - Employee Details.csv";
     public static final String ATTENDANCE_CSV =

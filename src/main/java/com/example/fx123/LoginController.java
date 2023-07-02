@@ -1,5 +1,7 @@
 package com.example.fx123;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
@@ -14,23 +16,34 @@ public class LoginController {
 
     @FXML private PasswordField pwField_password;
 
-    private boolean verifyUser(String username, String password) {
-        // debug mode
-        return username.equals("") && password.equals("");
-        // original
-        // return username.equals("user") && password.equals("admin1234");
+    private boolean verifyUser(String user, String pwd) {
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(MainApp.EMPLOYEE_CREDENTIALS_CSV));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String [] arrCredentials = line.split(",");
+                String getUsername =  arrCredentials[0],
+                       getPassword = arrCredentials[1];
+                // verify that each row contains a username and password in a csv
+                if (user.equals(getUsername) && pwd.equals(getPassword)) {
+                    return true;
+                }
+            }
+            // if username and password does not exist on the csv then it will fail the verification.
+            return false;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public void loginAction(ActionEvent event) throws IOException {
+    public void loginAction(ActionEvent event) {
         if (verifyUser(
                 txtField_employeeNumber.getText(), pwField_password.getText())) {
             Alert alert =
                     new Alert(Alert.AlertType.INFORMATION, "Successfully logged in.");
-            alert.show();
-            PauseTransition delay = new PauseTransition(Duration.seconds(3));
-            delay.setOnFinished(e -> alert.hide());
-            delay.play();
+            alert.showAndWait();
 
-            // Populate Employees and Attendance
+            // Populate Employees
             Employees.addAllEmployees();
             // Change Scene
             try {
@@ -39,12 +52,8 @@ public class LoginController {
                 throw new IllegalArgumentException("Scene can't load.");
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR,
-                    "Invalid username or password. Please try again.");
-            alert.show();
-            PauseTransition delay = new PauseTransition(Duration.seconds(3));
-            delay.setOnFinished(e -> alert.hide());
-            delay.play();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username/password. Please try again.");
+            alert.showAndWait();
             txtField_employeeNumber.requestFocus();
         }
     }
