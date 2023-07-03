@@ -1,0 +1,10 @@
+#employeeTable {
+}
+
+#employeeTable .table-row-cell:odd {
+    -fx-background-color: #f0f0f0;
+}
+
+#employeeTable .table-row-cell:selected {
+    -fx-background-color: #e28743;
+}

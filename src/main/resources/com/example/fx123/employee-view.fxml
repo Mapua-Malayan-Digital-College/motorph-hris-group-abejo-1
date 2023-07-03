@@ -212,10 +212,10 @@
                                 <Font name="Arial" size="15.0" />
                             </font>
                         </Button>
-                  <Button layoutX="14.0" layoutY="468.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="206.0" text="Button" />
+                  <Button alignment="TOP_LEFT" contentDisplay="RIGHT" layoutX="14.0" layoutY="468.0" mnemonicParsing="false" onAction="#onActionViewDetails" prefHeight="25.0" prefWidth="206.0" text="View Details" />
                     </children>
                 </AnchorPane>
-                    <TableView fx:id="employeeTable">
+                    <TableView fx:id="employeeTable" stylesheets="@stylesheet/style.css">
                         <columns>
                             <TableColumn fx:id="id" prefWidth="75.0" text="Employee #" />
                             <TableColumn fx:id="l_name" prefWidth="75.0" text="Last Name" />

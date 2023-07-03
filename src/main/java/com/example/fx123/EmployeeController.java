@@ -11,14 +11,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 public class EmployeeController implements Runnable {
@@ -382,7 +381,6 @@ public class EmployeeController implements Runnable {
                          */
                         btn_saveOrUpdate.setDisable(false);
                         isAddNewEmployee = false;
-                        System.out.println("Add new employee is false");
                         btn_cancel.setDisable(false);
                         btn_deleteSelectedEmployee.setDisable(false);
                         btn_saveOrUpdate.setText("Update");
@@ -392,7 +390,7 @@ public class EmployeeController implements Runnable {
 
     @Override
     public void run() {
-        ObservableList list = FXCollections.observableArrayList(Employees.records);
+        ObservableList<Employees> list = FXCollections.observableArrayList(Employees.records);
         employeeTable.setItems(list);
         lbl_employeeSize.setText(String.valueOf(Employees.records.size()));
 
@@ -411,7 +409,6 @@ public class EmployeeController implements Runnable {
         // newest employee id
         previousEmployeeID++;
         tf_employee_number.setText(String.valueOf(previousEmployeeID));
-        System.out.println("The new employee id = " + previousEmployeeID);
         lbl_employeeSize.setText(String.valueOf(Employees.records.size()));
         tf_search.setText("");
         btn_saveOrUpdate.setText("Save Employee");
@@ -661,4 +658,82 @@ public class EmployeeController implements Runnable {
         return true;
     }
 
+    public void onActionViewDetails(ActionEvent actionEvent) {
+        try {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Alert");
+            alert.setHeaderText(null);
+
+            // Create 18 TextFields
+            TextField[] textFields = new TextField[18];
+            for (int i = 0; i < textFields.length; i++) {
+                textFields[i] = new TextField();
+            }
+            textFields[0].setText(tf_employee_number.getText());
+            textFields[1].setText(tf_lName.getText());
+            textFields[2].setText(tf_fName.getText());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+            textFields[3].setText(dp_birthday.getValue().format(formatter));
+            textFields[4].setText(tf_address.getText());
+            textFields[5].setText(tf_phone_number.getText());
+            textFields[6].setText(tf_sss.getText());
+            textFields[7].setText(tf_philhealth.getText());
+            textFields[8].setText(tf_tin.getText());
+            textFields[9].setText(tf_pagibig.getText());
+            textFields[10].setText(tf_status.getText());
+            textFields[11].setText(tf_immediateSupervisor.getText());
+            textFields[12].setText(CsvUtils.addCommaToStrInt(tf_basicSalary.getText()));
+            textFields[13].setText(CsvUtils.addCommaToStrInt(tf_riceSubsidy.getText()));
+            textFields[14].setText(CsvUtils.addCommaToStrInt(tf_phoneAllowance.getText()));
+            textFields[15].setText(CsvUtils.addCommaToStrInt(tf_clothingAllowance.getText()));
+            textFields[16].setText(CsvUtils.addCommaToStrInt(tf_grossSemiMonthlyRate.getText()));
+            textFields[17].setText(CsvUtils.addCommaAndTwoDecimalsForFloatStr(tf_hourlyRate.getText()));
+
+            // Create a GridPane to hold the TextFields
+            GridPane gridPane = new GridPane();
+            gridPane.setHgap(10);
+            gridPane.setVgap(10);
+            gridPane.setPadding(new Insets(10));
+
+            // Add TextFields to the GridPane
+            int columnIndex = 0;
+            int rowIndex = 0;
+            for (TextField textField : textFields) {
+                gridPane.add(textField, columnIndex, rowIndex);
+                columnIndex++;
+                if (columnIndex == 2) {
+                    columnIndex = 0;
+                    rowIndex++;
+                }
+            }
+
+            // Create a VBox to hold the GridPane and Copy button
+            VBox vbox = new VBox(10);
+            vbox.getChildren().addAll(gridPane);
+
+            // Create an HBox to hold the Copy button
+            HBox hbox = new HBox(10);
+            vbox.getChildren().addAll(hbox);
+
+            // Set the VBox as the content of the alert
+            alert.getDialogPane().setContent(vbox);
+
+            // Add OK button and handle its action
+            ButtonType okButton = new ButtonType("OK");
+            alert.getButtonTypes().setAll(okButton);
+            alert.setOnCloseRequest(e -> {
+                // Retrieve the entered values from TextFields
+                for (TextField textField : textFields) {
+                    System.out.println(textField.getText());
+                }
+            });
+
+            // Show the alert
+            alert.showAndWait();
+        }
+        catch (NullPointerException nullPointerException) {
+            Alert alertcatch = new Alert(Alert.AlertType.ERROR, "Please select item on tableview.");
+            alertcatch.showAndWait();
+        }
+    }
 }
