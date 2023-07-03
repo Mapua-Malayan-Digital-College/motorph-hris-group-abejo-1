@@ -281,4 +281,13 @@ public class CsvUtils {
             System.out.println("An error occurred while updating the file: " + e.getMessage());
         }
     }
+
+
+    public static String makeStringLengthToTwelve(String str) {
+        int maxLength = 20;
+
+        str = String.format("%-" + maxLength + "s", str);
+
+        return str;
+    }
 }

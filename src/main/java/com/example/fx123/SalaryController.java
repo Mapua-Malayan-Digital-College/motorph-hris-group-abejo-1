@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.Callable;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,6 +70,10 @@ public class SalaryController implements Runnable {
     @FXML private TextField txtField_eid;
 
     @FXML private Label finalweek6lbl;
+
+    @FXML private Label lbl_tax; // taxable income
+
+    @FXML private Label lbl_total_deductions;
 
     @FXML
     void onAttendanceClicked(ActionEvent event) {
@@ -199,44 +204,44 @@ public class SalaryController implements Runnable {
         /**
          * Set Hours Worked Breakdown
          */
-        lbl_w1_hours_worked.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_hours_worked(0))));
-        lbl_w2_hours_worked.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_hours_worked(1))));
-        lbl_w3_hours_worked.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_hours_worked(2))));
-        lbl_w4_hours_worked.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_hours_worked(3))));
-        lbl_w5_hours_worked.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_hours_worked(4))));
-        lbl_w6_hours_worked.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_hours_worked(5))));
+        lbl_w1_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(0)))));
+        lbl_w2_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(1)))));
+        lbl_w3_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(2)))));
+        lbl_w4_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(3)))));
+        lbl_w5_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(4)))));
+        lbl_w6_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_hours_worked(5)))));
 
         /**
          * Set Gross Salary Breakdown
          */
-        lbl_w1_gross_salary.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_gross_salary(0))));
-        lbl_w2_gross_salary.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_gross_salary(1))));
-        lbl_w3_gross_salary.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_gross_salary(2))));
-        lbl_w4_gross_salary.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_gross_salary(3))));
-        lbl_w5_gross_salary.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_gross_salary(4))));
-        lbl_w6_gross_salary.setText(String.valueOf(
-                decimalFormat.format(getSalary.getWeekly_gross_salary(5))));
+        lbl_w1_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(0)))));
+        lbl_w2_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(1)))));
+        lbl_w3_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(2)))));
+        lbl_w4_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(3)))));
+        lbl_w5_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(4)))));
+        lbl_w6_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getWeekly_gross_salary(5)))));
 
         /**
          * Set total hours worked and gross salary
          */
-        lbl_total_hours_worked.setText(String.valueOf(
-                decimalFormat.format(getSalary.getMonthly_hours_worked())));
-        lbl_total_gross_salary.setText(String.valueOf(
-                decimalFormat.format(getSalary.getMonthly_gross_salary())));
-        lbl_total_gross_salary1.setText(String.valueOf(
-                decimalFormat.format(getSalary.getMonthly_gross_salary())));
+        lbl_total_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getMonthly_hours_worked()))));
+        lbl_total_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getMonthly_gross_salary()))));
+        lbl_total_gross_salary1.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+                decimalFormat.format(getSalary.getMonthly_gross_salary()))));
         double gross_salary = getSalary.getMonthly_hours_worked()
                 * Float.parseFloat(lbl_hourly_rate.getText());
         System.out.println(
@@ -244,8 +249,7 @@ public class SalaryController implements Runnable {
         System.out.println("Get gross salary   = " + gross_salary);
         Deduction getDeduction = new Deduction(
                 Integer.parseInt(lbl_basic_salary.getText()), gross_salary);
-        System.out.println(
-                "Get ded Philhealth = " + getDeduction.deductPhilHealth());
+
         /**
          * Set Deduction Breakdown
          */
@@ -255,8 +259,21 @@ public class SalaryController implements Runnable {
                 String.valueOf(decimalFormat.format(getDeduction.deductPagIbig())));
         lbl_philhealth.setText(
                 String.valueOf(decimalFormat.format(getDeduction.deductPhilHealth())));
-        lbl_witholding_tax.setText(
-                String.valueOf(decimalFormat.format(getDeduction.getWithholdingTax())));
+
+        lbl_total_deductions.setText("-"+String.valueOf(decimalFormat.format(getDeduction.TotalContribution())));
+
+        /**
+         * Set value taxable income
+         */
+
+        lbl_tax.setText(String.valueOf(decimalFormat.format(getDeduction.getTaxableIncome())));
+
+        /**
+         * Set Value for tax
+         */
+
+        lbl_witholding_tax.setText("-"+CsvUtils.makeStringLengthToTwelve(String.valueOf(decimalFormat.format(getDeduction.getWithholdingTax()))));
+
         /**
          * Set Net Salary
          */
@@ -309,6 +326,8 @@ public class SalaryController implements Runnable {
                             lbl_pagibig.setText("0");
                             lbl_sss.setText("0");
                             lbl_witholding_tax.setText("0");
+                            lbl_total_deductions.setText("0");
+                            lbl_tax.setText("0");
                             lbl_net_salary.setText("No attendance record");
                             alert.setTitle("Employee " + txtField_eid.getText()
                                     + " doesn't have any attendance");

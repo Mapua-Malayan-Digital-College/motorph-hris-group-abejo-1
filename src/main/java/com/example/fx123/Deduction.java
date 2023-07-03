@@ -68,6 +68,11 @@ public class Deduction {
         return deductPagIbig() + deductSSS() + deductPhilHealth();
     }
 
+
+    public double getTaxableIncome() {
+        return gross_salary - TotalContribution();
+    }
+
     public double getWithholdingTax() {
         double taxable_income = gross_salary - TotalContribution();
 
