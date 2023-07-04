@@ -3,26 +3,28 @@
 This is a simple employee management application built using JavaFX and utilizing CSV (Comma-Separated Values) as the data source.
 
 ## Features
-#### [Employee](Link 0)
+#### [Login](docs/uiPictures/1loginview.png)
+- Users who entered an incorrect username and/or password will not be able to access the application. 
+#### [Employee](docs/uiPictures/2employeeview.png)
 - View a list of employees stored in a CSV file.
 - Add new employees to the CSV file.
 - Edit employee information (name, hourly rate, position, etc.).
 - Delete employees from the CSV file.
-#### [Attendance](Link 1)
+#### [Attendance](docs/uiPictures/3attendanceview.png)
 - View a list of attendances stored in a CSV file
 - Add new attendance to the CSV file
 - Edit attendance(date and time in or timeout)
 - Delete attendance from CSV file.
-#### [Salary Calculator](Link 2)
+#### [Salary Calculator](docs/uiPictures/5salaryview.png)
 - User can specify a employee number, select month by a combo box and input year
 - User exceptions handler for invalid inputs.
 - View breakdown of computations for weekly gross salary with weekly hours worked.
 - View deductions(SSS, Philhealth, Pagibig) and Witholding Tax.
 - View monthly gross salary and net salary.
-#### [Leave App](Link 3)
-- View all leaves by a tableview. 
-- Check how many credits spent of employee number specified
-- Cannot set new leave if the employee is already fully consumed the credits.
+#### [Leave App](docs/uiPictures/4leavesview.png)
+- View all employee with leaves by a tableview. 
+- Evaluate how many credits have been spent for the employee number given.
+- If the employee credits have already been depleted, no further leave can be scheduled.
 ## Requirements
 
 - Java Development Kit (JDK) 8 or above.
