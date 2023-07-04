@@ -283,7 +283,7 @@ public class CsvUtils {
     }
 
 
-    public static String makeStringLengthToTwelve(String str) {
+    public static String makeStringLengthToTwenty(String str) {
         int maxLength = 20;
 
         str = String.format("%-" + maxLength + "s", str);

@@ -4,6 +4,6 @@ import com.example.fx123.CsvUtils;
 
 public class SamplemakeStringLengthToTwelve {
     public static void main(String[] args) {
-        System.out.println(CsvUtils.makeStringLengthToTwelve("62,100"));
+        System.out.println(CsvUtils.makeStringLengthToTwenty("62,100"));
     }
 }

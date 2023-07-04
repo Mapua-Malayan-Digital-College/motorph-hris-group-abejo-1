@@ -6,8 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.concurrent.Callable;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -204,43 +202,43 @@ public class SalaryController implements Runnable {
         /**
          * Set Hours Worked Breakdown
          */
-        lbl_w1_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w1_hours_worked.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_hours_worked(0)))));
-        lbl_w2_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w2_hours_worked.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_hours_worked(1)))));
-        lbl_w3_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w3_hours_worked.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_hours_worked(2)))));
-        lbl_w4_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w4_hours_worked.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_hours_worked(3)))));
-        lbl_w5_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w5_hours_worked.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_hours_worked(4)))));
-        lbl_w6_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w6_hours_worked.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_hours_worked(5)))));
 
         /**
          * Set Gross Salary Breakdown
          */
-        lbl_w1_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w1_gross_salary.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_gross_salary(0)))));
-        lbl_w2_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w2_gross_salary.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_gross_salary(1)))));
-        lbl_w3_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w3_gross_salary.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_gross_salary(2)))));
-        lbl_w4_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w4_gross_salary.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_gross_salary(3)))));
-        lbl_w5_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w5_gross_salary.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_gross_salary(4)))));
-        lbl_w6_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_w6_gross_salary.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getWeekly_gross_salary(5)))));
 
         /**
          * Set total hours worked and gross salary
          */
-        lbl_total_hours_worked.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_total_hours_worked.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getMonthly_hours_worked()))));
-        lbl_total_gross_salary.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_total_gross_salary.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getMonthly_gross_salary()))));
-        lbl_total_gross_salary1.setText(CsvUtils.makeStringLengthToTwelve(String.valueOf(
+        lbl_total_gross_salary1.setText(CsvUtils.makeStringLengthToTwenty(String.valueOf(
                 decimalFormat.format(getSalary.getMonthly_gross_salary()))));
         double gross_salary = getSalary.getMonthly_hours_worked()
                 * Float.parseFloat(lbl_hourly_rate.getText());
@@ -272,7 +270,7 @@ public class SalaryController implements Runnable {
          * Set Value for tax
          */
 
-        lbl_witholding_tax.setText("-"+CsvUtils.makeStringLengthToTwelve(String.valueOf(decimalFormat.format(getDeduction.getWithholdingTax()))));
+        lbl_witholding_tax.setText("-"+CsvUtils.makeStringLengthToTwenty(String.valueOf(decimalFormat.format(getDeduction.getWithholdingTax()))));
 
         /**
          * Set Net Salary
