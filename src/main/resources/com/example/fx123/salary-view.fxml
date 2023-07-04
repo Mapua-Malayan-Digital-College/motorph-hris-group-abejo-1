@@ -295,10 +295,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_w1_hours_worked" text="Week 1 Hours Worked">
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
+                  <Label fx:id="lbl_w1_hours_worked" prefWidth="160.0" text="Week 1 Hours Worked">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -326,10 +323,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_w2_hours_worked" text="Week 2 Hours Worked">
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
+                  <Label fx:id="lbl_w2_hours_worked" prefWidth="160.0" text="Week 2 Hours Worked">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -354,10 +348,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_w3_hours_worked" text="Week 3 Hours Worked">
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
+                  <Label fx:id="lbl_w3_hours_worked" prefWidth="160.0" text="Week 3 Hours Worked">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -382,10 +373,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_w4_hours_worked" text="Week 4 Hours Worked">
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
+                  <Label fx:id="lbl_w4_hours_worked" prefWidth="160.0" text="Week 4 Hours Worked">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -410,10 +398,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_w5_hours_worked" text="Week 5 Hours Worked">
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
+                  <Label fx:id="lbl_w5_hours_worked" prefWidth="160.0" text="Week 5 Hours Worked">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -438,10 +423,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_w6_hours_worked" text="Week 6 Hours Worked">
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
+                  <Label fx:id="lbl_w6_hours_worked" prefWidth="160.0" text="Week 6 Hours Worked">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -466,10 +448,7 @@
                         <Font name="System Italic" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lbl_total_hours_worked" prefHeight="20.0" prefWidth="159.3333" text="Total Hours Worked    ">
-                     <padding>
-                        <Insets right="20.0" />
-                     </padding>
+                  <Label fx:id="lbl_total_hours_worked" prefHeight="20.0" prefWidth="160.0" text="Total Hours Worked    ">
                      <font>
                         <Font name="System Italic" size="14.0" />
                      </font>
@@ -560,6 +539,9 @@
                      <padding>
                         <Insets left="50.0" />
                      </padding>
+                     <HBox.margin>
+                        <Insets left="25.0" />
+                     </HBox.margin>
                   </Label>
                   <Label fx:id="lbl_witholding_tax" prefWidth="240.0" text="Compute Witholding Tax">
                      <font>

@@ -22,6 +22,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class LeavesController implements Runnable {
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M/d/yyyy");
@@ -329,9 +331,6 @@ public class LeavesController implements Runnable {
         lbl_num_vacation_result.setText("0");
         disableFields();
         btn_leaves.requestFocus();
-
-
-        //        onClickedLeaves(event);
     }
 
     @FXML
@@ -569,5 +568,12 @@ public class LeavesController implements Runnable {
             }
         }
         return false;
+    }
+
+    public void cb_onKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.SPACE) {
+            comboBox_selected_request.show();
+            keyEvent.consume();
+        }
     }
 }

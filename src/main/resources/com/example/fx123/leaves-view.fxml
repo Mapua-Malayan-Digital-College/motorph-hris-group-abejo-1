@@ -210,12 +210,12 @@
                         </Label>
                         <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label text="Emergency">
+                              <Label prefWidth="150.0" text="Emergency">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
                               <Label fx:id="lbl_num_emergency_result" alignment="CENTER" text="0" textAlignment="CENTER">
@@ -233,12 +233,12 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="45.0" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label text="Sick">
+                              <Label prefWidth="150.0" text="Sick">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
                               <Label fx:id="lbl_num_sick_result" alignment="CENTER" text="0" textAlignment="CENTER">
@@ -253,12 +253,12 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="145.0" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label text="Vacation">
+                              <Label prefWidth="150.0" text="Vacation">
                                  <HBox.margin>
                                     <Insets right="10.0" />
                                  </HBox.margin>
                                  <font>
-                                    <Font size="24.0" />
+                                    <Font name="Arial" size="24.0" />
                                  </font>
                               </Label>
                               <Label fx:id="lbl_num_vacation_result" alignment="CENTER" text="0" textAlignment="CENTER">
@@ -294,15 +294,15 @@
                            <children>
                               <Label fx:id="lbl_employee_number" layoutX="10.0" layoutY="16.0" minWidth="25.0" prefWidth="130.0" text="Employee #" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                               <TextField fx:id="tf_employee_number" disable="true" layoutX="10.0" layoutY="69.0" minWidth="25.0" onAction="#onActionEmployeeNUmberTF" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="35.0" />
-                              <Label fx:id="lbl_fName" layoutX="12.0" layoutY="146.0" minWidth="25.0" prefWidth="130.0" text="First Name" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="8.0" />
-                              <TextField fx:id="tf_fName" disable="true" layoutX="12.0" layoutY="165.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
+                              <Button fx:id="btn_spent_credits" disable="true" layoutX="9.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickedSpentCredits" prefHeight="25.0" prefWidth="167.0" text="Check Spent Credits" />
                               <Label fx:id="lbl_lName" layoutX="12.0" layoutY="99.0" minWidth="25.0" prefWidth="130.0" text="Last Name" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="8.0" />
                               <TextField fx:id="tf_lName" disable="true" layoutX="12.0" layoutY="116.0" minWidth="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
+                              <Label fx:id="lbl_fName" layoutX="12.0" layoutY="146.0" minWidth="25.0" prefWidth="130.0" text="First Name" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="8.0" />
+                              <TextField fx:id="tf_fName" disable="true" layoutX="12.0" layoutY="165.0" minWidth="25.0" prefHeight="25.0" prefWidth="130.0" text="N/A" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
                               <Label fx:id="lbl_birthday" layoutX="11.0" layoutY="246.0" minWidth="25.0" prefWidth="130.0" text="Leave Date" />
-                              <DatePicker fx:id="dp_leave_date" disable="true" layoutX="12.0" layoutY="265.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
-                              <ComboBox fx:id="comboBox_selected_request" disable="true" layoutX="12.0" layoutY="216.0" prefHeight="25.0" prefWidth="166.0" promptText="Select request -" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
+                              <ComboBox fx:id="comboBox_selected_request" disable="true" layoutX="12.0" layoutY="216.0" onKeyPressed="#cb_onKeyPressed" prefHeight="25.0" prefWidth="166.0" promptText="Select request -" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
                               <Label fx:id="lbl_lName1" layoutX="15.0" layoutY="196.0" minWidth="25.0" prefWidth="130.0" text="Leave Request" />
-                              <Button fx:id="btn_spent_credits" disable="true" layoutX="9.0" layoutY="66.0" mnemonicParsing="false" onAction="#onClickedSpentCredits" prefHeight="25.0" prefWidth="167.0" text="Check Spent Credits" />
+                              <DatePicker fx:id="dp_leave_date" disable="true" layoutX="12.0" layoutY="265.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="18.0" />
                            </children>
                            <padding>
                               <Insets bottom="20.0" />
