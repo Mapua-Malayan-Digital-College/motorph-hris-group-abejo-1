@@ -1,8 +1,8 @@
 package com.example.fx123;
 
 public class Deduction {
-    private double basic_salary;
-    private double gross_salary;
+    private final double basic_salary;
+    private final double gross_salary;
 
     public double getBasic_salary() {
         return basic_salary;

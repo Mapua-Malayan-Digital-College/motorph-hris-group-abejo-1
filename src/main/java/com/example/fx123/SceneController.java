@@ -13,8 +13,7 @@ public class SceneController {
     private static Scene scene;
 
     public static void loginScene(ActionEvent event) throws IOException {
-        FXMLLoader loader =
-                new FXMLLoader(LoginController.class.getResource("login-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("login-view.fxml"));
         Parent root = loader.load();
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

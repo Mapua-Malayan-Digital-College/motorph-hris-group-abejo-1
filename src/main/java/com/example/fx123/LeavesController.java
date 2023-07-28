@@ -60,22 +60,22 @@ public class LeavesController implements Runnable {
     private DatePicker dp_leave_date;
 
     @FXML
-    private TableColumn<EmployeeLeave, Integer> eid;
+    private TableColumn<Leaves, Integer> eid;
 
     @FXML
-    private TableView<EmployeeLeave> leavesTableView;
+    private TableView<Leaves> leavesTableView;
 
     @FXML
-    private TableColumn<EmployeeLeave, String> first_name;
+    private TableColumn<Leaves, String> first_name;
 
     @FXML
-    private TableColumn<EmployeeLeave, String> last_name;
+    private TableColumn<Leaves, String> last_name;
 
     @FXML
-    private TableColumn<EmployeeLeave, String> leave_date;
+    private TableColumn<Leaves, String> leave_date;
 
     @FXML
-    private TableColumn<EmployeeLeave, String> leave_type;
+    private TableColumn<Leaves, String> leave_type;
 
     @FXML
     private TextField tf_employee_number;
@@ -127,7 +127,7 @@ public class LeavesController implements Runnable {
     void onClickedDeleteLeave(ActionEvent event) {
         CsvUtils.deleteEmployeeRecordByLineNumber(
                 MainApp.LEAVE_CSV, getTableViewSelectedLineNumber()+2);
-        EmployeeLeave.RECORDS.clear();
+        Leaves.RECORDS.clear();
         run();
         lbl_num_emergency_result.setText("0");
         lbl_num_sick_result.setText("0");
@@ -147,9 +147,9 @@ public class LeavesController implements Runnable {
         }
     }
 
-    public void createEmployeeLeave(EmployeeLeave leaves, ActionEvent event) throws ParseException {
+    public void createEmployeeLeave(Leaves leaves, ActionEvent event) throws ParseException {
         leaves.createEmployeeLeave();
-        EmployeeLeave.RECORDS.clear();
+        Leaves.RECORDS.clear();
         onClickedCancel(event);
     }
 
@@ -166,7 +166,7 @@ public class LeavesController implements Runnable {
                     System.out.println("Create Leave Outer Core");
                     if (hasCreditsLeft()) { // check if employee has credits left for their choosen leave request
                         System.out.println("Create Leave Inner Core");
-                        EmployeeLeave employeeLeave = new EmployeeLeave(Integer.parseInt(tf_employee_number.getText()),tf_lName.getText(),tf_fName.getText(),comboBox_selected_request.getValue(),dp_leave_date.getValue().format(DateTimeFormatter.ofPattern("M/d/yyyy")));
+                        Leaves employeeLeave = new Leaves(Integer.parseInt(tf_employee_number.getText()),tf_lName.getText(),tf_fName.getText(),comboBox_selected_request.getValue(),dp_leave_date.getValue().format(DateTimeFormatter.ofPattern("M/d/yyyy")));
                         createEmployeeLeave(employeeLeave,event);
                         refreshLeaveTbl();
                     }
@@ -232,7 +232,7 @@ public class LeavesController implements Runnable {
         Alert alert = new Alert(Alert.AlertType.ERROR);
 
         if (comboBox_selected_request.getValue().equals("Emergency")) {
-            if (arrOfCreditsLeft[0] < EmployeeLeave.MAX_EMERGENCY_LEAVES) {
+            if (arrOfCreditsLeft[0] < Leaves.MAX_EMERGENCY_LEAVES) {
                 return true;
             }
             else {
@@ -242,7 +242,7 @@ public class LeavesController implements Runnable {
         }
 
         else if (comboBox_selected_request.getValue().equals("Sick")) {
-            if (arrOfCreditsLeft[1] < EmployeeLeave.MAX_EMERGENCY_LEAVES) {
+            if (arrOfCreditsLeft[1] < Leaves.MAX_EMERGENCY_LEAVES) {
                 return true;
             }
             else {
@@ -252,7 +252,7 @@ public class LeavesController implements Runnable {
         }
 
         else if (comboBox_selected_request.getValue().equals("Vacation")) {
-            if (arrOfCreditsLeft[2] < EmployeeLeave.MAX_VACATION_LEAVES) {
+            if (arrOfCreditsLeft[2] < Leaves.MAX_VACATION_LEAVES) {
                 return true;
             }
             else {
@@ -311,7 +311,7 @@ public class LeavesController implements Runnable {
 
     void refreshLeaveTbl() {
         btn_save_right.setText("Save");
-        EmployeeLeave.RECORDS.clear();
+        Leaves.RECORDS.clear();
         run();
     }
 
@@ -418,10 +418,10 @@ public class LeavesController implements Runnable {
     @Override
     public void
     run() {
-        if (EmployeeLeave.RECORDS.isEmpty()) EmployeeLeave.addAllLeaves();
+        if (Leaves.RECORDS.isEmpty()) Leaves.addAllLeaves();
         tableViewSelectedItemListener();
-        ObservableList<EmployeeLeave> list
-                = FXCollections.observableArrayList(EmployeeLeave.RECORDS);
+        ObservableList<Leaves> list
+                = FXCollections.observableArrayList(Leaves.RECORDS);
         leavesTableView.setItems(list);
         addComboBoxItems();
 
@@ -544,12 +544,12 @@ public class LeavesController implements Runnable {
     public void updateCreditsSpentUI() throws ParseException {
         int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
 
-        for (int i = 0 ; i < EmployeeLeave.RECORDS.size(); i++) {
-            if (Integer.valueOf(tf_employee_number.getText()).equals(EmployeeLeave.RECORDS.get(i).getEid())) {
+        for (int i = 0; i < Leaves.RECORDS.size(); i++) {
+            if (Integer.valueOf(tf_employee_number.getText()).equals(Leaves.RECORDS.get(i).getEid())) {
                 Calendar leave_date = Calendar.getInstance();
-                Date date_leave = simpleDateFormat.parse(EmployeeLeave.RECORDS.get(i).getLeave_date());
+                Date date_leave = simpleDateFormat.parse(Leaves.RECORDS.get(i).getLeave_date());
                 leave_date.setTime(date_leave);
-                switch (EmployeeLeave.RECORDS.get(i).getLeave_type().toLowerCase()) {
+                switch (Leaves.RECORDS.get(i).getLeave_type().toLowerCase()) {
                     case "sick" -> sick_counter++;
                     case "vacation" -> vacation_counter++;
                     case "emergency" -> emergency_counter++;

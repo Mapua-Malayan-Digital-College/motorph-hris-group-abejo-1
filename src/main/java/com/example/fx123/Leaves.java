@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class EmployeeLeave {
+public class Leaves {
     private int eid;
     private String last_name, first_name, leave_type;
     private String leave_date;
@@ -22,7 +21,7 @@ public class EmployeeLeave {
     public static final int MAX_SICK_LEAVES = 5, MAX_VACATION_LEAVES = 10,
             MAX_EMERGENCY_LEAVES = 5;
 
-    public static List<EmployeeLeave> RECORDS = new ArrayList<>();
+    public static List<Leaves> RECORDS = new ArrayList<>();
     public static SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
     public int getEid() {
@@ -45,8 +44,8 @@ public class EmployeeLeave {
         return leave_date;
     }
 
-    public EmployeeLeave(int employeeNumber, String lname, String fname,
-                         String leaveType, String leaveDate) {
+    public Leaves(int employeeNumber, String lname, String fname,
+                  String leaveType, String leaveDate) {
         this.eid = employeeNumber;
         this.last_name = lname;
         this.first_name = fname;
@@ -71,7 +70,7 @@ public class EmployeeLeave {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 
-                EmployeeLeave sl = new EmployeeLeave(Integer.valueOf(arr[0]), arr[1],
+                Leaves sl = new Leaves(Integer.valueOf(arr[0]), arr[1],
                         arr[2], arr[3], arr[4]);
                 RECORDS.add(sl);
 
@@ -141,14 +140,14 @@ public class EmployeeLeave {
     public String getConsumedCredits() throws ParseException {
         int emergency_counter = 0, sick_counter = 0, vacation_counter = 0;
 
-        for (int i = 0 ; i < EmployeeLeave.RECORDS.size(); i++) {
-            if (eid == EmployeeLeave.RECORDS.get(i).getEid()) {
+        for (int i = 0; i < Leaves.RECORDS.size(); i++) {
+            if (eid == Leaves.RECORDS.get(i).getEid()) {
                 Calendar leave_date = Calendar.getInstance();
-                Date date_leave = sdf.parse(EmployeeLeave.RECORDS.get(i).getLeave_date());
+                Date date_leave = sdf.parse(Leaves.RECORDS.get(i).getLeave_date());
                 leave_date.setTime(date_leave);
-                String dateString = EmployeeLeave.RECORDS.get(i).leave_date;
+                String dateString = Leaves.RECORDS.get(i).leave_date;
 
-                switch (EmployeeLeave.RECORDS.get(i).leave_type.toLowerCase()) {
+                switch (Leaves.RECORDS.get(i).leave_type.toLowerCase()) {
                     case "sick" -> sick_counter++;
                     case "vacation" -> vacation_counter++;
                     case "emergency" -> emergency_counter++;

@@ -106,8 +106,7 @@ public class Salary {
                         : calendar.getWeekYear() + 2000;
 
                 if (Integer.parseInt(arrDateAttendance[0]) == (num_month)
-                        && year == final_week_year
-                ) {
+                        && year == final_week_year) {
                     String startTimeString = Attendance.records.get(i).getTimeIn();
                     String endTimeString = Attendance.records.get(i).getTimeOut();
 
